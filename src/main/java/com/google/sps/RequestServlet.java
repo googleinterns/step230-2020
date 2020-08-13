@@ -18,6 +18,7 @@ import com.google.cloud.language.v1.Document;
 import com.google.cloud.language.v1.LanguageServiceClient;
 import com.google.cloud.language.v1.Sentiment;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,12 +38,40 @@ public class RequestServlet extends HttpServlet {
     float score = sentiment.getScore();
     languageService.close();
 
+    String mood = getMood(score);
+
     // Output the sentiment score as HTML.
     // A real project would probably store the score alongside the content.
     response.setContentType("text/html;");
-    response.getWriter().println("<h1>How happy are you?</h1>");
+    response.getWriter().println("<h1>What's your mood?</h1>");
     response.getWriter().println("<p>You entered: " + message + "</p>");
-    response.getWriter().println("<p>Sentiment analysis score: " + score + "</p>");
+    response.getWriter().println("<p>Sentiment analysis score: " + score + 
+                                 " means that you feel " + mood + "</p>");
     response.getWriter().println("<p><a href=\"/\">Back</a></p>");
+  }
+
+  public String getMood(float score) {
+    int position = 0;
+    String[] moods = new String[]{"neutral", "calm", "relaxed", "serene", "contented",
+                                "joyful", "happy", "elated", "excited", "alert",
+                                "tense", "nervous", "stressed", "upset", "sad", 
+                                "depressed", "bored", "fatigued", "pessimisctic"};
+
+    score = score * 10;
+    position = (int) score;
+
+    if(position < 0) {
+        position = position * (-1) + 9;
+    }
+
+    if(position == 1) {
+      return "super super happy";
+    }
+
+    if(position == -1) {
+        return "so pessimistic";
+    }
+
+    return moods[position];
   }
 }
