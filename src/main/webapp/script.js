@@ -36,6 +36,6 @@ function loadPostcard() {
   fetch('/text-input').then(response => response.json()).then((input) => {
 
     const ratingElement = document.getElementById("output");
-    ratingElement.innerText = "Input: " + String(input);
+    ratingElement.innerText = "Output: " + String(input);
   });
 }
