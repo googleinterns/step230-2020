@@ -14,7 +14,11 @@
 
 package com.google.sps.servlets;
 
+import com.google.cloud.language.v1.ClassificationCategory;
+import com.google.cloud.language.v1.ClassifyTextRequest;
+import com.google.cloud.language.v1.ClassifyTextResponse;
 import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.Document.Type;
 import com.google.cloud.language.v1.LanguageServiceClient;
 import com.google.cloud.language.v1.Sentiment;
 import java.io.IOException;
@@ -46,11 +50,30 @@ public class RequestServlet extends HttpServlet {
     response.getWriter().println("<h1>What's your mood?</h1>");
     response.getWriter().println("<p>You entered: " + message + "</p>");
     response.getWriter().println("<p>Sentiment analysis score: " + score + 
-                                 " means that you feel " + mood + "</p>");
+                                 " means that you feel " + mood + ".</p>");
     response.getWriter().println("<p><a href=\"/\">Back</a></p>");
+
+    ClassifyTextResponse analysed = analyseText(message);
+    ArrayList<String> categories = new ArrayList<String>();
+
+    for (ClassificationCategory category : analysed.getCategoriesList()) {
+      String[] listCategories = category.getName().split("/");
+      for (int i = 0; i < listCategories.length; i++) {
+        categories.add(listCategories[i]);
+        response.getWriter().println("<p>" + listCategories[i] + "</p>");
+      }
+    }
   }
 
   public String getMood(float score) {
+    if(score == 1) {
+      return "super super happy";
+    }
+
+    if(score == -1) {
+        return "so pessimistic";
+    }
+
     int position = 0;
     String[] moods = new String[]{"neutral", "calm", "relaxed", "serene", "contented",
                                 "joyful", "happy", "elated", "excited", "alert",
@@ -64,14 +87,17 @@ public class RequestServlet extends HttpServlet {
         position = position * (-1) + 9;
     }
 
-    if(position == 1) {
-      return "super super happy";
-    }
-
-    if(position == -1) {
-        return "so pessimistic";
-    }
-
     return moods[position];
+  }
+
+  public static ClassifyTextResponse analyseText(String text) throws IOException {
+    try (LanguageServiceClient language = LanguageServiceClient.create()) {
+      Document document = Document.newBuilder().setContent(text).setType(Type.PLAIN_TEXT).build();
+
+      ClassifyTextRequest request = ClassifyTextRequest.newBuilder().setDocument(document).build();
+      ClassifyTextResponse response = language.classifyText(request);
+
+      return response;
+    }
   }
 }
