@@ -53,7 +53,7 @@ public final class TextAnalyser {
  
       int position = 0;
       String[] moods = new String[]{"neutral", "calm", "relaxed", "serene", "contented",
-                                  "joyful", "happy", "elated", "excited", "alert",
+                                  "joyful", "happy", "elated", "excited", "thrilled",
                                   "tense", "nervous", "stressed", "upset", "sad", 
                                   "depressed", "bored", "fatigued", "pessimisctic"};
  
@@ -102,7 +102,8 @@ public final class TextAnalyser {
     public void addEvents() {
       String[] events = new String[]{"birthday", "wedding", "baby shower", "love",
                                      "congratulation", "travel", "good morning",
-                                     "graduation", "gratitude"};
+                                     "graduation", "gratitude", "job", "promotion",
+                                     "new", "welcome", "good evening", "good night"};
       String copy = new String(message);
       copy = copy.toLowerCase();
 
@@ -112,10 +113,24 @@ public final class TextAnalyser {
         }
       }
     }
+    
+    public void addLocations() {
+      String[] locations = new String[]{"Paris", "Rome", "Bucharest", "Moscow", "Budapest"
+                                        "London"};
+      Stirng copy = new String(message);
+      copy = copy.toLowerCase();
+      
+      for (int i = 0; i < locations.length; i++) {
+        if(copy.indexOf(locations[i] != -1) {
+          keyWords.add(locations[i]);
+        }
+      }
+    }
 
     public ArrayList<String> getKeyWords() throws IOException {
-      keyWords.add(getMood());
       addEvents();
+      addLocations();
+      keyWords.add(getMood());
       for(String category : getCategories()) {
         keyWords.add(category);
       }
