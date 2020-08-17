@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet responsible for listing tasks. */
 @WebServlet("/text-input")
 public class InputServlet extends HttpServlet {
 
@@ -51,6 +50,7 @@ public class InputServlet extends HttpServlet {
     String input = requests.get(email);
 
     TextAnalyser textAnalyser = new TextAnalyser(input);
+
     ImageSelection imageSelect = new ImageSelection(textAnalyser.getKeyWords());
 
     Input user_input = new Input(input, imageSelect.getBestImage());
@@ -78,5 +78,4 @@ public class InputServlet extends HttpServlet {
 
     response.sendRedirect("/postcard.html");
   }
-  
 }

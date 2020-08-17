@@ -1,4 +1,4 @@
-package com.google.sps.data;
+package com.google.sps.image;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,17 +14,17 @@ public class ImageSelection {
 
   private String searchUrl;
 
-  private static final String userAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.82 Safari/537.36";
+  private static final String userAgent = "Mozilla/5.0 (X11; CrOS x86_64 13099.85.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.110 Safari/537.36";
   
   private static final String bingUrl = "https://www.bing.com/images/search?q=";
 
-  private static final String bingQueryParam = "&qs=n&form=QBIR&sp=-1&pq=pariu&sc=8-5&cvid=2E88E64A4CA142D2AD70842A37EEA1BF&first=1&scenario=ImageBasicHover";
+  private static final String bingQueryParam = "&qs=HS&form=QBIR&scope=images&sp=-1&pq=hap&sc=8-3&cvid=44CA4B129FEF4B93B6F764BD083213D3&first=1&scenario=ImageBasicHover";
 
   private static String generateSearchUrl(List<String> keywords) {
     String searchUrl = new String(bingUrl);
-    
+
     for (String word : keywords) {
-      searchUrl = searchUrl + "+" + word;
+      searchUrl = searchUrl + "+" + word.replaceAll(" ", "+");
     }
     searchUrl = searchUrl + bingQueryParam;
 
@@ -38,16 +38,21 @@ public class ImageSelection {
 
   public String getBestImage() {
     List<String> imgSrc = new ArrayList<>();
+
     try {
       Document doc = Jsoup.connect(this.searchUrl).userAgent(this.userAgent).get();
       Elements elements = doc.getElementsByTag("img");
 
       for (Element element : elements) {
-        imgSrc.add(element.attr("abs:src"));
+        imgSrc.add(element.attr("abs:data-src"));
       }
 
-      // First 10 images are useless logos from bing.com
-      return imgSrc.get(10);
+      // Return first relevant image
+      for (String imageUrl : imgSrc) {
+        if (!imageUrl.equals("")) {
+          return imageUrl;
+        }
+      }
     } catch (IOException e) { 
       e.printStackTrace();
     }
