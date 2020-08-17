@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html id="postcard">
+  <head>
+    <meta charset="UTF-8">
+    <title>Postcard</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body onload="loadPostcard()">
+    <div id="back"><a href="index.html">☚</a></div>
+    <div id="postcard_content">
+      <h1 id="welcome">Your postcard is ready!</h1>
+
+      <hr/>
+
+      <div id="output"></div>
+      <img id="myImage" style="width:500px">
+      <p>Who is the receiver?</p>
+      <form method="POST" action="/mail" id="input_email">
+        <input type="text" id="input_text" name="mail" maxlength="20" value="email"> 
+        <br/>
+        <button>Submit</button>
+      </form>
+      <button onclick="send()">SEND</button>
+      <div id="sent"></div>
+    </div>
+  <script src="script.js"></script>
+  </body>
+</html>
