@@ -3,20 +3,22 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
+ 
     <title>GPostCard</title>
     <link rel="stylesheet" href="style.css">
   </head>
+
   <body onload="login()">
     <p id="login_page">L O A D I N G</p >
     <div id="log"></div>
     <div id="content">
       <form method="POST" action="/text-input" id="input_form">
-        <input type="text" id="input_text" name="word" maxlength="20" value="your word"> 
+        <input type="text" id="input_text" name="word" minlength="20" value="your word"> 
         <br/>
         <button>Submit</button>
      </form>
     </div>
+
   </body>
   <script src="script.js"></script>
 </html>
