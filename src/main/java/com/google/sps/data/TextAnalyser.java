@@ -115,21 +115,20 @@ public final class TextAnalyser {
     }
     
     public void addLocations() {
-      String[] locations = new String[]{"Paris", "Rome", "Bucharest", "Moscow", "Budapest"
-                                        "London"};
-      Stirng copy = new String(message);
+      String[] locations = new String[]{"Paris", "Rome", "Bucharest", "Moscow"};
+      String copy = new String(message);
       copy = copy.toLowerCase();
-      
+
       for (int i = 0; i < locations.length; i++) {
-        if(copy.indexOf(locations[i] != -1) {
-          keyWords.add(locations[i]);
+        if(copy.indexOf(locations[i]) != -1) {
+            keyWords.add(locations[i]);
         }
       }
     }
 
     public ArrayList<String> getKeyWords() throws IOException {
-      addEvents();
       addLocations();
+      addEvents();
       keyWords.add(getMood());
       for(String category : getCategories()) {
         keyWords.add(category);
