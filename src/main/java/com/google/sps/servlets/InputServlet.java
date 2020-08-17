@@ -20,7 +20,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
-import com.google.sps.data.ImageSelection;
+import com.google.sps.image.ImageSelection;
 import com.google.sps.data.TextAnalyser;
 import java.io.IOException;
 import java.util.ArrayList;
