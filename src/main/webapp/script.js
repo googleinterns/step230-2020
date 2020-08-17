@@ -33,9 +33,16 @@ function login() {
 }
 
 function loadPostcard() {
-  fetch('/text-input').then(response => response.json()).then((input) => {
+  fetch('/text-input').then(response => response.text()).then((input) => {
 
     const ratingElement = document.getElementById("output");
     ratingElement.innerText = "Output: " + String(input);
+    document.getElementById('myImage').src = String(input);
+  });
+}
+
+function send() {
+  fetch('/mail').then(response => response.text()).then((output) => {
+      document.getElementById('sent').innerText = String(output);
   });
 }

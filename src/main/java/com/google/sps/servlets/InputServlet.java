@@ -14,8 +14,16 @@
 
 package com.google.sps.servlets;
 
+import com.google.sps.data.ImageSelection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.cloud.language.v1.ClassificationCategory;
+import com.google.cloud.language.v1.ClassifyTextRequest;
+import com.google.cloud.language.v1.ClassifyTextResponse;
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.Document.Type;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,12 +53,14 @@ public class InputServlet extends HttpServlet {
     
     String input = requests.get(email);
 
-    /* Mara's and Andrei's code */
+    List<String> keywords = new ArrayList<>();
 
-    Gson gson = new Gson();
+    keywords.add(input);
 
-    response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(input));
+    ImageSelection imageSelect = new ImageSelection(keywords);
+
+    response.setContentType("text/html;");
+    response.getWriter().println(imageSelect.getBestImage());
   }
 
   @Override
@@ -70,4 +80,5 @@ public class InputServlet extends HttpServlet {
 
     response.sendRedirect("/postcard.html");
   }
+  
 }

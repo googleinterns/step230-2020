@@ -13,7 +13,15 @@
       <hr/>
 
       <div id="output"></div>
-
+      <img id="myImage" style="width:500px">
+      <p>Who is the receiver?</p>
+      <form method="POST" action="/mail" id="input_email">
+        <input type="text" id="input_text" name="mail" maxlength="20" value="email"> 
+        <br/>
+        <button>Submit</button>
+      </form>
+      <button onclick="send()">SEND</button>
+      <div id="sent"></div>
     </div>
   <script src="script.js"></script>
   </body>
