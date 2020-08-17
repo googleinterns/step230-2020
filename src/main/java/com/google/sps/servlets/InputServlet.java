@@ -14,17 +14,14 @@
 
 package com.google.sps.servlets;
 
-import com.google.sps.data.ImageSelection;
+import com.google.sps.image.ImageSelection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.cloud.language.v1.ClassificationCategory;
-import com.google.cloud.language.v1.ClassifyTextRequest;
-import com.google.cloud.language.v1.ClassifyTextResponse;
-import com.google.cloud.language.v1.Document;
-import com.google.cloud.language.v1.Document.Type;
-import com.google.cloud.language.v1.LanguageServiceClient;
-import com.google.cloud.language.v1.Sentiment;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
+import com.google.sps.image.ImageSelection;
+import com.google.sps.data.TextAnalyser;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,14 +50,15 @@ public class InputServlet extends HttpServlet {
     
     String input = requests.get(email);
 
-    List<String> keywords = new ArrayList<>();
+    TextAnalyser textAnalyser = new TextAnalyser(input);
+    ImageSelection imageSelect = new ImageSelection(textAnalyser.getKeyWords());
 
-    keywords.add(input);
+    Input user_input = new Input(input, imageSelect.getBestImage());
 
-    ImageSelection imageSelect = new ImageSelection(keywords);
+    Gson gson = new Gson();
 
-    response.setContentType("text/html;");
-    response.getWriter().println(imageSelect.getBestImage());
+    response.setContentType("application/json;");
+    response.getWriter().println(gson.toJson(user_input));
   }
 
   @Override
