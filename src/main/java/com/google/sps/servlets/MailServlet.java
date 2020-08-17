@@ -37,6 +37,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 // [END multipart_includes]
 
+import com.google.sps.data.Postcard;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import java.util.Map;
@@ -49,10 +50,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/mail")
 public class MailServlet extends HttpServlet {
 
-  Map<String, String> emails;
+  Map<String, Postcard> emails;
 
   public void init() {
-     emails = new HashMap<String, String>();
+     emails = new HashMap<String, Postcard>();
   }
 
   @Override
@@ -60,15 +61,19 @@ public class MailServlet extends HttpServlet {
 
     UserService userService = UserServiceFactory.getUserService();
     String from = userService.getCurrentUser().getEmail();
-    String to = emails.get(from);
 
-    sendMultipartMail(from, to);
+    Postcard card = emails.get(from);
+    String to = card.to;
+    String text = card.text;
+    String link = card.link;
+
+    sendMultipartMail(from, to, link, text);
 
     resp.setContentType("text/html;");
     resp.getWriter().println("Your postcard has been sent!");
   }
 
-  private void sendMultipartMail(String from, String to) {
+  private void sendMultipartMail(String from, String to, String link, String text) {
     Properties props = new Properties();
     Session session = Session.getDefaultInstance(props, null);
 
@@ -79,11 +84,19 @@ public class MailServlet extends HttpServlet {
       msg.setFrom(new InternetAddress(from, "Example.com Admin"));
       msg.addRecipient(Message.RecipientType.TO,
                        new InternetAddress(to, "Mr. User"));
-      msg.setSubject("Your Example.com account has been activated");
+      msg.setSubject("You've received a postcard!");
       msg.setText(msgBody);
 
+      String htmlBody = "<div style=\"display:flex;flex-direction:row;justify-content:center;\">" +
+                    "<img src = " + "\"" + link + "\"" + "style=\"width:400px\">" +
+                    "<div style=\"width:200px; border:thin solid black;\">" +
+                      "<text style=\"display:flex;flex-wrap:wrap;justify-content:center;padding:30px;\">" + text + "</text>" +
+                    "</div>" +
+                  "</div>";
+
       // [START multipart_example]
-      String htmlBody = "<img id=\"myImage\" src = \"https://www.w3schools.com/js/pic_bulboff.gif\" style=\"width:500px\">";          // ...
+      //String htmlBody = "<img src = " + "\"" + link + "\"" + " style=\"height:200px\"" + ">";
+      //String htmlBody = "<img id=\"myImage\" src = \"https://www.w3schools.com/js/pic_bulboff.gif\" style=\"width:500px\">";          // ...
       byte[] attachmentData = null;  // ...
       Multipart mp = new MimeMultipart();
 
@@ -121,10 +134,16 @@ public class MailServlet extends HttpServlet {
       return;
     }
 
-    String reciever = request.getParameter("mail");
+    //String reciever = request.getParameter("mail");
     String email = userService.getCurrentUser().getEmail();
+    String text = request.getParameter("card_text");
+    String link = request.getParameter("link");
+    String to = request.getParameter("mail");
 
-    emails.put(email, reciever);
+    Postcard card = new Postcard(text, link, to);
+
+    //emails.put(email, reciever);
+    emails.put(email, card);
 
     response.sendRedirect("/postcard.html");
   }

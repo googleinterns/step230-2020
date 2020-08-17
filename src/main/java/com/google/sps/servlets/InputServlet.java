@@ -53,8 +53,12 @@ public class InputServlet extends HttpServlet {
 
     ImageSelection imageSelect = new ImageSelection(textAnalyser.getKeyWords());
 
-    response.setContentType("text/html;");
-    response.getWriter().println(imageSelect.getBestImage());
+    Input user_input = new Input(input, imageSelect.getBestImage());
+
+    Gson gson = new Gson();
+
+    response.setContentType("application/json;");
+    response.getWriter().println(gson.toJson(user_input));
   }
 
   @Override

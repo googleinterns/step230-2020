@@ -33,11 +33,14 @@ function login() {
 }
 
 function loadPostcard() {
-  fetch('/text-input').then(response => response.text()).then((input) => {
+  fetch('/text-input').then(response => response.json()).then((input) => {
 
-    const ratingElement = document.getElementById("output");
-    ratingElement.innerText = "Output: " + String(input);
-    document.getElementById('myImage').src = String(input);
+    const actions = document.getElementById("output");
+    actions.innerText = "Now choose your receiver and SEND it!";
+    document.getElementById('myImage').src = String(input.link);
+    document.forms["input_email"].elements["link"].value = String(input.link);
+    document.forms["input_email"].elements["card_text"].value = String(input.text);
+    document.getElementById('greating').innerText = String(input.text);
   });
 }
 

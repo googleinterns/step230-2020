@@ -12,13 +12,21 @@
 
       <hr/>
 
-      <div id="output"></div>
-      <img id="myImage" style="width:500px">
+      <div id="output" name="output"></div>
+      <div id="postcard">
+        <img id="myImage" style="width:400px">
+        <div id="text_container">
+          <text id="greating">L O A D I N G</text>
+        </div>
+      </div>
+      <hr/>
       <p>Who is the receiver?</p>
       <form method="POST" action="/mail" id="input_email">
-        <input type="text" id="input_text" name="mail" maxlength="20" value="email"> 
+        <input type="text" id="input_text" name="mail" value="email"> 
+        <input type="text" id="card_text" name="card_text">
+        <input type="text" id="link" name="link">
         <br/>
-        <button>Submit</button>
+        <button id="submit">Submit</button>
       </form>
       <button onclick="send()">SEND</button>
       <div id="sent"></div>
