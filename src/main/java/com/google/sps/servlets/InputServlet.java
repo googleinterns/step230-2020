@@ -14,7 +14,7 @@
 
 package com.google.sps.servlets;
 
-import com.google.sps.data.ImageSelection;
+import com.google.sps.image.ImageSelection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.cloud.language.v1.ClassificationCategory;
@@ -58,7 +58,7 @@ public class InputServlet extends HttpServlet {
     keywords.add(input);
 
     ImageSelection imageSelect = new ImageSelection(keywords);
-
+  
     response.setContentType("text/html;");
     response.getWriter().println(imageSelect.getBestImage());
   }
