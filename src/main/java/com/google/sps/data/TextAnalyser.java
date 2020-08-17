@@ -53,7 +53,7 @@ public final class TextAnalyser {
  
       int position = 0;
       String[] moods = new String[]{"neutral", "calm", "relaxed", "serene", "contented",
-                                  "joyful", "happy", "elated", "excited", "alert",
+                                  "joyful", "happy", "elated", "excited", "thrilled",
                                   "tense", "nervous", "stressed", "upset", "sad", 
                                   "depressed", "bored", "fatigued", "pessimisctic"};
  
@@ -102,7 +102,8 @@ public final class TextAnalyser {
     public void addEvents() {
       String[] events = new String[]{"birthday", "wedding", "baby shower", "love",
                                      "congratulation", "travel", "good morning",
-                                     "graduation", "gratitude"};
+                                     "graduation", "gratitude", "job", "promotion",
+                                     "new"};
       String copy = new String(message);
       copy = copy.toLowerCase();
 
