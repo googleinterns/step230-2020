@@ -103,7 +103,7 @@ public final class TextAnalyser {
       String[] events = new String[]{"birthday", "wedding", "baby shower", "love",
                                      "congratulation", "travel", "good morning",
                                      "graduation", "gratitude", "job", "promotion",
-                                     "new"};
+                                     "new", "welcome", "good evening", "good night"};
       String copy = new String(message);
       copy = copy.toLowerCase();
 
@@ -113,9 +113,23 @@ public final class TextAnalyser {
         }
       }
     }
+    
+    public void addLocations() {
+      String[] locations = new String[]{"Paris", "Rome", "Bucharest", "Moscow", "Budapest"
+                                        "London"};
+      Stirng copy = new String(message);
+      copy = copy.toLowerCase();
+      
+      for (int i = 0; i < locations.length; i++) {
+        if(copy.indexOf(locations[i] != -1) {
+          keyWords.add(locations[i]);
+        }
+      }
+    }
 
     public ArrayList<String> getKeyWords() throws IOException {
       addEvents();
+      addLocations();
       keyWords.add(getMood());
       for(String category : getCategories()) {
         keyWords.add(category);
