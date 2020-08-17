@@ -114,8 +114,8 @@ public final class TextAnalyser {
     }
 
     public ArrayList<String> getKeyWords() throws IOException {
-      keyWords.add(getMood());
       addEvents();
+      keyWords.add(getMood());
       for(String category : getCategories()) {
         keyWords.add(category);
       }
