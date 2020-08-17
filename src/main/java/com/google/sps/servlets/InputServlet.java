@@ -15,6 +15,7 @@
 package com.google.sps.servlets;
 
 import com.google.sps.image.ImageSelection;
+import com.google.sps.data.Input;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.users.UserService;
