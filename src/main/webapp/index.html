@@ -7,16 +7,12 @@
     <title>GPostCard</title>
     <link rel="stylesheet" href="style.css">
   </head>
-  <body onload="login()">
-    <p id="login_page">L O A D I N G</p >
-    <div id="log"></div>
-    <div id="content">
+  <body>
       <form method="POST" action="/text-input" id="input_form">
         <input type="text" id="input_text" name="message" minlength="30" value="your word"> 
         <br/>
-        <button>Submit</button>
+        <input type="submit" value="Submit">
      </form>
-    </div>
   </body>
   <script src="script.js"></script>
 </html>
