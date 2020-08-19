@@ -10,11 +10,16 @@
 
 package com.google.sps.data;
 
+import com.google.cloud.language.v1.AnalyzeEntitySentimentRequest;
+import com.google.cloud.language.v1.AnalyzeEntitySentimentResponse;
 import com.google.cloud.language.v1.ClassificationCategory;
 import com.google.cloud.language.v1.ClassifyTextRequest;
 import com.google.cloud.language.v1.ClassifyTextResponse;
 import com.google.cloud.language.v1.Document;
 import com.google.cloud.language.v1.Document.Type;
+import com.google.cloud.language.v1.EncodingType;
+import com.google.cloud.language.v1.Entity;
+import com.google.cloud.language.v1.EntityMention;
 import com.google.cloud.language.v1.LanguageServiceClient;
 import com.google.cloud.language.v1.Sentiment;
 import java.io.IOException;
@@ -25,6 +30,8 @@ import java.util.Collections;
 public final class TextAnalyser {
     private final String message;
     private final ArrayList<String> keyWords = new ArrayList<String>();
+    private final ArrayList<Stirng> entityData = new ArrayList<Stirng>();
+    private final Map<String, String> entityMetadata = new Map<String, String>();
 
     public TextAnalyser(String message) {
         this.message = message;
@@ -125,6 +132,37 @@ public final class TextAnalyser {
         }
       }
     }
+
+  /** Identifies entities in the string */
+  public static void analyzeEntitiesText() throws Exception {
+    // Instantiate the Language client com.google.cloud.language.v1.LanguageServiceClient
+    try (LanguageServiceClient language = LanguageServiceClient.create()) {
+      Document doc = Document.newBuilder().setContent(message).setType(Type.PLAIN_TEXT).build();
+      AnalyzeEntitiesRequest request =
+          AnalyzeEntitiesRequest.newBuilder()
+              .setDocument(doc)
+              .setEncodingType(EncodingType.UTF16)
+              .build();
+
+      AnalyzeEntitiesResponse response = language.analyzeEntities(request);
+
+      // Print the response
+      for (Entity entity : response.getEntitiesList()) {
+        entityData.add(entity.getName());
+        //System.out.printf("Salience: %.3f\n", entity.getSalience());
+        //System.out.println("Metadata: ");
+        for (Map.Entry<String, String> entry : entity.getMetadataMap().entrySet()) {
+          entityMetadata.add(entry.getKey(), entry.getValue());
+          //System.out.printf("%s : %s", entry.getKey(), entry.getValue());
+        }
+        for (EntityMention mention : entity.getMentionsList()) {
+          //System.out.printf("Begin offset: %d\n", mention.getText().getBeginOffset());
+          //System.out.printf("Content: %s\n", mention.getText().getContent());
+          entitydata.add(mention.getType());
+        }
+      }
+    }
+  }
 
     public ArrayList<String> getKeyWords() throws IOException {
       addLocations();
