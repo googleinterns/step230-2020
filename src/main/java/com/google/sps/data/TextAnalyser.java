@@ -30,97 +30,97 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class TextAnalyser {
-    private final String message;
-    private Set<String> keyWords;
+  private final String message;
+  private Set<String> keyWords;
 
-    public TextAnalyser(String message) {
-        this.message = message.toLowerCase();
-    }
+  public TextAnalyser(String message) {
+     this.message = message.toLowerCase();
+  }
 
-    public float getSentimentScore() throws IOException {
-      try (LanguageServiceClient languageService = LanguageServiceClient.create()) {
-        Document doc =
-            Document.newBuilder().setContent(message).setType(Document.Type.PLAIN_TEXT).build();
- 
-        Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+  public float getSentimentScore() throws IOException {
+    try (LanguageServiceClient languageService = LanguageServiceClient.create()) {
+      Document doc =
+        Document.newBuilder().setContent(message).setType(Document.Type.PLAIN_TEXT).build();
+      Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
         
-        return sentiment.getScore();
-      }
+      return sentiment.getScore();
     }
+  }
 
-    public String getMood() throws IOException {
-      float score = getSentimentScore();
-      if(score == 1) {
-        return "super super happy";
-      }
+  public String getMood() throws IOException {
+    float score = getSentimentScore();
+    
+    if(score == 1) {
+      return "super super happy";
+    }
  
-      if(score == -1) {
-        return "so pessimistic";
-      }
+    if(score == -1) {
+      return "so pessimistic";
+    }
  
-      int position = 0;
-      String[] moods = new String[]{"neutral", "calm", "relaxed", "serene", "contented",
+    int position = 0;
+    String[] moods = new String[]{"neutral", "calm", "relaxed", "serene", "contented",
                                   "joyful", "happy", "delighted", "excited", "thrilled",
                                   "tense", "nervous", "stressed", "upset", "sad", 
                                   "depressed", "bored", "fatigued", "pessimisctic"};
  
-      score = score * 10;
-      position = (int) score;
+    score = score * 10;
+    position = (int) score;
  
-      if(position < 0) {
-        position = position * (-1) + 9;
-      }
+    if(position < 0) {
+      position = position * (-1) + 9;
+    }
  
       return moods[position];
-    }
+  }
 
-    private ClassifyTextResponse classify() {
-      try (LanguageServiceClient language = LanguageServiceClient.create()) {
-        Document document = 
+  private ClassifyTextResponse classify() {
+    try (LanguageServiceClient language = LanguageServiceClient.create()) {
+      Document document = 
             Document.newBuilder().setContent(message).setType(Type.PLAIN_TEXT).build();
-        ClassifyTextRequest request = ClassifyTextRequest.newBuilder().setDocument(document).build();
+      ClassifyTextRequest request = ClassifyTextRequest.newBuilder().setDocument(document).build();
         
-        return language.classifyText(request);
-      } catch(Exception e) {
-        return null;
-      }
+      return language.classifyText(request);
+    } catch(Exception e) {
+      return null;
     }
+  }
 
-    // list of all the categories that text is about
-    // check https://cloud.google.com/natural-language/docs/categories
-    public List<String> getCategories() {
-      ClassifyTextResponse response = classify();
+  // list of all the categories that text is about
+  // check https://cloud.google.com/natural-language/docs/categories
+  public List<String> getCategories() {
+    ClassifyTextResponse response = classify();
 
-      if(response == null) {
-          return Collections.emptyList();
-      }
+    if(response == null) {
+      return Collections.emptyList();
+    }
       
-      ArrayList<String> categories = new ArrayList<String>();
+    ArrayList<String> categories = new ArrayList<String>();
 
-      for (ClassificationCategory category : response.getCategoriesList()) {
-        String[] listCategories = category.getName().split("/");
-        for (int i = 0; i < listCategories.length; i++) {
-          categories.add(listCategories[i]);
-        }
-      }
-      return categories;
-    }
-
-    private void addEvents() {
-      String[] events = new String[]{"birthday", "wedding", "baby shower", "love",
-                                     "congratulation", "travel", "good morning",
-                                     "gratitude", "job", "promotion",
-                                     "new", "welcome", "good evening", "good night",
-                                     "holiday"};
-      String copy = new String(message);
-      copy = copy.toLowerCase();
-
-      for (int i = 0; i < events.length; i++) {
-        if(copy.indexOf(events[i]) != -1) {
-            keyWords.add(events[i]);
-        }
+    for (ClassificationCategory category : response.getCategoriesList()) {
+      String[] listCategories = category.getName().split("/");
+      for (int i = 0; i < listCategories.length; i++) {
+        categories.add(listCategories[i]);
       }
     }
+    return categories;
+  }
+
+  private void addEvents() {
+    String[] events = new String[]{"birthday", "wedding", "baby shower", "love",
+                                    "congratulation", "travel", "good morning",
+                                    "gratitude", "job", "promotion",
+                                    "new", "welcome", "good evening", "good night",
+                                    "holiday"};
+    String copy = new String(message);
+    copy = copy.toLowerCase();
+
+    for (int i = 0; i < events.length; i++) {
+      if(copy.indexOf(events[i]) != -1) {
+        keyWords.add(events[i]);
+      }
+    }
+  }
 
   /** Identifies entities in the string */
   private AnalyzeEntitiesResponse analyzeEntitiesText() throws IOException {
