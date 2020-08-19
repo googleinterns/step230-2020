@@ -12,8 +12,6 @@ package com.google.sps.data;
 
 import com.google.cloud.language.v1.AnalyzeEntitiesRequest;
 import com.google.cloud.language.v1.AnalyzeEntitiesResponse;
-import com.google.cloud.language.v1.AnalyzeEntitySentimentRequest;
-import com.google.cloud.language.v1.AnalyzeEntitySentimentResponse;
 import com.google.cloud.language.v1.ClassificationCategory;
 import com.google.cloud.language.v1.ClassifyTextRequest;
 import com.google.cloud.language.v1.ClassifyTextResponse;
@@ -28,16 +26,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public final class TextAnalyser {
     private final String message;
     private Set<String> keyWords;
-    private ArrayList<String> entityData;
-    private Map<String, String> entityMetadata;
 
     public TextAnalyser(String message) {
         this.message = message.toLowerCase();
@@ -80,7 +74,7 @@ public final class TextAnalyser {
       return moods[position];
     }
 
-    public ClassifyTextResponse classify() {
+    private ClassifyTextResponse classify() {
       try (LanguageServiceClient language = LanguageServiceClient.create()) {
         Document document = 
             Document.newBuilder().setContent(message).setType(Type.PLAIN_TEXT).build();
@@ -112,7 +106,7 @@ public final class TextAnalyser {
       return categories;
     }
 
-    public void addEvents() {
+    private void addEvents() {
       String[] events = new String[]{"birthday", "wedding", "baby shower", "love",
                                      "congratulation", "travel", "good morning",
                                      "gratitude", "job", "promotion",
@@ -129,7 +123,7 @@ public final class TextAnalyser {
     }
 
   /** Identifies entities in the string */
-  public AnalyzeEntitiesResponse analyzeEntitiesText() throws IOException {
+  private AnalyzeEntitiesResponse analyzeEntitiesText() throws IOException {
     // Instantiate the Language client com.google.cloud.language.v1.LanguageServiceClient
     try (LanguageServiceClient language = LanguageServiceClient.create()) {
       Document doc = Document.newBuilder().setContent(message).setType(Type.PLAIN_TEXT).build();
@@ -143,7 +137,7 @@ public final class TextAnalyser {
     }
   }
 
-  public void addEntities() throws IOException {
+  private void addEntities() throws IOException {
     AnalyzeEntitiesResponse response = analyzeEntitiesText();
 
     for (Entity entity : response.getEntitiesList()) {
@@ -151,7 +145,7 @@ public final class TextAnalyser {
     }
   }
 
-  public void addCategories() {
+  private void addCategories() {
     for(String category : getCategories()) {
       keyWords.add(category.toLowerCase());
     }
