@@ -6,11 +6,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public final class ImageSelection {
 
-  private List<String> keywords;
+  private Set<String> keywords;
 
   private static final String USER_AGENT = "Mozilla/5.0 (X11; CrOS x86_64 13099.85.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.110 Safari/537.36";
   
@@ -22,7 +24,7 @@ public final class ImageSelection {
 
   private static final int MAX_NO_KEYWORDS = 10;
 
-  public ImageSelection(List<String> keywords) {
+  public ImageSelection(Set<String> keywords) {
     this.keywords = keywords;
   }
 
