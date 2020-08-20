@@ -24,14 +24,16 @@ import com.google.cloud.language.v1.LanguageServiceClient;
 import com.google.cloud.language.v1.Sentiment;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+/*
+* This class creates objects that analyse text and 
+*/
 public final class TextAnalyser {
   private final String message;
-  private Set<String> keyWords;
 
   public TextAnalyser(String message) {
      this.message = message.toLowerCase();
@@ -51,7 +53,7 @@ public final class TextAnalyser {
     float score = getSentimentScore();
     
     if(score == 1) {
-      return "super super happy";
+      return "very happy";
     }
  
     if(score == -1) {
@@ -71,7 +73,7 @@ public final class TextAnalyser {
       position = position * (-1) + 9;
     }
  
-      return moods[position];
+    return moods[position];
   }
 
   private ClassifyTextResponse classify() {
@@ -100,14 +102,16 @@ public final class TextAnalyser {
     for (ClassificationCategory category : response.getCategoriesList()) {
       String[] listCategories = category.getName().split("/");
       for (int i = 0; i < listCategories.length; i++) {
-        categories.add(listCategories[i]);
+        categories.add(listCategories[i].toLowerCase());
       }
     }
+
     return categories;
   }
 
-  private void addEvents() {
-    String[] events = new String[]{"birthday", "wedding", "baby shower", "love",
+  public Set<String> getEvents() {
+    Set<String> events = new HashSet<String>();
+    String[] allEvents = new String[]{"birthday", "wedding", "baby shower", "love",
                                     "congratulation", "travel", "good morning",
                                     "gratitude", "job", "promotion",
                                     "new", "welcome", "good evening", "good night",
@@ -115,11 +119,13 @@ public final class TextAnalyser {
     String copy = new String(message);
     copy = copy.toLowerCase();
 
-    for (int i = 0; i < events.length; i++) {
-      if(copy.indexOf(events[i]) != -1) {
-        keyWords.add(events[i]);
+    for (int i = 0; i < allEvents.length; i++) {
+      if(copy.indexOf(allEvents[i]) != -1) {
+        events.add(allEvents[i]);
       }
     }
+
+    return events;
   }
 
   /** Identifies entities in the string */
@@ -133,30 +139,30 @@ public final class TextAnalyser {
               .setEncodingType(EncodingType.UTF16)
               .build();
 
-       return language.analyzeEntities(request);
+      return language.analyzeEntities(request);
     }
   }
 
-  private void addEntities() throws IOException {
+  public List<String> getEntities() throws IOException {
     AnalyzeEntitiesResponse response = analyzeEntitiesText();
+    List<String> entities = new ArrayList<String>();
 
     for (Entity entity : response.getEntitiesList()) {
-      keyWords.add(entity.getName());
+      entities.add(entity.getName());
     }
+
+    return entities;
   }
 
-  private void addCategories() {
-    for(String category : getCategories()) {
-      keyWords.add(category.toLowerCase());
-    }
-  }
-
+  // put all the key words together
+  // use a HashSet to remove duplicates
   public Set<String> getKeyWords() throws IOException {
-    keyWords = new HashSet<String>(); // initialise
-    addEvents();
-    addEntities();
-    addCategories();
-    keyWords.add(getMood()); // add mood
+    Set<String> keyWords = new HashSet<String>();
+
+    keyWords.addAll(getEvents());
+    keyWords.addAll(getEntities());
+    keyWords.addAll(getCategories());
+    keyWords.add(getMood());
 
     return keyWords;
   }
