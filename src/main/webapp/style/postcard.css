@@ -1,0 +1,32 @@
+.pcard-container {
+  position: relative;
+  text-align: center;
+  width:700px; 
+  height:500px;
+  background-image: url("../image/postcard-frame.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 700px 500px;
+}
+
+.pcard-title {
+  position: absolute;
+  bottom: 200px;
+  right: 50px;
+  font-family: "Indie Flower", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  font-size: 25px;
+  font-weight: bolder;
+  width: 250px;
+  max-width: 300px;
+  display: inline-block;
+}
+.pcard-msg {
+  position: absolute;
+  bottom: 90px;
+  right: 50px;
+  font-family: "Indie Flower", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  font-size: 20px;
+  width: 250px;
+  max-width: 300px;
+  display: inline-block;
+}
