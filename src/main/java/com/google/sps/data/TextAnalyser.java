@@ -33,12 +33,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/*
+/**
 * This class creates objects that analyse text by 
 * extracting the categories, the mood, the events.
 * The scope is to get a final set of the key words
 * from the text. 
-*/
+**/
 
 public final class TextAnalyser {
   private final String message;
@@ -76,15 +76,29 @@ public final class TextAnalyser {
     if (Math.abs(score + 1) < EPSILON) {
       return "so pessimistic";
     }
+
+    /**
+    * From (-1, 1) the words are displayed on the x axis based on the sentiment score like this:
+    *
+    * pessimistic (-0.9), fatigued (-0.8), bored, depressed, sad, upset, stressed, nervous, tense (-0.1),
+    * neutral(0.0), calm (0.1), relaxed, serene, contented, joyful, happy, delighted, excited, thrilled (0.9)
+    *
+    * If the score is >= 0 then the mood is at position (int) (score * 10) => first 10 moods are ordered
+    * based on the sentiment score of the text from 0.0 to 0.9 (0.1 incrementation)
+    *
+    * If the score is negative, return the mood at position (int) (score * 10) * (-1) + 9 => next 9 moods are ordered
+    * based on the sentiment score of the text from -0.1 to -0.9 (-0.1 incrementation)
+    **/
  
     int position = 0;
-    String[] moods = new String[]{"neutral", "calm", "relaxed", "serene", "contented",
-                                  "joyful", "happy", "delighted", "excited", "thrilled",
-                                  "tense", "nervous", "stressed", "upset", "sad", 
-                                  "depressed", "bored", "fatigued", "pessimisctic"};
- 
-    score = score * 10;
-    position = (int) score;
+    String[] moods = new String[] {"neutral", "calm", "relaxed", "serene", "contented",
+                                    "joyful", "happy", "delighted", "excited", "thrilled",
+                                   "tense", "nervous", "stressed", "upset", "sad", 
+                                   "depressed", "bored", "fatigued", "pessimistic"};
+
+    assert moods.length == 19 : "There can only be 20 moods.";
+
+    position = (int) (score * 10);
  
     if (position < 0) {
       position = position * (-1) + 9;
@@ -122,7 +136,6 @@ public final class TextAnalyser {
       String[] listCategories = category.getName().split("/");
       for (int i = 0; i < listCategories.length; i++) {
         categories.add(listCategories[i].toLowerCase());
-        System.out.println(listCategories[i].toLowerCase());
       }
     }
 
@@ -131,15 +144,14 @@ public final class TextAnalyser {
 
   public Set<String> getEvents() {
     Set<String> events = new HashSet<String>();
-    String[] allEvents = new String[]{"birthday", "wedding", "baby shower", "love",
+    String[] allEvents = new String[] {"birthday", "wedding", "baby shower", "love",
                                     "congratulation", "travel", "good morning",
                                     "gratitude", "job", "promotion",
                                     "new", "welcome", "good evening", "good night",
                                     "holiday"};
-    String copy = message;
 
     for (int i = 0; i < allEvents.length; i++) {
-      if (copy.indexOf(allEvents[i]) != -1) {
+      if (message.indexOf(allEvents[i]) != -1) {
         events.add(allEvents[i]);
       }
     }
