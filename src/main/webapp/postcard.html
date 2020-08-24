@@ -13,12 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/dom-to-image@2.6.0/src/dom-to-image.min.js"></script>
     <script src="script/postcardgen.js"></script>
   </head>
-  <body>
-    <div class="pcard-container" id="pcard-design">
-      <div class="pcard-title">Happy birthday</div>
-      <div class="pcard-msg">Another adventure filled year awaits you.</div>
-      <img src="https://tse2.mm.bing.net/th/id/OIP.geCKcqpyVwMD6EJuAT3lVQHaEK?w=333&h=187&c=7&o=5&pid=1.7" class="pcard-img" alt="">
-    </div>
+  <body onload="getPostcard()">
     <button onclick="genPostcard()">Take screenshot</button>
   </body>
 </html>
