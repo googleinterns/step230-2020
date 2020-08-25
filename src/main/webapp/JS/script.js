@@ -59,7 +59,7 @@ function send() {
 
 // code which will be used for adding the location option
 
-//let x = document.getElementById('geolocation_demo');
+/*let x = document.getElementById('geolocation_demo');
 
 function getUserLocation() {
     getLocation();
@@ -79,5 +79,4 @@ function getLocation() {
 function showPosition(position) {
     // ...
     //x.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;
-}
-
+}*/
