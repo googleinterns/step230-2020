@@ -1,5 +1,5 @@
 class Postcard {
-  constructor(title = '', message = '', imgUrl = '') {
+  constructor({title = '', message = '', imgUrl = ''}) {
     this._title = title;
     this._message = message;
     this._img = imgUrl;
@@ -13,8 +13,8 @@ class Postcard {
     return this._message;
   }
 
-  get imgUrl() {
-    return this._imgUrl
+  get img() {
+    return this._img;
   }
 
   addImageElem() {
@@ -59,7 +59,7 @@ function displayPostcard() {
   const message = "Another adventure filled year awaits you.";
   const image = "https://tse2.mm.bing.net/th/id/OIP.geCKcqpyVwMD6EJuAT3lVQHaEK?w=333&h=187&c=7&o=5&pid=1.7";
 
-  bodyElem.appendChild(new Postcard(title, message, image).getPostcard());
+  bodyElem.appendChild(new Postcard({title, message, image}).getPostcard());
 }
 
 function genPostcard() {
