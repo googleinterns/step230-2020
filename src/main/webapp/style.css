@@ -1,4 +1,9 @@
-#content {
+#index_body {
+  height: 700px;
+  width: 900px;
+}
+
+#index_content {
   visibility: hidden;
 }
 
@@ -8,9 +13,9 @@
 }
 
 #login_page {
-  left: 800px;
+  left: 100px;
   margin-right: auto;
-  margin-top: 200px;
+  margin-top: 0px;
   position: absolute;
   z-index: 0;
 }
@@ -23,7 +28,7 @@
   width: 300px;
 }
 
-#content {
+#index_content {
   position: absolute;
   right: 750px;
   top: 200px;
@@ -39,31 +44,4 @@
 #sent {
   height: 50px;
   width: 100px;
-}
-
-#link {
-  visibility: hidden
-}
-
-#card_text {
-  visibility: hidden;
-}
-
-#text_container {
-  border: thin solid black;
-  text-align: center;
-  width: 200px;
-}
-
-#greating {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 30px;
-}
-
-#postcard {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
 }

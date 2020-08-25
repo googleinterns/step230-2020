@@ -36,7 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/text-input")
 public class InputServlet extends HttpServlet {
 
-  Map<String, String> requests;
+  private Map<String, String> requests;
 
   public void init() {
      requests = new HashMap<String, String>();
@@ -72,7 +72,7 @@ public class InputServlet extends HttpServlet {
       return;
     }
 
-    String input = request.getParameter("word");
+    String input = request.getParameter("input_text");
     String email = userService.getCurrentUser().getEmail();
 
     requests.put(email, input);
