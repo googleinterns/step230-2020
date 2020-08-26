@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-function loadKeyWords() {
+function loadPostCard() {
   fetch('/text-input').then(response => response.json()).then((keyWords) => {
     let toAppend = true;
     keyWords.forEach((keyWord) => {
