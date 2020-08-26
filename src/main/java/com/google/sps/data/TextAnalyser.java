@@ -10,7 +10,6 @@
 
 package com.google.sps.data;
 
-
 import com.google.api.gax.rpc.HeaderProvider;
 import com.google.api.gax.rpc.FixedHeaderProvider;
 import com.google.cloud.language.v1.AnalyzeEntitiesRequest;
@@ -181,6 +180,15 @@ public final class TextAnalyser {
     }
 
     return entities;
+  }
+
+  public String checkInjection() {
+    if (message.indexOf("<script>") != -1 || message.indexOf("</script>") != -1 ||
+        message.indexOf("<html>") != -1 || message.indexOf("</html>") != -1) {
+      return "html-injection";
+    }
+
+    return "no-html-injection";
   }
 
   // put all the key words together
