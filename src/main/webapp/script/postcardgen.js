@@ -61,8 +61,10 @@ class Postcard {
     domtoimage.toPng(node).then(function (encodedImg) {
       img.setAttribute('src', encodedImg);
     }).catch(function (error) {
-      console.error('oops, something went wrong!', error);
-      img.setAttribute('src', '');
+      console.error('Something went wrong! Try again!', error);
+
+      // Set default image to notify user on the error.
+      img.setAttribute('src', 'https://live.staticflickr.com/4034/4543895219_8d78eba86f_c.jpg');
     });
     return img;
   }
