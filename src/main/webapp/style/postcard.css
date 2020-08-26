@@ -1,5 +1,6 @@
+
 .pcard-container {
-   background-attachment: scroll;
+  background-attachment: scroll;
   background-image: url("../image/postcard-frame.jpg");
   background-repeat: no-repeat;
   background-size: 700px 500px;
@@ -30,7 +31,6 @@
   position: absolute;
   right: 50px;
   width: 250px;
-  
 }
 
 .pcard-img {

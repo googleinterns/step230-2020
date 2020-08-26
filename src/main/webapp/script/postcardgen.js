@@ -57,8 +57,9 @@ class Postcard {
   getPostcardImage() {
     let node = document.getElementById('pcard-design');
     let img = document.createElement('img');
-    domtoimage.toPng(node).then(function (dataUrl) {
-      img.setAttribute('src', dataUrl);
+
+    domtoimage.toPng(node).then(function (encodedImg) {
+      img.setAttribute('src', encodedImg);
     }).catch(function (error) {
       console.error('oops, something went wrong!', error);
       img.setAttribute('src', '');
