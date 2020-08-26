@@ -16,20 +16,15 @@ public final class ImageSelectionTest {
   // This is how every Bing image link starts
   private static final String EXPECTED_LINK = "https://tse";
 
-  private void assertOutputLink(Set<String> keywords, String expectedLink) {
+  private void assertOutputLink(Set<String> keywords, String expectedLink) throws IOException {
     ImageSelection imageSelection = new ImageSelection(keywords);
 
-    try {
-      String actualLink = imageSelection.getBestImage();
-      Assert.assertEquals(expectedLink, actualLink.substring(0, 11));
-    } catch(IOException ex) {
-      // Test fail because the function threw an exception
-      Assert.fail(ex.getMessage());
-    }
+    String actualLink = imageSelection.getBestImage();
+    Assert.assertEquals(expectedLink, actualLink.substring(0, 11));
   }
 
   @Test
-  public void singleKeyword() {
+  public void singleKeyword() throws IOException {
     Set<String> keywords = new LinkedHashSet<>();
     keywords.add("london");
 
@@ -37,7 +32,7 @@ public final class ImageSelectionTest {
   }
 
   @Test
-  public void specialCharactersKeywords() {
+  public void specialCharactersKeywords() throws IOException {
     Set<String> keywords = new LinkedHashSet<>();
 
     keywords.add("travel");
@@ -49,7 +44,7 @@ public final class ImageSelectionTest {
   }
 
   @Test
-  public void commonKeywords() {
+  public void commonKeywords() throws IOException {
     Set<String> keywords = new LinkedHashSet<>();
 
     keywords.add("job");
@@ -60,7 +55,7 @@ public final class ImageSelectionTest {
   }
 
   @Test
-  public void addSpaceIntoKeywords() {
+  public void addSpaceIntoKeywords() throws IOException {
     Set<String> keywords = new LinkedHashSet<>();
     keywords.add("good morning");
 
@@ -68,7 +63,7 @@ public final class ImageSelectionTest {
   }
 
   @Test
-  public void removeExtraKeywords() {
+  public void removeExtraKeywords() throws IOException {
     Set<String> keywords = new LinkedHashSet<>();
     for (char letter = 'a'; letter <= 'z'; ++letter) {
       keywords.add(String.valueOf(letter));
