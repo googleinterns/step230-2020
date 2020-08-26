@@ -13,42 +13,49 @@ describe('Postcard - check constructor', () => {
   });
 
   it('should have image', () => {
-    const imgUrl = 'https://tse2.mm.bing.net/th/id/OIP.geCKcqpyVwMD6EJuAT3lVQHaEK?w=333&h=187&c=7&o=5&pid=1.7';
-    let postcard = new Postcard({imgUrl});
-    expect(postcard.img).toBe(imgUrl);
+    const imageUrl = 'https://tse2.mm.bing.net/th/id/OIP.geCKcqpyVwMD6EJuAT3lVQHaEK?w=333&h=187&c=7&o=5&pid=1.7';
+    let postcard = new Postcard({imageUrl});
+    expect(postcard.imageUrl).toBe(imageUrl);
   });
 });
 
 describe('Postcard - generate elements', () => {
   it('should generate title element', () => {
     const title = 'Happy birthday!';
-    let postcard = new Postcard({title});
-    expect(postcard.addTitleElem().outerHTML).toBe('<div class="pcard-title">' + title + '</div>');
+    let actualTitle = new Postcard({title}).addTitleElem().outerHTML;
+    
+    expect(actualTitle).toContain('pcard-title');
+    expect(actualTitle).toContain(title);
   });
 
   it('should generate message element', () => {
     const message = 'Another adventure filled year awaits you.';
-    let postcard = new Postcard({message});
-    expect(postcard.addMessageElem().outerHTML).toBe('<div class="pcard-msg">' + message + '</div>');
+    let actualMessage = new Postcard({message}).addMessageElem().outerHTML;
+
+    expect(actualMessage).toContain('pcard-msg');
+    expect(actualMessage).toContain(message);
   });
 
   it('should generate image element', () => {
-    const imgUrl = 'https://tse2.mm.bing.net/th/id/OIP.geCKcqpyVwMD6EJuAT3lVQHaEK?w=333&h=187&c=7&o=5&pid=1.7';
-    let postcard = new Postcard({imgUrl});
-    expect(postcard.addImageElem().outerHTML).toMatch('^<img class="pcard-img" src="https:\/\/tse2.mm.bing.net\/th\/id\/.*>$');
+    const imageUrl = 'https://tse2.mm.bing.net/th/id/OIP.geCKcqpyVwMD6EJuAT3lVQHaEK?w=333&h=187&c=7&o=5&pid=1.7';
+    let actualImage = new Postcard({imageUrl}).addImageElem().outerHTML;
+
+    expect(actualImage).toContain('pcard-img');
+    expect(actualImage).toContain('https://tse2.mm.bing.net/th/id/');
   });
 });
 
-describe('Postcard - add elements togehter', () => {
+describe('Postcard - add elements together', () => {
   it('should generate postcard HTML element', () => {
     const title = 'Happy birthday!';
     const message = 'Another adventure filled year awaits you.';
-    const imgUrl = 'https://tse2.mm.bing.net/th/id/OIP.geCKcqpyVwMD6EJuAT3lVQHaEK?w=333&h=187&c=7&o=5&pid=1.7';
-    let postcard = new Postcard({title, message, imgUrl});
-    expect(postcard.getPostcardHTML().outerHTML).toBe('<div class="pcard-container" id="pcard-design">' +
-                '<div class="pcard-title">' + title + '</div>' +
-                '<div class="pcard-msg">' + message + '</div>' +
-                '<img class="pcard-img" src="https://tse2.mm.bing.net/th/id/OIP.geCKcqpyVwMD6EJuAT3lVQHaEK?w=333&amp;h=187&amp;c=7&amp;o=5&amp;pid=1.7">' +
-                '</div>');
+    const imageUrl = 'https://tse2.mm.bing.net/th/id/OIP.geCKcqpyVwMD6EJuAT3lVQHaEK?w=333&h=187&c=7&o=5&pid=1.7';
+    let actualPostcard = new Postcard({title, message, imageUrl}).getPostcardHTML().outerHTML;
+
+    expect(actualPostcard).toContain('pcard-container');
+    expect(actualPostcard).toContain('pcard-design');
+    expect(actualPostcard).toContain(title);
+    expect(actualPostcard).toContain(message);
+    expect(actualPostcard).toContain('https://tse2.mm.bing.net/th/id/');
   });
 });
