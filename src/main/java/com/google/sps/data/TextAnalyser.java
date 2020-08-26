@@ -10,11 +10,6 @@
 
 package com.google.sps.data;
 
-
-import com.google.api.gax.rpc.HeaderProvider;
-import com.google.api.gax.rpc.FixedHeaderProvider;
-import com.google.cloud.language.v1.AnalyzeEntitiesRequest;
-import com.google.cloud.language.v1.AnalyzeEntitiesResponse;
 import com.google.cloud.language.v1.ClassificationCategory;
 import com.google.cloud.language.v1.ClassifyTextRequest;
 import com.google.cloud.language.v1.ClassifyTextResponse;
