@@ -120,4 +120,20 @@ public final class TextAnalyserTest {
 
     assertEquals(Collections.emptySet(), textAnalyser.getCategories());
   }
+
+  @Test
+  public void checkHtmlInjection_HTMLCode_htmlInjection() {
+    TextAnalyser textAnalyser = new TextAnalyser(
+        "<html> <h1>Here are the results that match your query: </h1>" +
+        "<h2>{user-query}</h2><ol><li>Result A<li>Result B</ol></html>"
+    );
+
+    assertEquals("html-injection", textAnalyser.checkInjection());
+  }
+
+  @Test
+  public void checkHtmlInjection_noHTMLCode_noHtmlInjection() {
+    TextAnalyser textAnalyser = new TextAnalyser("This is a code that doesn't contain html.");
+    assertEquals("no-html-injection", textAnalyser.checkInjection());
+  }
 }
