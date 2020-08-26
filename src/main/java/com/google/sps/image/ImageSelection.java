@@ -62,7 +62,7 @@ public final class ImageSelection {
 
     // Return first relevant image
     for (String imageUrl : imgSrc) {
-      if (!imageUrl.equals("")) {
+      if (!imageUrl.isEmpty()) {
         return imageUrl;
       }
     }

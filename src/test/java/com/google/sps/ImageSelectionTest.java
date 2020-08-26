@@ -13,18 +13,15 @@ import java.util.Set;
 
 @RunWith(JUnit4.class)
 public final class ImageSelectionTest {
-
-  private final Set<String> keywords = new LinkedHashSet<>();
-
   // This is how every Bing image link starts
   private static final String EXPECTED_LINK = "https://tse";
 
-  private void checkScrapingOutputLink() {
+  private void assertOutputLink(Set<String> keywords, String expectedLink) {
     ImageSelection imageSelection = new ImageSelection(keywords);
 
     try {
       String actualLink = imageSelection.getBestImage();
-      Assert.assertEquals(EXPECTED_LINK, actualLink.substring(0, 11));
+      Assert.assertEquals(expectedLink, actualLink.substring(0, 11));
     } catch(IOException ex) {
       // Test fail because the function threw an exception
       Assert.fail(ex.getMessage());
@@ -33,43 +30,50 @@ public final class ImageSelectionTest {
 
   @Test
   public void singleKeyword() {
+    Set<String> keywords = new LinkedHashSet<>();
     keywords.add("london");
 
-    checkScrapingOutputLink();
+    assertOutputLink(keywords, EXPECTED_LINK);
   }
 
   @Test
   public void specialCharactersKeywords() {
+    Set<String> keywords = new LinkedHashSet<>();
+
     keywords.add("travel");
     keywords.add("morning");
     keywords.add("sun");
     keywords.add("Washington, D.C.");
 
-    checkScrapingOutputLink();
+    assertOutputLink(keywords, EXPECTED_LINK);
   }
 
   @Test
   public void commonKeywords() {
+    Set<String> keywords = new LinkedHashSet<>();
+
     keywords.add("job");
     keywords.add("promotion");
     keywords.add("engineer");
 
-    checkScrapingOutputLink();
+    assertOutputLink(keywords, EXPECTED_LINK);
   }
 
   @Test
   public void addSpaceIntoKeywords() {
+    Set<String> keywords = new LinkedHashSet<>();
     keywords.add("good morning");
 
-    checkScrapingOutputLink();
+    assertOutputLink(keywords, EXPECTED_LINK);
   }
 
   @Test
   public void removeExtraKeywords() {
+    Set<String> keywords = new LinkedHashSet<>();
     for (char letter = 'a'; letter <= 'z'; ++letter) {
       keywords.add(String.valueOf(letter));
     }
 
-    checkScrapingOutputLink();
+    assertOutputLink(keywords, EXPECTED_LINK);
   }
 }
