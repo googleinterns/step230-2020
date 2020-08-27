@@ -28,7 +28,7 @@ import com.google.cloud.language.v1.Sentiment;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -129,7 +129,7 @@ public final class TextAnalyser {
       return Collections.emptySet();
     }
       
-    Set<String> categories = new HashSet<String>();
+    Set<String> categories = new LinkedHashSet<String>();
 
     for (ClassificationCategory category : response.getCategoriesList()) {
       String[] listCategories = category.getName().split("/");
@@ -142,12 +142,10 @@ public final class TextAnalyser {
   }
 
   public Set<String> getEvents() {
-    Set<String> events = new HashSet<String>();
-    String[] allEvents = new String[] {"birthday", "wedding", "baby shower", "love",
-                                    "congratulation", "travel", "good morning",
-                                    "gratitude", "job", "promotion",
-                                    "new", "welcome", "good evening", "good night",
-                                    "holiday"};
+    Set<String> events = new LinkedHashSet<String>();
+    String[] allEvents = new String[] {"birthday", "wedding", "baby shower", "travel", 
+                                       "promotion", "holiday", "graduation", "funeral",
+                                       "party"};
 
     for (int i = 0; i < allEvents.length; i++) {
       if (message.indexOf(allEvents[i]) != -1) {
@@ -156,6 +154,20 @@ public final class TextAnalyser {
     }
 
     return events;
+  }
+
+  public Set<String> getGreetings() {
+    Set<String> greetings = new LinkedHashSet<String>();
+    String[] allGreetings = new String[] {"good morning", "congratulation", "welcome", "good evening", 
+                                          "good night", "happy holiday", "good afternoon"};
+    
+    for (int i = 0; i < allGreetings.length; i++) {
+      if (message.indexOf(allGreetings[i]) != -1) {
+        greetings.add(allGreetings[i]);
+      }
+    }
+
+    return greetings;
   }
 
   /** Identifies entities in the string */
@@ -173,13 +185,17 @@ public final class TextAnalyser {
 
   public Set<String> getEntities() throws IOException {
     AnalyzeEntitiesResponse response = analyzeEntitiesText();
-    Set<String> entities = new HashSet<String>();
+    Set<String> entities = new LinkedHashSet<String>();
 
     for (Entity entity : response.getEntitiesList()) {
       entities.add(entity.getName());
     }
 
     return entities;
+  }
+
+  public void analyseSyntaxText() {
+   
   }
 
   public String checkInjection() {
@@ -192,10 +208,11 @@ public final class TextAnalyser {
   }
 
   // put all the key words together
-  // use a HashSet to remove duplicates
+  // use a LinkedHashSet to remove duplicates but maintain order
   public Set<String> getKeyWords() {
     try {
-      Set<String> keyWords = new HashSet<String>();
+      Set<String> keyWords = new LinkedHashSet<String>();
+      keyWords.addAll(getGreetings());
       keyWords.addAll(getEvents());
       keyWords.addAll(getEntities());
       keyWords.addAll(getCategories());
