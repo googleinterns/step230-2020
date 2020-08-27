@@ -14,6 +14,8 @@ import com.google.api.gax.rpc.HeaderProvider;
 import com.google.api.gax.rpc.FixedHeaderProvider;
 import com.google.cloud.language.v1.AnalyzeEntitiesRequest;
 import com.google.cloud.language.v1.AnalyzeEntitiesResponse;
+import com.google.cloud.language.v1.AnalyzeSyntaxRequest;
+import com.google.cloud.language.v1.AnalyzeSyntaxResponse;
 import com.google.cloud.language.v1.ClassificationCategory;
 import com.google.cloud.language.v1.ClassifyTextRequest;
 import com.google.cloud.language.v1.ClassifyTextResponse;
@@ -25,6 +27,7 @@ import com.google.cloud.language.v1.EntityMention;
 import com.google.cloud.language.v1.LanguageServiceClient;
 import com.google.cloud.language.v1.LanguageServiceSettings;
 import com.google.cloud.language.v1.Sentiment;
+import com.google.cloud.language.v1.Token;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -159,7 +162,7 @@ public final class TextAnalyser {
   public Set<String> getGreetings() {
     Set<String> greetings = new LinkedHashSet<String>();
     String[] allGreetings = new String[] {"good morning", "congratulation", "welcome", "good evening", 
-                                          "good night", "happy holiday", "good afternoon"};
+                                          "good night", "happy holiday", "good afternoon", " hello", "hey"};
     
     for (int i = 0; i < allGreetings.length; i++) {
       if (message.indexOf(allGreetings[i]) != -1) {
@@ -194,8 +197,30 @@ public final class TextAnalyser {
     return entities;
   }
 
-  public void analyseSyntaxText() {
-   
+  public AnalyzeSyntaxResponse analyseSyntaxText() throws IOException {
+    try (LanguageServiceClient language = LanguageServiceClient.create(getSettings())) {
+      Document doc = Document.newBuilder().setContent(message).setType(Type.PLAIN_TEXT).build();
+      AnalyzeSyntaxRequest request =
+           AnalyzeSyntaxRequest.newBuilder()
+                .setDocument(doc)
+                .setEncodingType(EncodingType.UTF16)
+                .build();
+      
+      return language.analyzeSyntax(request);
+    }
+  }
+
+  public Set<String> getAdjectives() throws IOException {
+    Set<String> adjectives = new LinkedHashSet<String>();
+
+    for (Token token : analyseSyntaxText().getTokensList()) {
+      String partOfSpeech = token.getPartOfSpeech().getTag().toString();
+      if(partOfSpeech.equals("ADJ")) {
+        adjectives.add(token.getLemma().toLowerCase());
+      }
+    }
+
+    return adjectives;
   }
 
   public String checkInjection() {
@@ -213,8 +238,9 @@ public final class TextAnalyser {
     try {
       Set<String> keyWords = new LinkedHashSet<String>();
       keyWords.addAll(getGreetings());
-      keyWords.addAll(getEvents());
       keyWords.addAll(getEntities());
+      keyWords.addAll(getEvents());
+      keyWords.addAll(getAdjectives());
       keyWords.addAll(getCategories());
       keyWords.add(getMood());
 
