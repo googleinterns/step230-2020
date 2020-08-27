@@ -96,6 +96,18 @@ public final class TextAnalyserTest {
   }
 
   @Test
+  public void analyse_textWithAdjectives_adjectivesPresent() throws IOException {
+    TextAnalyser textAnalyser = new TextAnalyser("This is a beautiful day! Be nice to everyone!");
+    assertTrue("The text should identify adjectives.", textAnalyser.getAdjectives().contains("beautiful"));
+  }
+
+  @Test
+  public void analyse_textWithNoAdjectives_emptySet() throws IOException {
+    TextAnalyser textAnalyser = new TextAnalyser("The birthday party is in the garden.");
+    assertEquals(Collections.emptySet(), textAnalyser.getAdjectives());
+  }
+
+  @Test
   public void toLowerCase_KeyWords_lowerCaseKeyWords() throws IOException {
     TextAnalyser textAnalyser = new TextAnalyser("Hello, Mark! My Birthday is coming very soon and I want to" +
                                                   " invite you to my Party! It is in Paris. It is not expensive." +
