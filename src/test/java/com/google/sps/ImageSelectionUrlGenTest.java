@@ -14,7 +14,9 @@ public final class ImageSelectionUrlGenTest {
 
   private static final int EXCEEDING_NO_LETTERS = 400;
 
-  private static final String COPYRIGHT_FILTER = "qft=+filterui:license-L2_L3_L4"; 
+  private static final String COPYRIGHT_FILTER = "qft=+filterui:license-L2_L3_L4";
+
+  private static final String SAFE_SEARCH_FILTER = "adlt=strict";
 
   @Test
   public void singleKeyword() {
@@ -27,6 +29,7 @@ public final class ImageSelectionUrlGenTest {
 
     Assert.assertTrue(actual.contains(expected));
     Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
+    Assert.assertTrue(actual.contains(SAFE_SEARCH_FILTER));
   }
 
   @Test
@@ -44,6 +47,7 @@ public final class ImageSelectionUrlGenTest {
 
     Assert.assertTrue(actual.contains(expected));
     Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
+    Assert.assertTrue(actual.contains(SAFE_SEARCH_FILTER));
   }
 
   @Test
@@ -60,6 +64,7 @@ public final class ImageSelectionUrlGenTest {
 
     Assert.assertTrue(actual.contains(expected));
     Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
+    Assert.assertTrue(actual.contains(SAFE_SEARCH_FILTER));
   }
 
   // Make sure that a blank space does not appear in the URL
@@ -75,6 +80,7 @@ public final class ImageSelectionUrlGenTest {
 
     Assert.assertTrue(actual.contains(expected));
     Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
+    Assert.assertTrue(actual.contains(SAFE_SEARCH_FILTER));
   }
 
   // Not letting more than 10 keywords on the search engine
@@ -92,6 +98,7 @@ public final class ImageSelectionUrlGenTest {
 
     Assert.assertTrue(actual.contains(expected));
     Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
+    Assert.assertTrue(actual.contains(SAFE_SEARCH_FILTER));
   }
 
   // Not letting more than 50 letters on the search engine
@@ -110,6 +117,7 @@ public final class ImageSelectionUrlGenTest {
 
     Assert.assertTrue(actual.contains(expected));
     Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
+    Assert.assertTrue(actual.contains(SAFE_SEARCH_FILTER));
   }
 
   @Test
@@ -128,5 +136,6 @@ public final class ImageSelectionUrlGenTest {
 
     Assert.assertTrue(actual.contains(expected));
     Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
+    Assert.assertTrue(actual.contains(SAFE_SEARCH_FILTER));
   }
 }
