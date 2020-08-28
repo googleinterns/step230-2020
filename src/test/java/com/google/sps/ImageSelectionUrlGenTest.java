@@ -14,6 +14,8 @@ public final class ImageSelectionUrlGenTest {
 
   private static final int EXCEEDING_NO_LETTERS = 400;
 
+  private static final String COPYRIGHT_FILTER = "qft=+filterui:license-L2_L3_L4"; 
+
   @Test
   public void singleKeyword() {
     Set<String> keywords = new LinkedHashSet<>();
@@ -24,6 +26,7 @@ public final class ImageSelectionUrlGenTest {
     String actual = imageSelection.generateSearchUrl();
 
     Assert.assertTrue(actual.contains(expected));
+    Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
   }
 
   @Test
@@ -40,6 +43,7 @@ public final class ImageSelectionUrlGenTest {
     String actual = imageSelection.generateSearchUrl();
 
     Assert.assertTrue(actual.contains(expected));
+    Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
   }
 
   @Test
@@ -55,6 +59,7 @@ public final class ImageSelectionUrlGenTest {
     String actual = imageSelection.generateSearchUrl();
 
     Assert.assertTrue(actual.contains(expected));
+    Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
   }
 
   // Make sure that a blank space does not appear in the URL
@@ -69,6 +74,7 @@ public final class ImageSelectionUrlGenTest {
     String actual = imageSelection.generateSearchUrl();
 
     Assert.assertTrue(actual.contains(expected));
+    Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
   }
 
   // Not letting more than 10 keywords on the search engine
@@ -85,6 +91,7 @@ public final class ImageSelectionUrlGenTest {
     String actual = imageSelection.generateSearchUrl();
 
     Assert.assertTrue(actual.contains(expected));
+    Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
   }
 
   // Not letting more than 50 letters on the search engine
@@ -102,6 +109,7 @@ public final class ImageSelectionUrlGenTest {
     String actual = imageSelection.generateSearchUrl();
 
     Assert.assertTrue(actual.contains(expected));
+    Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
   }
 
   @Test
@@ -119,5 +127,6 @@ public final class ImageSelectionUrlGenTest {
     String actual = imageSelection.generateSearchUrl();
 
     Assert.assertTrue(actual.contains(expected));
+    Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
   }
 }
