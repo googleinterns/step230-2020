@@ -10,7 +10,7 @@ import org.junit.runners.JUnit4;
 import org.junit.Test;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -56,12 +56,23 @@ public final class TextAnalyserTest {
   @Test
   public void analyse_textWithEvents_eventsPresent() {
     TextAnalyser textAnalyser = new TextAnalyser("Today is my Birthday. Today you got a job promotion.");
-    Set<String> expected = new HashSet<>();
+    Set<String> expected = new LinkedHashSet<>();
     Set<String> actual = textAnalyser.getEvents();
 
     expected.add("birthday");
-    expected.add("job");
     expected.add("promotion");
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  public void analyse_textWithGreetings_greetingPresent() {
+    TextAnalyser textAnalyser = new TextAnalyser("Good morning, sunshine! Happy holidays to everyone!");
+    Set<String> expected = new LinkedHashSet<>();
+    Set<String> actual = textAnalyser.getGreetings();
+
+    expected.add("good morning");
+    expected.add("happy holiday");
 
     assertEquals(expected, actual);
   }
@@ -85,11 +96,23 @@ public final class TextAnalyserTest {
   }
 
   @Test
+  public void analyse_textWithAdjectives_adjectivesPresent() throws IOException {
+    TextAnalyser textAnalyser = new TextAnalyser("This is a beautiful day! Be nice to everyone!");
+    assertTrue("The text should identify adjectives.", textAnalyser.getAdjectives().contains("beautiful"));
+  }
+
+  @Test
+  public void analyse_textWithNoAdjectives_emptySet() throws IOException {
+    TextAnalyser textAnalyser = new TextAnalyser("The birthday party is in the garden.");
+    assertEquals(Collections.emptySet(), textAnalyser.getAdjectives());
+  }
+
+  @Test
   public void toLowerCase_KeyWords_lowerCaseKeyWords() throws IOException {
     TextAnalyser textAnalyser = new TextAnalyser("Hello, Mark! My Birthday is coming very soon and I want to" +
                                                   " invite you to my Party! It is in Paris. It is not expensive." +
                                                   " We will have so much fun! All of our friends will also come to the party");
-    Set<String> expected = new HashSet<>();
+    Set<String> expected = new LinkedHashSet<>();
     Set<String> actual = textAnalyser.getKeyWords();
 
     for(String keyWord : actual) {
