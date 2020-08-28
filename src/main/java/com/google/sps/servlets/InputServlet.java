@@ -18,24 +18,28 @@ import com.google.sps.image.ImageSelection;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.sps.data.Output;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
-//import com.google.sps.image.ImageSelection;
 import com.google.sps.data.TextAnalyser;
+import com.google.sps.data.Output;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 import java.util.Set;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+/**
+* This class gets an input text and location from 
+* the client and analyses it with TextAnalyser. Then it
+* select an image with ImageSelection class and returns
+* an image link and a text to the client. These will be placed
+* on a postcard for the user.
+**/
 
 @WebServlet("/text-input")
 public class InputServlet extends HttpServlet {

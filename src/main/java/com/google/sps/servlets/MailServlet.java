@@ -14,37 +14,38 @@
 
 package com.google.sps.servlets;
 
-
-// [START simple_includes]
-import java.io.IOException;
-import java.util.Properties;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-// [END simple_includes]
-
-// [START multipart_includes]
-import java.io.InputStream;
-import java.io.ByteArrayInputStream;
-import java.io.UnsupportedEncodingException;
-import javax.activation.DataHandler;
-import javax.mail.Multipart;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMultipart;
-// [END multipart_includes]
-
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import java.util.Map;
-import java.util.HashMap;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import java.util.Properties;
+
+import javax.activation.DataHandler;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+/**
+* This class gets an email and a postcard link from the client
+* and then sends a message to it's receiver.
+**/
 
 @WebServlet("/mail")
 public class MailServlet extends HttpServlet {
@@ -63,13 +64,17 @@ public class MailServlet extends HttpServlet {
     String postcard_link = request.getParameter("link");
     String to = request.getParameter("mail");
 
-    sendMultipartMail(email, to, postcard_link);
+    String resp = sendMultipartMail(email, to, postcard_link);
 
     response.setContentType("text/html;");
-    response.getWriter().println("Your postcard has been sent!");
+    response.getWriter().println(resp);
   }
 
-  private void sendMultipartMail(String from, String to, String link) {
+/**
+* This function creates an email and sends it to the user
+**/
+
+  private String sendMultipartMail(String from, String to, String link) {
     Properties props = new Properties();
     Session session = Session.getDefaultInstance(props, null);
 
@@ -98,10 +103,14 @@ public class MailServlet extends HttpServlet {
 
     } catch (AddressException e) {
       System.err.println("Not existing address");
+      return "Not existing address";
     } catch (MessagingException e) {
       System.err.println("Something went wrong:(");
+      return "Something went wrong:(";
     } catch (UnsupportedEncodingException e) {
       System.err.println("Something went wrong:(");
+      return "Something went wrong:(";
     }
+    return "Your postcard has been sent!";
   }
 }

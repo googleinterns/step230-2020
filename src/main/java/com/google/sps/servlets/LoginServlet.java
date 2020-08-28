@@ -22,18 +22,26 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+
 import com.google.gson.Gson;
+
 import com.google.sps.data.Login;
+
 import java.io.PrintWriter;
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet responsible for listing tasks. */
+/**
+* This class is responsible for handling user authentication.
+**/
+
 @WebServlet("/login_page")
 public class LoginServlet extends HttpServlet {
 
@@ -55,15 +63,16 @@ public class LoginServlet extends HttpServlet {
 
       Gson gson = new Gson();
       out.println(gson.toJson(login));
-    } else {
-      boolean loginStatus = false;
-      String loginUrl = userService.createLoginURL("/index.html");
-      String logoutMessage = "<h1><a href=\"" + loginUrl 
-            + "\">Login</a></h1>";
-      Login login = new Login(loginStatus, logoutMessage);
+      return;
+    } 
 
-      Gson gson = new Gson();
-      out.println(gson.toJson(login)); 
-    }
+    boolean loginStatus = false;
+    String loginUrl = userService.createLoginURL("/index.html");
+    String logoutMessage = "<h1><a href=\"" + loginUrl 
+          + "\">Login</a></h1>";
+    Login login = new Login(loginStatus, logoutMessage);
+
+    Gson gson = new Gson();
+    out.println(gson.toJson(login)); 
   }
 }

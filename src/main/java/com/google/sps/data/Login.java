@@ -10,7 +10,11 @@
 
 package com.google.sps.data;
 
-/** An item on a todo list. */
+/**
+* This class creates objects that present authentication status
+* of the user in order to manipulate the DOM
+**/
+
 public final class Login {
 
   private final boolean status;
