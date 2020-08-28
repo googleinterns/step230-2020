@@ -46,7 +46,7 @@ function sendInputPOST(text, location) {
       "Content-Type": "application/x-www-form-urlencoded"
     },
     credentials: "same-origin"
-    }).then(response => response.json()).then(input => {
+    }).then(response => response.text()).then(input => {
       localStorage["text"] = input.text; 
       localStorage["link"] = input.link;
       document.getElementById('link').click();});
@@ -103,13 +103,34 @@ function getUserLocation() {
 
 function getLocation() {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
+    navigator.geolocation.getCurrentPosition(geocodeLatLng);
   } else {
     x.value = "none";
   }
 }
 
-
-function showPosition(position) {
-  x.value = "Latitude: " + (position.coords.latitude).toString() + "\n" + "Longitude: " + (position.coords.longitude).toString();
+function geocodeLatLng(position) {
+  const geocoder = new google.maps.Geocoder();
+  const latlng = {
+    lat: position.coords.latitude,
+    lng: position.coords.longitude
+  };
+ 
+  geocoder.geocode(
+    {
+      location: latlng
+    },
+    (results, status) => {
+      if (status === "OK") {
+        if (results[0]) {
+          x.value = results[0].address_components[2].long_name + " " +
+                 results[0].address_components[5].long_name;
+        } else {
+          window.alert("No results found");
+        }
+      } else {
+        window.alert("Geocoder failed due to: " + status);
+      }
+    }
+  );
 }

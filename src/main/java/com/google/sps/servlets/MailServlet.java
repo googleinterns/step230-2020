@@ -37,7 +37,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 // [END multipart_includes]
 
-import com.google.sps.data.Postcard;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import java.util.Map;

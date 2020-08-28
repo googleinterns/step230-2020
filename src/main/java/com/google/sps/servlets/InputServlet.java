@@ -18,8 +18,6 @@ import com.google.sps.image.ImageSelection;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.sps.data.Input;
-import com.google.sps.data.Location;
 import com.google.sps.data.Output;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -30,9 +28,10 @@ import com.google.gson.Gson;
 import com.google.sps.data.TextAnalyser;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.Set;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -54,17 +53,15 @@ public class InputServlet extends HttpServlet {
     String input_text = request.getParameter("input_text");
     String user_location = request.getParameter("location_checkbox");
 
-    Input input;
 
     if (user_location.equals("none") || user_location.equals(null)) {
-      input = new Input(input_text, 0, 0);
-    } else {
-      Location location = new Location(user_location); 
-      input = new Input("input_text", location.getLatitude(), location.getLongitude());   
+      user_location = "";
     }
 
     TextAnalyser textAnalyser = new TextAnalyser(input_text);
-    ImageSelection imageSelect = new ImageSelection(textAnalyser.getKeyWords());
+    Set<String> keywords = textAnalyser.getKeyWords();
+    keywords.add(user_location);
+    ImageSelection imageSelect = new ImageSelection(keywords);
 
     Output output = new Output(input_text, imageSelect.getBestImage());
 
