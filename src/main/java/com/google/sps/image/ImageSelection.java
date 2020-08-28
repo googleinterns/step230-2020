@@ -16,14 +16,34 @@ public final class ImageSelection {
 
   private static final String USER_AGENT = "Mozilla/5.0 (X11; CrOS x86_64 13099.85.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.110 Safari/537.36";
   
-  private static final String BING_QUERY_PARAM = "&qs=HS&form=QBIR&scope=images&sp=-1&pq=hap&sc=8-3&cvid=44CA4B129FEF4B93B6F764BD083213D3&first=1&scenario=ImageBasicHover";
-
   private static final int MAX_NO_LETTERS = 50;
 
   private static final int MAX_NO_KEYWORDS = 10;
 
   public ImageSelection(Set<String> keywords) {
     this.keywords = keywords;
+  }
+
+  public String addBingQueryParam(String url) {
+    String bingQueryParam = "&qs=HS&form=QBIR&scope=images&sp=-1&pq=hap&sc=8-3&cvid=44CA4B129FEF4B93B6F764BD083213D3&first=1&scenario=ImageBasicHover";
+
+    url = url + bingQueryParam;
+    return url;
+  }
+
+  public String addLicenseFilter(String url) {
+    // Free to share and use commercially license
+    String licenseFilter = "&qft=+filterui:license-L2_L3_L4";
+
+    url = url + licenseFilter;
+    return url;
+  }
+
+  public String addSafeSearchFilter(String url) {
+    String safeSearchFilter = "&adlt=strict";
+
+    url = url + safeSearchFilter;
+    return url;
   }
 
   /**
@@ -45,7 +65,9 @@ public final class ImageSelection {
         break;
       }
     }
-    bingUrl = bingUrl + BING_QUERY_PARAM;
+    
+    bingUrl = addBingQueryParam(bingUrl);
+    bingUrl = addLicenseFilter(bingUrl);
 
     return bingUrl; 
   }
