@@ -68,6 +68,7 @@ public final class ImageSelection {
     
     bingUrl = addBingQueryParam(bingUrl);
     bingUrl = addLicenseFilter(bingUrl);
+    bingUrl = addSafeSearchFilter(bingUrl);
 
     return bingUrl; 
   }
