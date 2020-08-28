@@ -12,71 +12,104 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//import domtoimage from 'dom-to-image';
-
 
 function login() {
-    fetch('/login_page').then(response => response.json()).then(login => {loginDomManipulation(login.message, login.status);});
+  fetch('/login_page').then(response => response.json()).then(login => {loginDomManipulation(login.message, login.status);});
 }
 
 function loginDomManipulation(message, status) {
-    const loginElement = document.createElement('div');
-    loginElement.className = 'login';
-    loginElement.innerHTML = message;
+  const loginElement = document.createElement('div');
+  loginElement.className = 'login';
+  loginElement.innerHTML = message;
 
-    const page = document.getElementById('login_page');
-    page.appendChild(loginElement);
+  const page = document.getElementById('login_page');
+  page.appendChild(loginElement);
 
-    if (status) {
-        document.getElementById('index_content').style.visibility = "visible";
-        loginElement.style.marginLeft = "1300px";
-    } else {
-        document.getElementById('index_content').style.visibility = "hidden";
-        loginElement.style.marginLeft = "auto";
-        loginElement.style.marginTop = "200px";
-    }
+  if (status) {
+    document.getElementById('index_content').style.visibility = "visible";
+    loginElement.style.marginLeft = "1300px";
+  } else {
+    document.getElementById('index_content').style.visibility = "hidden";
+    loginElement.style.marginLeft = "auto";
+    loginElement.style.marginTop = "200px";
+  }
 
-    const load = document.getElementById('loading');
-    load.style.visibility = "hidden";
+  const load = document.getElementById('loading');
+  load.style.visibility = "hidden";
 }
+
+function sendInputPOST(text, location) {
+  fetch('/text-input', {
+    method: "POST",
+    body: "input_text=" + text+"&"+"location_checkbox=" + location,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    credentials: "same-origin"
+    }).then(response => response.json()).then(input => {
+      localStorage["text"] = input.text; 
+      localStorage["link"] = input.link;
+      document.getElementById('link').click();});
+}
+
+function sendMailPOST(link, email) {
+  fetch('/mail', {
+    method: "POST",
+    body: "link=" + link + "&" + "mail=" + email,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    credentials: "same-origin"
+    }).then(response => response.text()).then(text => {document.getElementById('sent').innerText = text;});
+}
+
+
+function analyseInput() {
+  let text = document.getElementsByName('input_text')[0].value;
+  let location = document.getElementsByName('location_checkbox')[0].value;
+  sendInputPOST(text, location);
+}
+
+function generatePostcard() {
+  analyseInput();
+}
+
 
 function loadPostcard() {
-    fetch('/text-input').then(response => response.json()).then((input) => {AndreiFunction(input.text, input.link);});
+  AndreiFunction(localStorage["text"], localStorage["link"]);
 }
 
-// approach designed to share the greting and the image link with the mail servlet
 function AndreiFunction(text, link) {
-    const actions = document.getElementById('output');
-    actions.innerText = "Now choose your receiver and SEND it!";
+  const actions = document.getElementById('output');
+  actions.innerText = "Now choose your receiver and SEND it!";
+  //Andrei places the postcard into img with id="postcard"
 }
 
 // click and send the postcard
 function send() {
-  fetch('/mail').then(response => response.text()).then((output) => {
-      document.getElementById('sent').innerText = String(output);
-  });
+  let link = document.getElementById('postcard').src;
+  let email = document.getElementsByName('mail')[0].value;
+  sendMailPOST(link, email);
 }
 
-// code which will be used for adding the location option
+// code used for adding the location option
 
-/*let x = document.getElementById('geolocation_demo');
+let x = document.getElementById('location_checkbox');
 
 function getUserLocation() {
-    getLocation();
+  getLocation();
 }
 
 
 function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        // ...
-        //x.innerHTML = "Geolocation is not supported by this browser.";
-    }
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    x.value = "none";
+  }
 }
 
 
 function showPosition(position) {
-    // ...
-    //x.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;
-}*/
+  x.value = "Latitude: " + (position.coords.latitude).toString() + "\n" + "Longitude: " + (position.coords.longitude).toString();
+}

@@ -15,13 +15,18 @@
 package com.google.sps.servlets;
 
 import com.google.sps.image.ImageSelection;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.sps.data.Input;
+import com.google.sps.data.Location;
+import com.google.sps.data.Output;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
-import com.google.sps.image.ImageSelection;
+//import com.google.sps.image.ImageSelection;
 import com.google.sps.data.TextAnalyser;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,32 +41,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/text-input")
 public class InputServlet extends HttpServlet {
 
-  private Map<String, String> requests;
-
-  public void init() {
-     requests = new HashMap<String, String>();
-  }
-
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-    UserService userService = UserServiceFactory.getUserService();
-    String email = userService.getCurrentUser().getEmail();
-    
-    String input = requests.get(email);
-
-    TextAnalyser textAnalyser = new TextAnalyser(input);
-
-    ImageSelection imageSelect = new ImageSelection(textAnalyser.getKeyWords());
-
-    Input user_input = new Input(input, imageSelect.getBestImage());
-
-    Gson gson = new Gson();
-
-    response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(user_input));
-  }
-
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
@@ -72,11 +51,26 @@ public class InputServlet extends HttpServlet {
       return;
     }
 
-    String input = request.getParameter("input_text");
-    String email = userService.getCurrentUser().getEmail();
+    String input_text = request.getParameter("input_text");
+    String user_location = request.getParameter("location_checkbox");
 
-    requests.put(email, input);
+    Input input;
 
-    response.sendRedirect("/postcard.html");
+    if (user_location.equals("none") || user_location.equals(null)) {
+      input = new Input(input_text, 0, 0);
+    } else {
+      Location location = new Location(user_location); 
+      input = new Input("input_text", location.getLatitude(), location.getLongitude());   
+    }
+
+    TextAnalyser textAnalyser = new TextAnalyser(input_text);
+    ImageSelection imageSelect = new ImageSelection(textAnalyser.getKeyWords());
+
+    Output output = new Output(input_text, imageSelect.getBestImage());
+
+    Gson gson = new Gson();
+
+    response.setContentType("application/json;");
+    response.getWriter().println(gson.toJson(output));
   }
 }

@@ -11,16 +11,13 @@
 
 package com.google.sps.data;
 
-/** An item on a todo list. */
-public final class Postcard {
+public final class Output {
 
-  public final String text;
-  public final String link;
-  public final String to;
+  private final String text;
+  private final String link;
 
-  public Postcard(String text, String link, String to) {
+  public Output(String text, String link) {
     this.text = text;
     this.link = link;
-    this.to = to;
   }
 }

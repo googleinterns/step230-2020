@@ -14,12 +14,16 @@
 
     <div id="login_page"></div>
     <div id="index_content">
-      <form method="POST" action="/text-input" id="input_form">
+      <form id="input_form">
         <input type="text" id="input_text" name="input_text" value="your greating"> 
+        <input type="checkbox" id="location_checkbox" name="location_checkbox" onclick="getUserLocation()" value="none">
         <br/>
-        <button id="submit_input">Submit</button>
+        <!--<button onclick="generatePostcard()" id="submit_input">Submit</button>-->
      </form>
+     <button onclick="generatePostcard()" id="submit_input">Submit</button>
     </div>
+    <a href="postcard.html" id="link"></a>
   </body>
   <script src="scripts/script.js"></script>
 </html>
+<!--method="POST" action="/text-input"-->

@@ -11,15 +11,24 @@
 
 package com.google.sps.data;
 
-public final class Input {
+public final class Location {
 
-  private final String text;
   private final double latitude;
   private final double longitude;
 
-  public Input(String text, double latitude, double longitude) {
-    this.text = text;
-    this.latitude = latitude;
-    this.longitude = longitude;
+  public Location(String location) {
+    int start = 10;
+    int end = location.lastIndexOf("Longitude") - 1;
+    this.latitude = Double.parseDouble(location.substring(start, end));
+    start = end + 12;
+    this.longitude = Double.parseDouble(location.substring(start));
+  }
+
+  public double getLongitude() {
+    return this.longitude;
+  }
+
+  public double getLatitude() {
+    return this.latitude;
   }
 }

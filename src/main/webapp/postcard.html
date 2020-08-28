@@ -5,7 +5,7 @@
     <title>Postcard</title>
     <link rel="stylesheet" href="styles/style.css">
   </head>
-  <body onload="loadPostcard()">
+  <body onload="loadPostcard()" id="postcard_body">
     <div id="back"><a href="index.html">☚</a></div>
     <div id="postcard_content">
       <h1 id="welcome">Your postcard is ready!</h1>
@@ -13,16 +13,14 @@
       <hr/>
 
       <div id="output" name="output"></div>
-      <div id="postcard">
-      </div>
+      <div id="postcard_frame"><img id="postcard"></div>
       <hr/>
       <p>Who is the receiver?</p>
       <form method="POST" action="/mail" id="input_email">
         <input type="text" id="input_text" name="mail" value="email"> 
         <br/>
-        <button id="submit">Submit</button>
       </form>
-      <button onclick="send()">SEND</button>
+      <button onclick="send()" id="submit_send">SEND</button>
       <div id="sent"></div>
     </div>
   <script src="scripts/script.js"></script>

@@ -50,30 +50,27 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/mail")
 public class MailServlet extends HttpServlet {
 
-  Map<String, Postcard> emails;
-
-  public void init() {
-     emails = new HashMap<String, Postcard>();
-  }
-
   @Override
-  public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
-    String from = userService.getCurrentUser().getEmail();
 
-    Postcard card = emails.get(from);
-    String to = card.to;
-    String text = card.text;
-    String link = card.link;
+    // Only logged-in users can post messages
+    if (!userService.isUserLoggedIn()) {
+      response.sendRedirect("/index.html");
+      return;
+    }
 
-    sendMultipartMail(from, to, link, text);
+    String email = userService.getCurrentUser().getEmail();
+    String postcard_link = request.getParameter("link");
+    String to = request.getParameter("mail");
 
-    resp.setContentType("text/html;");
-    resp.getWriter().println("Your postcard has been sent!");
+    sendMultipartMail(email, to, postcard_link);
+
+    response.setContentType("text/html;");
+    response.getWriter().println("Your postcard has been sent!");
   }
 
-  private void sendMultipartMail(String from, String to, String link, String text) {
+  private void sendMultipartMail(String from, String to, String link) {
     Properties props = new Properties();
     Session session = Session.getDefaultInstance(props, null);
 
@@ -87,64 +84,25 @@ public class MailServlet extends HttpServlet {
       msg.setSubject("You've received a postcard!");
       msg.setText(msgBody);
 
-      String htmlBody = "<div style=\"display:flex;flex-direction:row;justify-content:center;\">" +
-                    "<img src = " + "\"" + link + "\"" + "style=\"width:400px\">" +
-                    "<div style=\"width:200px; border:thin solid black;\">" +
-                      "<text style=\"display:flex;flex-wrap:wrap;justify-content:center;padding:30px;\">" + text + "</text>" +
-                    "</div>" +
-                  "</div>";
+      String htmlBody = "<img src = " + "\"" + link + "\"" + "style=\"width:400px\">";
 
-      // [START multipart_example]
-      //String htmlBody = "<img src = " + "\"" + link + "\"" + " style=\"height:200px\"" + ">";
-      //String htmlBody = "<img id=\"myImage\" src = \"https://www.w3schools.com/js/pic_bulboff.gif\" style=\"width:500px\">";          // ...
-      byte[] attachmentData = null;  // ...
+      byte[] attachmentData = null;  
       Multipart mp = new MimeMultipart();
 
       MimeBodyPart htmlPart = new MimeBodyPart();
       htmlPart.setContent(htmlBody, "text/html");
       mp.addBodyPart(htmlPart);
 
-      /*MimeBodyPart attachment = new MimeBodyPart();
-      InputStream attachmentDataStream = new ByteArrayInputStream(attachmentData);
-      attachment.setFileName("manual.pdf");
-      attachment.setContent(attachmentDataStream, "application/pdf");
-      mp.addBodyPart(attachment);*/
-
       msg.setContent(mp);
-      // [END multipart_example]
 
       Transport.send(msg);
 
     } catch (AddressException e) {
-      // ...
+      System.err.println("Not existing address");
     } catch (MessagingException e) {
-      // ...
+      System.err.println("Something went wrong:(");
     } catch (UnsupportedEncodingException e) {
-      // ...
+      System.err.println("Something went wrong:(");
     }
-  }
-
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    UserService userService = UserServiceFactory.getUserService();
-
-    // Only logged-in users can post messages
-    if (!userService.isUserLoggedIn()) {
-      response.sendRedirect("/index.html");
-      return;
-    }
-
-    //String reciever = request.getParameter("mail");
-    String email = userService.getCurrentUser().getEmail();
-    String text = request.getParameter("card_text");
-    String link = request.getParameter("link");
-    String to = request.getParameter("mail");
-
-    Postcard card = new Postcard(text, link, to);
-
-    //emails.put(email, reciever);
-    emails.put(email, card);
-
-    response.sendRedirect("/postcard.html");
   }
 }

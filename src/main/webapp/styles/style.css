@@ -12,6 +12,15 @@
   width: 500px;
 }
 
+#test {
+  height: 200px;
+  width: 100px;
+}
+
+#link {
+  visibility: hidden;
+}
+
 #login_page {
   left: 100px;
   margin-right: auto;
@@ -39,6 +48,15 @@
   margin-left: auto;
   margin-right: auto;
   width: 900px;
+}
+
+#postcard_frame {
+  height: 500px;
+  width: 400px;
+}
+
+#postcard {
+  width: 400px;
 }
 
 #sent {

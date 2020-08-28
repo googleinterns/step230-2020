@@ -7,7 +7,7 @@ describe("Login actions", function() {
     content.id = 'index_content';
     const load = document.createElement('div');
     load.id = 'loading';
-    var body = document.getElementsByTagName("body")[0];
+    let body = document.getElementsByTagName('body')[0];
     body.appendChild(load);
     body.appendChild(page);
     body.appendChild(content);
@@ -58,13 +58,12 @@ describe("Input actions", function() {
     jasmine.addMatchers(DOMCustomMatchers); 
     const output = document.createElement('div');
     output.id = 'output';
-    var body = document.getElementsByTagName("body")[0];
+    let body = document.getElementsByTagName('body')[0];
     body.appendChild(output);
-    //this.page = document.getElementById('login_page');
   });
   
   it("should show output", function() {
-    InputDomManipulations('text', '');
+    AndreiFunction('text', '');
     const elem = document.getElementById('output');
     expect(elem.innerText).toEqual('Now choose your receiver and SEND it!')
   });
@@ -72,5 +71,37 @@ describe("Input actions", function() {
   afterAll(function() {
     let output = document.getElementById('output');
     output.remove();
+  });
+});
+
+describe("form actions", function() {
+
+  beforeAll(function() {
+    const input = document.createElement('input');
+    input.name = "input_text";
+    input.value = "test";
+    const checkbox = document.createElement('input');
+    checkbox.name = "location_checkbox";
+    checkbox.value = "me";
+    let body = document.getElementsByTagName('body')[0];
+    body.appendChild(input);
+    body.appendChild(checkbox);
+  });
+
+  it("should get the correct text value", function() {
+    let text = document.getElementsByName('input_text')[0].value;
+    expect(text).toEqual('test');
+  });
+
+  it("should get the correct checkbox value", function() {
+    let location = document.getElementsByName('location_checkbox')[0].value;
+    expect(location).toEqual('me');
+  });
+
+  afterAll(function() {
+    let input_text = document.getElementsByName('input_text')[0];
+    let location = document.getElementsByName('location_checkbox')[0];
+    input_text.remove();
+    location.remove();
   });
 });
