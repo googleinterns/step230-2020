@@ -71,7 +71,7 @@ class Postcard {
 }
 
 function displayPostcard() {
-  const bodyElem = document.getElementsByTagName('body')[0];
+  const bodyElem = document.getElementsByClass('pcontainer')[0];
   const title = "Happy birthday";
   const message = "Another adventure filled year awaits you.";
   const imageUrl = "https://tse2.mm.bing.net/th/id/OIP.geCKcqpyVwMD6EJuAT3lVQHaEK?w=333&h=187&c=7&o=5&pid=1.7";

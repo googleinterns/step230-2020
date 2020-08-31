@@ -14,7 +14,7 @@
 }
 
 #main-nav .navbar-logo {
-  width: 120px;
+  width: 85px;
 }
 
 body {
@@ -26,16 +26,20 @@ body {
   height: 100%;
 }
 
-@media (min-width: 992px) {
+.page-section {
+  padding: 6rem 0;
+}
+
+/* @media (min-width: 640px) {
   #main-nav {
+    font-size: 1.5em;
     padding-bottom: 1.5rem;
     padding-top: 1.5rem; 
     transition: padding-top 0.3s ease-in-out, padding-bottom 0.3s ease-in-out;
   }
 
   #main-nav .navbar-brand {
-    font-size: 1.5em;
     transition: font-size 0.3s ease-in-out;
     margin-left: 2em;
   }
-}
+} */

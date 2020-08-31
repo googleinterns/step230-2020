@@ -40,3 +40,31 @@
   position: absolute;
   width: 250px; 
 }
+
+form, #submit_send {
+  margin: 20px auto;
+  max-width: 600px;
+  text-align: center;
+}
+
+form input, #submit_send {
+  border: 0;
+  outline: 0;
+  padding: 1em;
+  border-radius: 8px;
+  display: block;
+  width: 100%;
+  margin-top: 1em;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  resize: none;
+}
+
+#submit_send {
+  color: white;
+  background: #e74c3c;
+  cursor: pointer;
+}
+
+.container {
+  padding: inherit;
+}

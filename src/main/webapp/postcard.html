@@ -25,15 +25,25 @@
       </ul>
     </nav>
 
+    <section class="page-section">
+      <div class="container">
+        <div class="text-center">
+          <h1>Your postcard is ready!</h1>
+          <div class="pcontainer"></div>
+          
+          <h1>Who is the receiver?</h1>
+          <form class="cf">
+            <input type="email" id="input_text" name="mail" value="email" placeholder="">
+            <!-- <input type="submit" value="Submit" id="input-submit"> -->
+          </form>
+          <button onclick="send()" id="submit_send">Submit</button>
+        </div>
+      </div>
+    </section>
+
     <!-- <div id="back"><a href="index.html">☚</a></div>
     <div id="postcard_content">
       <h1 id="welcome">Your postcard is ready!</h1>
-
-      <hr/>
-
-      <div id="output" name="output"></div>
-      <div id="postcard_frame"><img id="postcard"></div>
-      <hr/>
       <p>Who is the receiver?</p>
       <form method="POST" action="/mail" id="input_email">
         <input type="text" id="input_text" name="mail" value="email"> 
