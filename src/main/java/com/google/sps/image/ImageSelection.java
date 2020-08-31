@@ -24,26 +24,8 @@ public final class ImageSelection {
     this.keywords = keywords;
   }
 
-  public String addBingQueryParam(String url) {
-    final String bingQueryParam = "&qs=HS&form=QBIR&scope=images&sp=-1&pq=hap&sc=8-3&cvid=44CA4B129FEF4B93B6F764BD083213D3&first=1&scenario=ImageBasicHover";
-
-    url = url + bingQueryParam;
-    return url;
-  }
-
-  public String addLicenseFilter(String url) {
-    // Free to share and use commercially license
-    final String licenseFilter = "&qft=+filterui:license-L2_L3_L4";
-
-    url = url + licenseFilter;
-    return url;
-  }
-
-  public String addSafeSearchFilter(String url) {
-    final String safeSearchFilter = "&adlt=strict";
-
-    url = url + safeSearchFilter;
-    return url;
+  private String addFilter(String url, String filter) {
+    return url + filter;
   }
 
   /**
@@ -65,14 +47,26 @@ public final class ImageSelection {
         break;
       }
     }
-    
-    bingUrl = addBingQueryParam(bingUrl);
-    bingUrl = addLicenseFilter(bingUrl);
-    bingUrl = addSafeSearchFilter(bingUrl);
+
+    // Free to share and use commercially license
+    final String licenseFilter = "&qft=+filterui:license-L2_L3_L4";
+
+    final String bingQueryParam = "&qs=HS&form=QBIR&scope=images&sp=-1&pq=hap&sc=8-3&cvid=44CA4B129FEF4B93B6F764BD083213D3&first=1&scenario=ImageBasicHover";
+    final String safeSearchFilter = "&adlt=strict";
+
+    bingUrl = addFilter(bingUrl, bingQueryParam);
+    bingUrl = addFilter(bingUrl, licenseFilter);
+    bingUrl = addFilter(bingUrl, safeSearchFilter);
 
     return bingUrl; 
   }
 
+  /**
+   * This is an endpoint. Call this function to get a relevant image.
+   *
+   * @return  URL of the first image scraped from Bing Image Search.
+   * @exception IOException if Bing doesn't map any image to the keywords.
+   */
   public String getBestImage() throws IOException {
     List<String> imgSrc = new ArrayList<>();
 
