@@ -25,7 +25,7 @@ public final class ImageSelection {
   }
 
   public String addBingQueryParam(String url) {
-    String bingQueryParam = "&qs=HS&form=QBIR&scope=images&sp=-1&pq=hap&sc=8-3&cvid=44CA4B129FEF4B93B6F764BD083213D3&first=1&scenario=ImageBasicHover";
+    final String bingQueryParam = "&qs=HS&form=QBIR&scope=images&sp=-1&pq=hap&sc=8-3&cvid=44CA4B129FEF4B93B6F764BD083213D3&first=1&scenario=ImageBasicHover";
 
     url = url + bingQueryParam;
     return url;
@@ -33,14 +33,14 @@ public final class ImageSelection {
 
   public String addLicenseFilter(String url) {
     // Free to share and use commercially license
-    String licenseFilter = "&qft=+filterui:license-L2_L3_L4";
+    final String licenseFilter = "&qft=+filterui:license-L2_L3_L4";
 
     url = url + licenseFilter;
     return url;
   }
 
   public String addSafeSearchFilter(String url) {
-    String safeSearchFilter = "&adlt=strict";
+    final String safeSearchFilter = "&adlt=strict";
 
     url = url + safeSearchFilter;
     return url;
