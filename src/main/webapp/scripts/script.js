@@ -76,13 +76,13 @@ function generatePostcard() {
 
 
 function loadPostcard() {
-  AndreiFunction(localStorage["text"], localStorage["link"]);
+  ShowPostcard(localStorage["text"], localStorage["link"]);
 }
 
-function AndreiFunction(text, link) {
+function ShowPostcard(text, link) {
   const actions = document.getElementById('output');
   actions.innerText = "Now choose your receiver and SEND it!";
-  //Andrei places the postcard into img with id="postcard"
+  //TODO(Andrei): type in an actual code 
 }
 
 // click and send the postcard

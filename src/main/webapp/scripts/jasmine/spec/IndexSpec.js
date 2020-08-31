@@ -53,27 +53,6 @@ describe("Login actions", function() {
   });
 });
 
-describe("Input actions", function() {
-  beforeAll(function() {
-    jasmine.addMatchers(DOMCustomMatchers); 
-    const output = document.createElement('div');
-    output.id = 'output';
-    let body = document.getElementsByTagName('body')[0];
-    body.appendChild(output);
-  });
-  
-  it("should show output", function() {
-    AndreiFunction('text', '');
-    const elem = document.getElementById('output');
-    expect(elem.innerText).toEqual('Now choose your receiver and SEND it!')
-  });
-
-  afterAll(function() {
-    let output = document.getElementById('output');
-    output.remove();
-  });
-});
-
 describe("form actions", function() {
 
   beforeAll(function() {

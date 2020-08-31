@@ -50,6 +50,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/mail")
 public class MailServlet extends HttpServlet {
 
+  static final String msgBody = "...";
+  static final String subject = "You've received a postcard!";
+  static final String sender = "GPostcard";
+  static final String receiver = "You";
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
@@ -78,14 +83,12 @@ public class MailServlet extends HttpServlet {
     Properties props = new Properties();
     Session session = Session.getDefaultInstance(props, null);
 
-    String msgBody = "...";
-
     try {
       Message msg = new MimeMessage(session);
-      msg.setFrom(new InternetAddress(from, "Example.com Admin"));
+      msg.setFrom(new InternetAddress(from, sender));
       msg.addRecipient(Message.RecipientType.TO,
-                       new InternetAddress(to, "Mr. User"));
-      msg.setSubject("You've received a postcard!");
+                       new InternetAddress(to, receiver));
+      msg.setSubject(subject);
       msg.setText(msgBody);
 
       String htmlBody = "<img src = " + "\"" + link + "\"" + "style=\"width:400px\">";
