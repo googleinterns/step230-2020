@@ -1,3 +1,13 @@
+
+body {
+  background-color: #e9ecef;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  color: #adb5bd;
+  height: 100%;
+}
+
 #main-nav {
   background-color: #545b62;
   padding-bottom: 0.7rem;
@@ -9,37 +19,25 @@
   font-family: "Montserrat", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
   font-weight: 700;
   letter-spacing: 0.0625em;
-  text-transform: uppercase;
   margin-left: 2em;
+  text-transform: uppercase;
 }
 
 #main-nav .navbar-logo {
   width: 85px;
 }
 
-body {
-  background-color: #e9ecef;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-  color: #adb5bd;
-  height: 100%;
-}
-
 .page-section {
   padding: 6rem 0;
 }
 
-/* @media (min-width: 640px) {
+@media (min-width: 640px) {
   #main-nav {
     font-size: 1.5em;
-    padding-bottom: 1.5rem;
-    padding-top: 1.5rem; 
-    transition: padding-top 0.3s ease-in-out, padding-bottom 0.3s ease-in-out;
   }
 
   #main-nav .navbar-brand {
-    transition: font-size 0.3s ease-in-out;
     margin-left: 2em;
+    transition: font-size 0.3s ease-in-out;
   }
-} */
+}
