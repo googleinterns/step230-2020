@@ -16,14 +16,16 @@ public final class ImageSelection {
 
   private static final String USER_AGENT = "Mozilla/5.0 (X11; CrOS x86_64 13099.85.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.110 Safari/537.36";
   
-  private static final String BING_QUERY_PARAM = "&qs=HS&form=QBIR&scope=images&sp=-1&pq=hap&sc=8-3&cvid=44CA4B129FEF4B93B6F764BD083213D3&first=1&scenario=ImageBasicHover";
-
   private static final int MAX_NO_LETTERS = 50;
 
   private static final int MAX_NO_KEYWORDS = 10;
 
   public ImageSelection(Set<String> keywords) {
     this.keywords = keywords;
+  }
+
+  private String addFilter(String url, String filter) {
+    return url + filter;
   }
 
   /**
@@ -45,11 +47,26 @@ public final class ImageSelection {
         break;
       }
     }
-    bingUrl = bingUrl + BING_QUERY_PARAM;
+
+    // Free to share and use commercially license
+    final String licenseFilter = "&qft=+filterui:license-L2_L3_L4";
+
+    final String bingQueryParam = "&qs=HS&form=QBIR&scope=images&sp=-1&pq=hap&sc=8-3&cvid=44CA4B129FEF4B93B6F764BD083213D3&first=1&scenario=ImageBasicHover";
+    final String safeSearchFilter = "&adlt=strict";
+
+    bingUrl = addFilter(bingUrl, bingQueryParam);
+    bingUrl = addFilter(bingUrl, licenseFilter);
+    bingUrl = addFilter(bingUrl, safeSearchFilter);
 
     return bingUrl; 
   }
 
+  /**
+   * This is an endpoint. Call this function to get a relevant image.
+   *
+   * @return  URL of the first image scraped from Bing Image Search.
+   * @exception IOException if Bing doesn't map any image to the keywords.
+   */
   public String getBestImage() throws IOException {
     List<String> imgSrc = new ArrayList<>();
 

@@ -14,16 +14,22 @@ public final class ImageSelectionUrlGenTest {
 
   private static final int EXCEEDING_NO_LETTERS = 400;
 
+  private static final String COPYRIGHT_FILTER = "qft=+filterui:license-L2_L3_L4";
+
+  private static final String SAFE_SEARCH_FILTER = "adlt=strict";
+
   @Test
   public void singleKeyword() {
     Set<String> keywords = new LinkedHashSet<>();
 
     keywords.add("london");
     ImageSelection imageSelection = new ImageSelection(keywords);
-    String expected = "https://www.bing.com/images/search?q=+london&qs=HS&form=QBIR&scope=images&sp=-1&pq=hap&sc=8-3&cvid=44CA4B129FEF4B93B6F764BD083213D3&first=1&scenario=ImageBasicHover";
+    String expected = "https://www.bing.com/images/search?q=+london";
     String actual = imageSelection.generateSearchUrl();
 
-    Assert.assertEquals(expected, actual);
+    Assert.assertTrue(actual.contains(expected));
+    Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
+    Assert.assertTrue(actual.contains(SAFE_SEARCH_FILTER));
   }
 
   @Test
@@ -36,10 +42,12 @@ public final class ImageSelectionUrlGenTest {
     keywords.add("Washington, D.C.");
 
     ImageSelection imageSelection = new ImageSelection(keywords);
-    String expected = "https://www.bing.com/images/search?q=+travel+morning+sun+Washington,+D.C.&qs=HS&form=QBIR&scope=images&sp=-1&pq=hap&sc=8-3&cvid=44CA4B129FEF4B93B6F764BD083213D3&first=1&scenario=ImageBasicHover";
+    String expected = "https://www.bing.com/images/search?q=+travel+morning+sun+Washington,+D.C.";
     String actual = imageSelection.generateSearchUrl();
 
-    Assert.assertEquals(expected, actual);
+    Assert.assertTrue(actual.contains(expected));
+    Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
+    Assert.assertTrue(actual.contains(SAFE_SEARCH_FILTER));
   }
 
   @Test
@@ -51,10 +59,12 @@ public final class ImageSelectionUrlGenTest {
     keywords.add("engineer");
 
     ImageSelection imageSelection = new ImageSelection(keywords);
-    String expected = "https://www.bing.com/images/search?q=+job+promotion+engineer&qs=HS&form=QBIR&scope=images&sp=-1&pq=hap&sc=8-3&cvid=44CA4B129FEF4B93B6F764BD083213D3&first=1&scenario=ImageBasicHover";
+    String expected = "https://www.bing.com/images/search?q=+job+promotion+engineer";
     String actual = imageSelection.generateSearchUrl();
 
-    Assert.assertEquals(expected, actual);
+    Assert.assertTrue(actual.contains(expected));
+    Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
+    Assert.assertTrue(actual.contains(SAFE_SEARCH_FILTER));
   }
 
   // Make sure that a blank space does not appear in the URL
@@ -65,10 +75,12 @@ public final class ImageSelectionUrlGenTest {
     keywords.add("good morning");
 
     ImageSelection imageSelection = new ImageSelection(keywords);
-    String expected = "https://www.bing.com/images/search?q=+good+morning&qs=HS&form=QBIR&scope=images&sp=-1&pq=hap&sc=8-3&cvid=44CA4B129FEF4B93B6F764BD083213D3&first=1&scenario=ImageBasicHover";
+    String expected = "https://www.bing.com/images/search?q=+good+morning";
     String actual = imageSelection.generateSearchUrl();
 
-    Assert.assertEquals(expected, actual);
+    Assert.assertTrue(actual.contains(expected));
+    Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
+    Assert.assertTrue(actual.contains(SAFE_SEARCH_FILTER));
   }
 
   // Not letting more than 10 keywords on the search engine
@@ -81,10 +93,12 @@ public final class ImageSelectionUrlGenTest {
     }
 
     ImageSelection imageSelection = new ImageSelection(keywords);
-    String expected = "https://www.bing.com/images/search?q=+a+b+c+d+e+f+g+h+i+j&qs=HS&form=QBIR&scope=images&sp=-1&pq=hap&sc=8-3&cvid=44CA4B129FEF4B93B6F764BD083213D3&first=1&scenario=ImageBasicHover";
+    String expected = "https://www.bing.com/images/search?q=+a+b+c+d+e+f+g+h+i+j&";
     String actual = imageSelection.generateSearchUrl();
 
-    Assert.assertEquals(expected, actual);
+    Assert.assertTrue(actual.contains(expected));
+    Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
+    Assert.assertTrue(actual.contains(SAFE_SEARCH_FILTER));
   }
 
   // Not letting more than 50 letters on the search engine
@@ -98,10 +112,12 @@ public final class ImageSelectionUrlGenTest {
     keywords.add("haveagreattime");
 
     ImageSelection imageSelection = new ImageSelection(keywords);
-    String expected = "https://www.bing.com/images/search?q=+goodmorningmate+thisissuchabeautifulday+enjoyit&qs=HS&form=QBIR&scope=images&sp=-1&pq=hap&sc=8-3&cvid=44CA4B129FEF4B93B6F764BD083213D3&first=1&scenario=ImageBasicHover";
+    String expected = "https://www.bing.com/images/search?q=+goodmorningmate+thisissuchabeautifulday+enjoyit";
     String actual = imageSelection.generateSearchUrl();
 
-    Assert.assertEquals(expected, actual);
+    Assert.assertTrue(actual.contains(expected));
+    Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
+    Assert.assertTrue(actual.contains(SAFE_SEARCH_FILTER));
   }
 
   @Test
@@ -115,9 +131,11 @@ public final class ImageSelectionUrlGenTest {
     keywords.add(new String(keyword));
 
     ImageSelection imageSelection = new ImageSelection(keywords);
-    String expected = "https://www.bing.com/images/search?q=&qs=HS&form=QBIR&scope=images&sp=-1&pq=hap&sc=8-3&cvid=44CA4B129FEF4B93B6F764BD083213D3&first=1&scenario=ImageBasicHover";
+    String expected = "https://www.bing.com/images/search?q=&";
     String actual = imageSelection.generateSearchUrl();
 
-    Assert.assertEquals(expected, actual);
+    Assert.assertTrue(actual.contains(expected));
+    Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
+    Assert.assertTrue(actual.contains(SAFE_SEARCH_FILTER));
   }
 }
