@@ -71,11 +71,10 @@ class Postcard {
 }
 
 function displayPostcard() {
-  const bodyElem = document.getElementsByTagName('body')[0];
+  const bodyElem = document.getElementsByClassName('pcard-container')[0];
   const title = "Happy birthday";
-  const message = "Another adventure filled year awaits you.";
+  const message = "Another adventure filled year awaits you. I wish you a very happy and full-filled birthday!";
   const imageUrl = "https://tse2.mm.bing.net/th/id/OIP.geCKcqpyVwMD6EJuAT3lVQHaEK?w=333&h=187&c=7&o=5&pid=1.7";
 
   bodyElem.appendChild(new Postcard({title, message, imageUrl}).getPostcardHTML());
-  document.body.appendChild(new Postcard({title, message, imageUrl}).getPostcardImage());
 }
