@@ -50,10 +50,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/mail")
 public class MailServlet extends HttpServlet {
 
-  static final String msgBody = "...";
-  static final String subject = "You've received a postcard!";
-  static final String sender = "GPostcard";
-  static final String receiver = "You";
+  static final String MSG_BODY = "...";
+  static final String SUBJECT = "You've received a postcard!";
+  static final String SENDER = "GPostcard";
+  static final String RECEIVER = "You";
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -85,11 +85,11 @@ public class MailServlet extends HttpServlet {
 
     try {
       Message msg = new MimeMessage(session);
-      msg.setFrom(new InternetAddress(from, sender));
+      msg.setFrom(new InternetAddress(from, SENDER));
       msg.addRecipient(Message.RecipientType.TO,
-                       new InternetAddress(to, receiver));
-      msg.setSubject(subject);
-      msg.setText(msgBody);
+                       new InternetAddress(to, RECEIVER));
+      msg.setSubject(SUBJECT);
+      msg.setText(MSG_BODY);
 
       String htmlBody = "<img src = " + "\"" + link + "\"" + "style=\"width:400px\">";
 

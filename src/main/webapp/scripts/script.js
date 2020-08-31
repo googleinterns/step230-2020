@@ -38,6 +38,11 @@ function loginDomManipulation(message, status) {
   load.style.visibility = "hidden";
 }
 
+function empty() {
+  let elem = document.getElementById('input_text');
+  elem.value = "";
+}
+
 function sendInputPOST(text, location) {
   fetch('/text-input', {
     method: "POST",
