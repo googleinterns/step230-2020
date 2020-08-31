@@ -3,17 +3,40 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
+ 
     <title>GPostCard</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFO8JyMu6f5bvQQG3c9KfEBayfbISs1gc"></script>
+
   </head>
-  <body>
-    <h1>Let's analyse</h1>
-    <form action="/text-input" method="POST">
-      <label for="message">Text input: </label><br>
-      <input type="text" id="message" name="message"><br>
-      <input type="submit" value="Submit">
-    </form>
+  <body onload="login()" id="index_body">
+    <!--if the page browses slowly-->  
+    <p id="loading">L O A D I N G</p > 
+
+    <div id="login_page"></div>
+    <div id="index_content">
+      <div id="about">
+        <text id="about_text">
+          Get started with the <text id="gpostcard">GPostCard!</text><br/>
+          <br/>Type in the text for your postcard.<br/> 
+          Tick the location checkbox if you want to share your travels!<br/>
+          We will generate a perfect postcard for you.</br>
+          You just need to SEND it! <br/>
+        </text>
+      </div>
+      <form id="input_form">
+        <input type="text" class="input_text" id="input_text" name="input_text" onclick="empty()" value="your greating"> 
+        <label class="container">Tick to share location
+          <input type="checkbox" id="location_checkbox" name="location_checkbox" onclick="getUserLocation()" value="none">
+          <span class="checkmark"></span>
+        </label>
+        <!--<input class="checkbox" type="checkbox" id="location_checkbox" name="location_checkbox" onclick="getUserLocation()" value="none"\>
+        <text class="checkbox">Tick to share location</text>-->
+        <br/>
+     </form>
+     <button onclick="generatePostcard()" id="submit_input">Submit</button>
+    </div>
+    <a href="postcard.html" id="link"></a>
   </body>
-  <script src="script.js"></script>
+  <script src="scripts/script.js"></script>
 </html>
