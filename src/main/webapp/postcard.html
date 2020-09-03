@@ -12,10 +12,10 @@
     <!-- Dom-to-image library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dom-to-image@2.6.0/src/dom-to-image.min.js"></script>
+    <script src="script/postcardgen.js"></script>   
     <script src="scripts/script.js"></script>
-    <script src="script/postcardgen.js"></script>
   </head>
-  <body onload="displayPostcard()" id="postcard_body">
+  <body onload="loadPostcard()" id="postcard_body">
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="main-nav">
       <a class="navbar-brand" href="index.html"> <img src="image/logo.png" class="navbar-logo" alt=""></a>
@@ -29,7 +29,7 @@
       <div class="container">
         <div class="text-center">
           <h1>Your postcard is ready!</h1>
-          <div class="pcard-container"></div>
+          <div class="pcard-container" id='pcard-design'></div>
           
           <h1>Who is the receiver?</h1>
           <form method="POST" action="/mail" id="input_email">

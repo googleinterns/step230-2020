@@ -79,7 +79,7 @@ public class MailServlet extends HttpServlet {
 * This function creates an email and sends it to the user
 **/
 
-  private String sendMultipartMail(String from, String to, String link) {
+  private String sendMultipartMail(String from, String to, String postcard) {
     Properties props = new Properties();
     Session session = Session.getDefaultInstance(props, null);
 
@@ -91,11 +91,15 @@ public class MailServlet extends HttpServlet {
       msg.setSubject(SUBJECT);
       msg.setText(MSG_BODY);
 
-      String htmlBody = "<img src = " + "\"" + link + "\"" + "style=\"width:400px\">";
-
+      String htmlBody = "<div class='pcard-container' id='pcard-design' style='background-attachment: scroll; background-image: url(\"https://i.ibb.co/JjqsjjL/postcard.jpg\"); background-repeat: no-repeat; background-size: 700px 500px; color: black; display: block; height: 500px; margin-left: auto; margin-right: auto; position: relative; text-align: center; width: 700px;'>" +
+                        "<div class='pcard-title' style='bottom: 200px; display: inline-block; font-family: Arial, sans-serif; font-size: 25px; position: absolute; right: 50px; width: 250px;'>Hello!</div>" +
+                        "<div class='pcard-msg' style='bottom: 90px; display: inline-block; font-family: Arial, sans-serif; font-size: 20px; max-width: 300px; position: absolute; right: 50px; width: 250px;'>Good morning!</div>" +
+                        "<img class='pcard-img' src=\"https://tse4.mm.bing.net/th/id/OIP.9lzPlZB-Mq2Sr5QnKEHwVQHaFE?w=230&amp;h=180&amp;c=7&amp;o=5&amp;pid=1.7\" style='bottom: 150px; height: 200px; left: 50px; position: absolute; width: 250px;'>" +
+                        "</div>";
+      
       byte[] attachmentData = null;  
       Multipart mp = new MimeMultipart();
-
+      
       MimeBodyPart htmlPart = new MimeBodyPart();
       htmlPart.setContent(htmlBody, "text/html");
       mp.addBodyPart(htmlPart);
