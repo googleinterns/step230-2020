@@ -17,58 +17,20 @@ class Postcard {
     return this._imageUrl;
   }
 
-  addImageStyles(imageElement) {
-    imageElement.style.bottom = '150px';
-    imageElement.style.height = '200px';
-    imageElement.style.left = '50px';
-    imageElement.style.position = 'absolute';
-    imageElement.style.width = '250px';
-
-    return imageElement;
-  }
-
   addImageElem() {
     let image = document.createElement('img');
     image.className = 'pcard-img';
     image.setAttribute('src', this._imageUrl);
-    image = this.addImageStyles(image);
     
     return image;
-  }
-
-  addMessageStyles(messageElement) {
-    messageElement.style.bottom = '90px';
-    messageElement.style.display = 'inline-block';
-    messageElement.style.fontFamily = 'Arial, sans-serif';
-    messageElement.style.fontSize = '20px';
-    messageElement.style.maxWidth = '300px';
-    messageElement.style.position = 'absolute';
-    messageElement.style.right = '50px';
-    messageElement.style.width = '250px';
-
-    return messageElement;
   }
 
   addMessageElem() {
     let message = document.createElement('div');
     message.className = 'pcard-msg';
     message.appendChild(document.createTextNode(this._message));
-    message = this.addMessageStyles(message);
 
     return message;
-  }
-
-  addTitleStyles(titleElement) {
-    titleElement.style.bottom = '200px';
-    titleElement.style.display = 'inline-block';
-    titleElement.style.fontFamily = 'Arial, sans-serif';
-    titleElement.style.fontSize = '25px';
-    titleElement.style.fontWidth = '300px';
-    titleElement.style.position = 'absolute';
-    titleElement.style.right = '50px';
-    titleElement.style.width = '250px';
-
-    return titleElement;
   }
 
   addTitleElem() {
@@ -80,23 +42,6 @@ class Postcard {
     return title;
   }
 
-  addPostcardStyles(postcardElement) {
-    // postcardElement.style.backgroundAttachment = 'scroll';
-    // postcardElement.style.backgroundImage = "url(" + "https://i.ibb.co/JjqsjjL/postcard.jpg" +")";
-    // postcardElement.style.backgroundRepeat = 'no-repeat';
-    // postcardElement.style.backgroundSize = '700px 500px';
-    // postcardElement.style.color = 'black';
-    // postcardElement.style.display = 'block';
-    // postcardElement.style.height = '500px';
-    // postcardElement.style.marginLeft = 'auto';
-    // postcardElement.style.marginRight = 'auto';
-    // postcardElement.style.position = 'relative';
-    // postcardElement.style.textAlign = 'center';
-    // postcardElement.style.width = '700px';
-    
-    return postcardElement;
-  }
-
   getPostcardHTML() {
     let postcard = document.createElement('div');
     postcard.className = 'pcard-container';
@@ -105,8 +50,33 @@ class Postcard {
     postcard.appendChild(this.addTitleElem());
     postcard.appendChild(this.addMessageElem());
     postcard.appendChild(this.addImageElem());
-    postcard = this.addPostcardStyles(postcard);
     return postcard;
+  }
+
+  addImageGmailStyles(imageElement) {
+    imageElement.style.height = '200px';
+    imageElement.style.width = '250px';
+
+    return imageElement;
+  }
+
+  addMessageGmailStyles(messageElement) {
+    messageElement.style.display = 'inline-block';
+    messageElement.style.fontFamily = "'Comic Sans MS', cursive, sans-serif";
+    messageElement.style.fontSize = '30px';
+    messageElement.style.maxWidth = '300px';
+    messageElement.style.width = '250px';
+
+    return messageElement;
+  }
+
+  addTitleGmailStyles(titleElement) {
+    titleElement.style.display = 'inline-block';
+    titleElement.style.fontFamily = 'Arial, sans-serif';
+    titleElement.style.fontSize = '25px';
+    titleElement.style.width = '250px';
+
+    return titleElement;
   }
 
   // The postcard needs to be already on the page.
@@ -124,6 +94,8 @@ class Postcard {
       return image;
     });
   }
+
+  
 }
 
 function displayPostcard(title, message, imageUrl) {
