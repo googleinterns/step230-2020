@@ -91,11 +91,11 @@ function loadPostcard() {
 
 // click and send the postcard
 function send() {
-  const title = "";
+  const title = "Hello";
   const message = localStorage["text"];
   const imageUrl = localStorage["link"];
 
-  let postcard = new Postcard({title, message, imageUrl}).getPostcardHTML().outerHTML;
+  let postcard = new Postcard({title, message, imageUrl}).getPostcardGmailHTML().outerHTML;
   console.log(postcard);
 
   let email = document.getElementsByName('mail')[0].value;

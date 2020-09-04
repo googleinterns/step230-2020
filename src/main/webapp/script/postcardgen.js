@@ -37,7 +37,6 @@ class Postcard {
     let title = document.createElement('div');
     title.className = 'pcard-title';
     title.appendChild(document.createTextNode(this._title));
-    title = this.addTitleStyles(title);
     
     return title;
   }
@@ -53,30 +52,37 @@ class Postcard {
     return postcard;
   }
 
-  addImageGmailStyles(imageElement) {
-    imageElement.style.height = '200px';
-    imageElement.style.width = '250px';
+  addImageEmailStyle() {
+    let image = document.createElement('img');
+    image.setAttribute('src', this._imageUrl);
+    image.style.height = '200px';
+    image.style.width = '250px';
 
-    return imageElement;
+    return image;
   }
 
-  addMessageGmailStyles(messageElement) {
-    messageElement.style.display = 'inline-block';
-    messageElement.style.fontFamily = "'Comic Sans MS', cursive, sans-serif";
-    messageElement.style.fontSize = '30px';
-    messageElement.style.maxWidth = '300px';
-    messageElement.style.width = '250px';
+  addMessageEmailStyle() {
+    let message = document.createElement('div');
+    message.style.display = 'inline-block';
+    message.style.fontFamily = "'Comic Sans MS', cursive, sans-serif";
+    message.style.fontSize = '30px';
+    message.style.maxWidth = '300px';
+    message.style.width = '250px';
+    console.log(this._message);
+    message.appendChild(document.createTextNode(this._message));
 
-    return messageElement;
+    return message;
   }
 
-  addTitleGmailStyles(titleElement) {
-    titleElement.style.display = 'inline-block';
-    titleElement.style.fontFamily = 'Arial, sans-serif';
-    titleElement.style.fontSize = '25px';
-    titleElement.style.width = '250px';
+  addTitleEmailStyle() {
+    let title = document.createElement('div');
+    title.style.display = 'inline-block';
+    title.style.fontFamily = 'Arial, sans-serif';
+    title.style.fontSize = '25px';
+    title.style.width = '250px';
+    title.appendChild(document.createTextNode(this._title));
 
-    return titleElement;
+    return title;
   }
 
   // The postcard needs to be already on the page.
@@ -95,7 +101,72 @@ class Postcard {
     });
   }
 
-  
+  createTableElement(width, height) {
+      let blank = document.createElement('table');
+      blank.setAttribute("cellpadding", "0");
+      blank.setAttribute("cellspacing", "0");
+      blank.setAttribute("width", width.toString());
+      blank.setAttribute("height", height.toString());
+      blank.setAttribute("align", "left");
+
+      return blank;
+    }
+
+  addBlankTable(width, height) {
+    let blank = this.createTableElement(width, height);
+    return blank;
+  }
+
+  addImageTable() {
+    let image = this.createTableElement(320, 280);
+    let imageInnerTd = document.createElement('td');
+
+    imageInnerTd.appendChild(this.addImageEmailStyle());
+    image.appendChild(imageInnerTd);
+    return image;
+  }
+
+  addTitleTable() {
+    let title = this.createTableElement(320, 30);
+    let titleInnerTd = document.createElement('td');
+
+    titleInnerTd.appendChild(this.addTitleEmailStyle());
+    title.appendChild(titleInnerTd);
+    return title;
+  }
+
+  addMessageTable() {
+    let message = this.createTableElement(320, 120);
+    let messageInnerTd = document.createElement('td');
+
+    messageInnerTd.appendChild(this.addMessageEmailStyle());
+    message.appendChild(messageInnerTd);
+    return message;
+  }
+
+  getPostcardGmailHTML() {
+    let postcard = document.createElement('table');
+    postcard.setAttribute("cellpadding", "0");
+    postcard.setAttribute("cellspacing", "0");
+    postcard.setAttribute("width", "640");
+    postcard.setAttribute("align", "center");
+
+    let postcardInnerTbody = document.createElement('tbody');
+    let postcardInnerTr = document.createElement('tr');
+    let postcardInnerTd = document.createElement('td');
+
+    postcardInnerTd.appendChild(this.addBlankTable(640, 150));
+    postcardInnerTd.appendChild(this.addImageTable());
+    postcardInnerTd.appendChild(this.addBlankTable(320, 120));
+    postcardInnerTd.appendChild(this.addTitleTable());
+    postcardInnerTd.appendChild(this.addMessageTable());
+
+    postcardInnerTr.appendChild(postcardInnerTd);
+    postcardInnerTbody.appendChild(postcardInnerTr);
+    postcard.appendChild(postcardInnerTbody);
+
+    return postcard;
+  }
 }
 
 function displayPostcard(title, message, imageUrl) {
