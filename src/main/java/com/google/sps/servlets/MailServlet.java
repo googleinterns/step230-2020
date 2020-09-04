@@ -96,8 +96,8 @@ public class MailServlet extends HttpServlet {
       msg.setText(MSG_BODY);
 
       /*
-       * Problem: Somethimes application/x-www-form-urlencoded does NOT send the entire string.
-       * First solution: Use Java hard-coded html elements, insted of sending them from the front-end.
+       * Problem: Sometimes application/x-www-form-urlencoded does NOT send the entire string.git 
+       * First solution: Use Java hard-coded html elements, instead of sending them from the front-end.
        * TODO: Try to send JSON insted of application/x-www-form-urlencoded.
        **/
       final String htmlBody = POSTCARD_CONTAINER + 
