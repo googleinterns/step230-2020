@@ -66,10 +66,13 @@ public class MailServlet extends HttpServlet {
     }
 
     String email = userService.getCurrentUser().getEmail();
-    String postcard_link = request.getParameter("link");
+    String title = request.getParameter("title");
+    String message = request.getParameter("message");
+    String image = request.getParameter("image");
+
     String to = request.getParameter("mail");
 
-    String resp = sendMultipartMail(email, to, postcard_link);
+    String resp = sendMultipartMail(email, to, title, message, image);
 
     response.setContentType("text/html;");
     response.getWriter().println(resp);
@@ -79,10 +82,11 @@ public class MailServlet extends HttpServlet {
 * This function creates an email and sends it to the user
 **/
 
-  private String sendMultipartMail(String from, String to, String postcard) {
+  private String sendMultipartMail(String from, String to, String title, String message, String image) {
     Properties props = new Properties();
     Session session = Session.getDefaultInstance(props, null);
-
+    final String POSTCARD_CONTAINER = "<div class='pcard-container' id='pcard-design' style='background-attachment: scroll; background-image: url(\"https://i.ibb.co/JjqsjjL/postcard.jpg\"); background-repeat: no-repeat; background-size: 700px 500px; color: black; display: block; height: 500px; margin-left: auto; margin-right: auto; position: relative; text-align: center; width: 700px;'>";
+    
     try {
       Message msg = new MimeMessage(session);
       msg.setFrom(new InternetAddress(from, SENDER));
@@ -91,12 +95,20 @@ public class MailServlet extends HttpServlet {
       msg.setSubject(SUBJECT);
       msg.setText(MSG_BODY);
 
-      String htmlBody = "<div class='pcard-container' id='pcard-design' style='background-attachment: scroll; background-image: url(\"https://i.ibb.co/JjqsjjL/postcard.jpg\"); background-repeat: no-repeat; background-size: 700px 500px; color: black; display: block; height: 500px; margin-left: auto; margin-right: auto; position: relative; text-align: center; width: 700px;'>" +
-                        "<div class='pcard-title' style='bottom: 200px; display: inline-block; font-family: Arial, sans-serif; font-size: 25px; position: absolute; right: 50px; width: 250px;'>Hello!</div>" +
-                        "<img class='pcard-img' src=\"https://tse4.mm.bing.net/th/id/OIP.9lzPlZB-Mq2Sr5QnKEHwVQHaFE?w=230&amp;h=180&amp;c=7&amp;o=5&amp;pid=1.7\" style='margin-right: 350px; margin-top: 150px; height: 200px; width: 250px;'>" +
-                        "<div class='pcard-msg' style='margin-left: 115px; display: inline-block; font-family: Arial, sans-serif; font-size: 20px; max-width: 300px; width: 250px;'>Good morning!</div>" +
-                        "</div>";
-      
+      /*
+       * Problem: Somethimes application/x-www-form-urlencoded does NOT send the entire string.
+       * First solution: Use Java hard-coded html elements, insted of sending them from the front-end.
+       * TODO: Try to send JSON insted of application/x-www-form-urlencoded.
+       **/
+      final String htmlBody = POSTCARD_CONTAINER + 
+                  "<table cellpadding='0' cellspacing='0' width='640' align='center'><tbody><tr><td><table cellpadding='0' cellspacing='0' width='640' height='150' align='left'></table><table cellpadding='0' cellspacing='0' width='320' height='280' align='left'><td>" +
+                  "<img src=" + image +" style='height: 200px; width: 250px;'></td>" +
+                  "</table><table cellpadding='0' cellspacing='0' width='320' height='120' align='left'></table><table cellpadding='0' cellspacing='0' width='320' height='30' align='left'><td><div style='display: inline-block; font-family: Arial, sans-serif; font-size: 25px; width: 250px;'>" +
+                  title + "</div></td></table><table cellpadding='0' cellspacing='0' width='320' height='120' align='left'>" +
+                  "<td><div style='display: inline-block; font-family: &quot;Comic Sans MS&quot;, cursive, sans-serif; font-size: 30px; max-width: 300px; width: 250px;'>" + 
+                  message + "</div></td></table></td></tr></tbody></table>" +
+                  "</div>";
+
       byte[] attachmentData = null;  
       Multipart mp = new MimeMultipart();
       

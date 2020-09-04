@@ -55,10 +55,10 @@ function sendInputPOST(text, location) {
       document.getElementById('link').click();});
 }
 
-function sendMailPOST(link, email) {
+function sendMailPOST(title, message, image, email) {
   fetch('/mail', {
     method: "POST",
-    body: "link=" + link + "&" + "mail=" + email,
+    body: "title=" + title + "&message=" + message + "&image=" + image + "&mail=" + email,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
@@ -82,24 +82,14 @@ function loadPostcard() {
   displayPostcard("Hello!", localStorage["text"], localStorage["link"]);
 }
 
-/*function ShowPostcard(title, text, link) {
-  
-  const actions = document.getElementById('output');
-  actions.innerText = "Now choose your receiver and SEND it!";
-  //TODO(Andrei): type in an actual code 
-}*/
-
 // click and send the postcard
 function send() {
   const title = "Hello";
   const message = localStorage["text"];
   const imageUrl = localStorage["link"];
 
-  let postcard = new Postcard({title, message, imageUrl}).getPostcardGmailHTML().outerHTML;
-  console.log(postcard);
-
   let email = document.getElementsByName('mail')[0].value;
-  sendMailPOST(postcard, email);
+  sendMailPOST(title, message, imageUrl, email);
 }
 
 // code used for adding the location option

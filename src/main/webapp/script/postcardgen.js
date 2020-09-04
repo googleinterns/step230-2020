@@ -68,7 +68,6 @@ class Postcard {
     message.style.fontSize = '30px';
     message.style.maxWidth = '300px';
     message.style.width = '250px';
-    console.log(this._message);
     message.appendChild(document.createTextNode(this._message));
 
     return message;
@@ -171,11 +170,8 @@ class Postcard {
 
 function displayPostcard(title, message, imageUrl) {
   const bodyElem = document.getElementsByClassName('pcard-container')[0];
-  //const title = "Happy birthday";
-  //const message = "Another adventure filled year awaits you. I wish you a very happy and full-filled birthday!";
-  //const imageUrl = "https://tse2.mm.bing.net/th/id/OIP.geCKcqpyVwMD6EJuAT3lVQHaEK?w=333&h=187&c=7&o=5&pid=1.7";
   let postcd = new Postcard({title, message, imageUrl}).getPostcardHTML();
+  
   postcd.id = "postcard";
   bodyElem.appendChild(postcd);
 }
-
