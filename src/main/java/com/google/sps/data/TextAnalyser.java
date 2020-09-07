@@ -220,13 +220,13 @@ public final class TextAnalyser {
     return adjectives;
   }
 
-  public String checkInjection() {
+  public boolean isInjection() {
     if (message.indexOf("<script>") != -1 || message.indexOf("</script>") != -1 ||
         message.indexOf("<html>") != -1 || message.indexOf("</html>") != -1) {
-      return "html-injection";
+      return true;
     }
 
-    return "no-html-injection";
+    return false;
   }
 
   // put all the key words together
