@@ -42,7 +42,7 @@ public final class TextAnalyserTest {
   public void analyse_positiveText_positiveMood() throws IOException {
     TextAnalyser textAnalyser = new TextAnalyser("Happy Birthday!");
 
-    assertEquals("thrilled", textAnalyser.getMood());
+    assertEquals("happy", textAnalyser.getMood());
   }
 
   @Test
@@ -59,7 +59,6 @@ public final class TextAnalyserTest {
     Set<String> expected = new LinkedHashSet<>();
     Set<String> actual = textAnalyser.getEvents();
 
-    expected.add("birthday");
     expected.add("promotion");
 
     assertEquals(expected, actual);
@@ -127,7 +126,7 @@ public final class TextAnalyserTest {
     TextAnalyser textAnalyser = new TextAnalyser("Happy Birthday! We will go to Paris!");
     assertFalse(textAnalyser.getKeyWords().isEmpty());
   }
-
+  
   @Test
   public void analyse_textWithEnoughWordsToGetCategory_theCategory() throws IOException {
     TextAnalyser textAnalyser = new TextAnalyser("A computer is a machine that can be instructed to carry" +
