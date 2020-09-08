@@ -128,9 +128,11 @@ public final class TextAnalyser {
 
       for (ClassificationCategory category : classify().getCategoriesList()) {
         String[] listCategories = category.getName().split("/");
+        categories.add(listCategories[listCategories.length - 1].toLowerCase());
+        /*
         for (int i = 0; i < listCategories.length; i++) {
           categories.add(listCategories[i].toLowerCase());
-        }
+        }*/
       }
 
       return categories;
@@ -142,9 +144,8 @@ public final class TextAnalyser {
 
   public Set<String> getEvents() {
     Set<String> events = new LinkedHashSet<String>();
-    String[] allEvents = new String[] {"wedding", "baby shower", "travel", 
-                                       "promotion", "holiday", "graduation", "funeral",
-                                       "party"};
+    String[] allEvents = new String[] {"wedding", "travel", "promotion", "graduation", 
+                                       "funeral", "party"};
 
     for (int i = 0; i < allEvents.length; i++) {
       if (message.indexOf(allEvents[i]) != -1) {
@@ -157,8 +158,8 @@ public final class TextAnalyser {
 
   public Set<String> getGreetings() {
     Set<String> greetings = new LinkedHashSet<String>();
-    String[] allGreetings = new String[] {"good morning", "congratulation", "welcome", "good evening", 
-                                          "good night", "happy holiday", "good afternoon", "hello", "hey",
+    String[] allGreetings = new String[] {"good morning", "welcome", "good evening", 
+                                          "good night", "good afternoon", "hello", "hey",
                                           "happy birthday", "love you"};
     
     for (int i = 0; i < allGreetings.length; i++) {
@@ -207,13 +208,23 @@ public final class TextAnalyser {
     }
   }
 
-  public Set<String> getAdjectives() throws IOException {
+  // Get the combination of verb-adverb
+  public Set<String> getSyntax() throws IOException {
     Set<String> adjectives = new LinkedHashSet<String>();
+    String verb = "";
+    boolean add = false;
 
     for (Token token : analyseSyntaxText().getTokensList()) {
       String partOfSpeech = token.getPartOfSpeech().getTag().toString();
-      if(partOfSpeech.equals("ADJ")) {
-        adjectives.add(token.getLemma().toLowerCase());
+      
+      if(partOfSpeech.equals("VERB") && !add) {
+        verb = token.getText().getContent().toLowerCase();
+        add = true;
+      }
+
+      if(partOfSpeech.equals("ADV") && add) {
+        adjectives.add(verb + " " + token.getLemma().toLowerCase());
+        add = false;
       }
     }
 
@@ -229,8 +240,8 @@ public final class TextAnalyser {
     return false;
   }
 
-  // put all the key words together
-  // use a LinkedHashSet to remove duplicates but maintain order
+  // Put all the key words together
+  // Use a LinkedHashSet to remove duplicates but maintain order
   public Set<String> getKeyWords() {
     try {
       Set<String> keyWords = new LinkedHashSet<String>();
@@ -239,14 +250,46 @@ public final class TextAnalyser {
       keyWords.addAll(getEvents());
       keyWords.addAll(getEntities());
       keyWords.addAll(getCategories());
-      keyWords.addAll(getAdjectives());
       keyWords.add(getMood());
 
       return keyWords;
     } catch (IOException e) {
-      // no key words  
+      // No key words  
       System.err.println("There are no key words.");
+      e.printStackTrace();
       return Collections.emptySet();
     }
+  }
+
+  public Set<String[]> getSetsOfKeyWords() {
+    Set< String[] > setsOfKeyWords = new LinkedHashSet<>();
+    List<String> keyWords = convertToList(getKeyWords());
+
+    // Only returns one key word when only a sentiment is found
+    if(keyWords.size() == 1) {
+      setsOfKeyWords.add(new String[] {keyWords.get(0)});
+      return setsOfKeyWords;
+    }
+
+    /**
+    * TODO: Add default value when no key word is found
+    * and discuss with team
+    **/
+
+    for (int i = 0; i < keyWords.size(); i++) {
+      for (int j = 0; j < keyWords.size(); j++) {
+        if (i != j) {
+          setsOfKeyWords.add(new String[] {keyWords.get(i), keyWords.get(j)});
+        }
+      }
+    }
+
+    return setsOfKeyWords;
+  }
+
+  // Generic function to convert set to list
+  public static List<String> convertToList(Set<String> set)
+  {
+	return new ArrayList<String>(set);
   }
 }
