@@ -71,7 +71,6 @@ public final class TextAnalyserTest {
     Set<String> actual = textAnalyser.getGreetings();
 
     expected.add("good morning");
-    expected.add("happy holiday");
 
     assertEquals(expected, actual);
   }
@@ -95,15 +94,15 @@ public final class TextAnalyserTest {
   }
 
   @Test
-  public void analyse_textWithAdjectives_adjectivesPresent() throws IOException {
-    TextAnalyser textAnalyser = new TextAnalyser("This is a beautiful day! Be nice to everyone!");
-    assertTrue("The text should identify adjectives.", textAnalyser.getAdjectives().contains("beautiful"));
+  public void analyse_textWithVerbAdverb_verbAdverbPresent() throws IOException {
+    TextAnalyser textAnalyser = new TextAnalyser("He is here. Come see him!");
+    assertTrue("The text should identify verb-adverb combination.", textAnalyser.getSyntax().contains("is here"));
   }
 
   @Test
-  public void analyse_textWithNoAdjectives_emptySet() throws IOException {
-    TextAnalyser textAnalyser = new TextAnalyser("The birthday party is in the garden.");
-    assertEquals(Collections.emptySet(), textAnalyser.getAdjectives());
+  public void analyse_textWithNoVerbAdverb_emptySet() throws IOException {
+    TextAnalyser textAnalyser = new TextAnalyser("Good morning!");
+    assertEquals(Collections.emptySet(), textAnalyser.getSyntax());
   }
 
   @Test
@@ -150,12 +149,12 @@ public final class TextAnalyserTest {
         "<h2>{user-query}</h2><ol><li>Result A<li>Result B</ol></html>"
     );
 
-    assertEquals("html-injection", textAnalyser.checkInjection());
+    assertEquals(true, textAnalyser.isInjection());
   }
 
   @Test
   public void checkHtmlInjection_noHTMLCode_noHtmlInjection() {
     TextAnalyser textAnalyser = new TextAnalyser("This is a code that doesn't contain html.");
-    assertEquals("no-html-injection", textAnalyser.checkInjection());
+    assertEquals(false, textAnalyser.isInjection());
   }
 }
