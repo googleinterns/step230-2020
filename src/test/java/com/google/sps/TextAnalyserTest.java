@@ -149,12 +149,12 @@ public final class TextAnalyserTest {
         "<h2>{user-query}</h2><ol><li>Result A<li>Result B</ol></html>"
     );
 
-    assertEquals(true, textAnalyser.isInjection());
+    assertTrue(textAnalyser.isInjection());
   }
 
   @Test
   public void checkHtmlInjection_noHTMLCode_noHtmlInjection() {
     TextAnalyser textAnalyser = new TextAnalyser("This is a code that doesn't contain html.");
-    assertEquals(false, textAnalyser.isInjection());
+    assertFalse(textAnalyser.isInjection());
   }
 }
