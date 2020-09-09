@@ -277,10 +277,8 @@ public final class TextAnalyser {
     **/
 
     for (int i = 0; i < keyWords.size(); i++) {
-      for (int j = 0; j < keyWords.size(); j++) {
-        if (i != j) {
-          setsOfKeyWords.add(new String[] {keyWords.get(i), keyWords.get(j)});
-        }
+      for (int j = i + 1; j < keyWords.size(); j++) {
+        setsOfKeyWords.add(new String[] {keyWords.get(i), keyWords.get(j)});
       }
     }
 
