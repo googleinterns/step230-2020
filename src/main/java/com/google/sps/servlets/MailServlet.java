@@ -54,6 +54,12 @@ public class MailServlet extends HttpServlet {
   static final String SUBJECT = "You've received a postcard!";
   static final String SENDER = "GPostcard";
   static final String RECEIVER = "You";
+  static final String POSTCARD_CONTAINER = "<div class='pcard-container' id='pcard-design' " +
+                "style='background-attachment: scroll; " +
+                "background-image: url(\"https://i.ibb.co/JjqsjjL/postcard.jpg\"); " +
+                "background-repeat: no-repeat; background-size: 700px 500px; color: black; " +
+                "display: block; height: 500px; margin-left: auto; margin-right: auto ;" +
+                "position: relative; text-align: center; width: 700px;'>";
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -82,23 +88,17 @@ public class MailServlet extends HttpServlet {
 * This function creates an email and sends it to the user
 **/
 
-  private String sendMultipartMail(String from, String to, String title, String message, String image) {
+  private String sendMultipartMail(String from, String to, String title, String userMessage, String image) {
     Properties props = new Properties();
     Session session = Session.getDefaultInstance(props, null);
-    final String POSTCARD_CONTAINER = "<div class='pcard-container' id='pcard-design' " +
-                "style='background-attachment: scroll; " +
-                "background-image: url(\"https://i.ibb.co/JjqsjjL/postcard.jpg\"); " +
-                "background-repeat: no-repeat; background-size: 700px 500px; color: black; " +
-                "display: block; height: 500px; margin-left: auto; margin-right: auto ;" +
-                "position: relative; text-align: center; width: 700px;'>";
     
     try {
-      Message msg = new MimeMessage(session);
-      msg.setFrom(new InternetAddress(from, SENDER));
-      msg.addRecipient(Message.RecipientType.TO,
+      Message message = new MimeMessage(session);
+      message.setFrom(new InternetAddress(from, SENDER));
+      message.addRecipient(Message.RecipientType.TO,
                        new InternetAddress(to, RECEIVER));
-      msg.setSubject(SUBJECT);
-      msg.setText(MSG_BODY);
+      message.setSubject(SUBJECT);
+      message.setText(MSG_BODY);
 
       /*
        * Problem: Sometimes application/x-www-form-urlencoded does NOT send the entire string.git 
@@ -118,7 +118,7 @@ public class MailServlet extends HttpServlet {
               "height='120' align='left'>" +
               "<td><div style='display: inline-block; font-family: &quot;Comic Sans MS&quot; " +
               "cursive, sans-serif; font-size: 30px; max-width: 300px; width: 250px;'>" + 
-              message + "</div></td></table></td></tr></tbody></table></div>";
+              userMessage + "</div></td></table></td></tr></tbody></table></div>";
 
       byte[] attachmentData = null;  
       Multipart mp = new MimeMultipart();
@@ -127,9 +127,9 @@ public class MailServlet extends HttpServlet {
       htmlPart.setContent(htmlBody, "text/html");
       mp.addBodyPart(htmlPart);
 
-      msg.setContent(mp);
+      message.setContent(mp);
 
-      Transport.send(msg);
+      Transport.send(message);
 
     } catch (AddressException e) {
       System.err.println("Not existing address");
