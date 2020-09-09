@@ -4,8 +4,19 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
-  color: #adb5bd;
   height: 100%;
+}
+
+#postcard_body {
+  color: #adb5bdd5;
+}
+
+#index_body {
+  color: #adb5bdd5;
+}
+
+#index_body input {
+  color: #394f64;
 }
 
 #main-nav {

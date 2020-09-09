@@ -1,10 +1,9 @@
 #index_body {
   background-color: rgb(233, 233, 233);
   border: 1px solid #ccc;
-  height: 800px;
+  height: 900px;
   margin-left: auto;
   margin-right: auto;
-  width: 900px;
 }
 
 #index_content {
@@ -12,9 +11,16 @@
 }
 
 #about {
-  margin-bottom: 100px;
+  margin-top: 100px;
+  margin-bottom: 70px;
   font-size: 22px;
   text-align: center;
+}
+
+#about_text {
+  color: black;
+  font-size: 12px;
+  padding: 0%;
 }
 
 #gpostcard {
@@ -39,10 +45,11 @@
 }
 
 .login {
-  height: 200px;
+  color: red;
+  height: 100px;
   margin-left: auto;
   margin-right: auto;
-  top: 200px;
+  margin-top: 100px;
   width: 300px;
 }
 
@@ -51,9 +58,18 @@
   margin-right: auto;
 }
 
+.inline {
+  display: inline-block;
+}
+
+#input_form {
+  margin-left: 300px;
+}
+
 input {
-  display: block;
-  margin-bottom: 30px;
+  color: #5e6b79;
+  /*display: block;*/
+  margin-bottom: 0px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -76,12 +92,12 @@ input {
 
 .container {
   cursor: pointer;
-  display: block;
+  color: #394f64;
   font-size: 22px;
   margin-bottom: 12px;
-  margin-left: 200px;
+  margin-left: 600px;
   position: relative;
-  padding-left: 35px;
+  padding-left: 40px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -98,12 +114,12 @@ input {
 
 .checkmark {
   background-color: rgb(255, 255, 255);
-  border: thick solid rgb(0, 0, 143);
-  height: 25px;
+  border: thick solid rgb(19, 107, 100);
+  height: 30px;
   left: 0;
   position: absolute;
   top: 0;
-  width: 25px;
+  width: 30px;
 }
 
 .container:hover input ~ .checkmark {
@@ -111,7 +127,7 @@ input {
 }
 
 .container input:checked ~ .checkmark {
-  background-color: rgb(21, 116, 84);
+  background-color: rgb(21, 148, 142);
 }
 
 .checkmark:after {
@@ -141,16 +157,28 @@ input {
 }
 
 #submit_input:hover {
-  box-shadow: 5px 5px 5px red;
-  background-color: rgb(255, 238, 238);
+  box-shadow: 5px 5px 5px rgb(163, 156, 156);
+  background-color: rgb(10, 107, 31);
 }
 
 #submit_input {
-  background: rgb(255, 255, 255);
-  border: 2px solid rgb(0, 98, 116);
+  background-color: #8694a3;
+  background-image: linear-gradient(rgba(25, 209, 65, 0.603),rgb(15, 145, 73));
+  border: thin solid rgb(255, 255, 255);
+  border-radius: 8px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  color: white;
+  display: block;
+  outline: 0;
+  padding: 1em;
+  resize: none;  
+  width: 100%;
+  cursor: pointer;
   height: 60px;
-  margin-left: 200px;
-  width: 100px;
+  margin-left: 300px;
+  /*margin: 20px auto;*/
+  max-width: 300px;
+  text-align: center;
 }
 
 #sent {
