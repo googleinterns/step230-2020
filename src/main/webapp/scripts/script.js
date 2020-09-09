@@ -11,8 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-
 function login() {
   fetch('/login_page').then(response => response.json()).then(login => {loginDomManipulation(login.message, login.status);});
 }
@@ -51,16 +49,16 @@ function sendInputPOST(text, location) {
       "Content-Type": "application/x-www-form-urlencoded"
     },
     credentials: "same-origin"
-    }).then(response => response.text()).then(input => {
+    }).then(response => response.json()).then(input => {
       localStorage["text"] = input.text; 
       localStorage["link"] = input.link;
       document.getElementById('link').click();});
 }
 
-function sendMailPOST(link, email) {
+function sendMailPOST(title, message, image, email) {
   fetch('/mail', {
     method: "POST",
-    body: "link=" + link + "&" + "mail=" + email,
+    body: "title=" + title + "&message=" + message + "&image=" + image + "&mail=" + email,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
@@ -81,20 +79,17 @@ function generatePostcard() {
 
 
 function loadPostcard() {
-  ShowPostcard(localStorage["text"], localStorage["link"]);
-}
-
-function ShowPostcard(text, link) {
-  const actions = document.getElementById('output');
-  actions.innerText = "Now choose your receiver and SEND it!";
-  //TODO(Andrei): type in an actual code 
+  displayPostcard("Hello!", localStorage["text"], localStorage["link"]);
 }
 
 // click and send the postcard
 function send() {
-  let link = document.getElementById('postcard').src;
+  const title = "Hello";
+  const message = localStorage["text"];
+  const imageUrl = localStorage["link"];
+
   let email = document.getElementsByName('mail')[0].value;
-  sendMailPOST(link, email);
+  sendMailPOST(title, message, imageUrl, email);
 }
 
 // code used for adding the location option

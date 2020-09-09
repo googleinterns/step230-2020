@@ -18,7 +18,7 @@ class Postcard {
   }
 
   addImageElem() {
-    const image = document.createElement('img');
+    let image = document.createElement('img');
     image.className = 'pcard-img';
     image.setAttribute('src', this._imageUrl);
     
@@ -26,7 +26,7 @@ class Postcard {
   }
 
   addMessageElem() {
-    const message = document.createElement('div');
+    let message = document.createElement('div');
     message.className = 'pcard-msg';
     message.appendChild(document.createTextNode(this._message));
 
@@ -34,15 +34,15 @@ class Postcard {
   }
 
   addTitleElem() {
-    const title = document.createElement('div');
+    let title = document.createElement('div');
     title.className = 'pcard-title';
     title.appendChild(document.createTextNode(this._title));
-
+    
     return title;
   }
 
   getPostcardHTML() {
-    const postcard = document.createElement('div');
+    let postcard = document.createElement('div');
     postcard.className = 'pcard-container';
     postcard.id = 'pcard-design';
 
@@ -52,29 +52,126 @@ class Postcard {
     return postcard;
   }
 
+  addImageEmailStyle() {
+    let image = document.createElement('img');
+    image.setAttribute('src', this._imageUrl);
+    image.style.height = '200px';
+    image.style.width = '250px';
+
+    return image;
+  }
+
+  addMessageEmailStyle() {
+    let message = document.createElement('div');
+    message.style.display = 'inline-block';
+    message.style.fontFamily = "'Comic Sans MS', cursive, sans-serif";
+    message.style.fontSize = '30px';
+    message.style.maxWidth = '300px';
+    message.style.width = '250px';
+    message.appendChild(document.createTextNode(this._message));
+
+    return message;
+  }
+
+  addTitleEmailStyle() {
+    let title = document.createElement('div');
+    title.style.display = 'inline-block';
+    title.style.fontFamily = 'Arial, sans-serif';
+    title.style.fontSize = '25px';
+    title.style.width = '250px';
+    title.appendChild(document.createTextNode(this._title));
+
+    return title;
+  }
+
   // The postcard needs to be already on the page.
   // Getting the postcard directly from getPostcardHTML() does not work.
   getPostcardImage() {
     let node = document.getElementById('pcard-design');
-    let image = document.createElement('img');
 
-    domtoimage.toPng(node).then(function (encodedImg) {
-      image.setAttribute('src', encodedImg);
+    return domtoimage.toPng(node).then(function (encodedImg) {
+      return encodedImg;
     }).catch(function (error) {
       console.error('Something went wrong! Try again!', error);
 
       // Set default image to notify user on the error.
-      image.setAttribute('src', 'https://live.staticflickr.com/4034/4543895219_8d78eba86f_c.jpg');
+      image = 'https://live.staticflickr.com/4034/4543895219_8d78eba86f_c.jpg';
+      return image;
     });
+  }
+
+  createTableElement(width, height) {
+      let blank = document.createElement('table');
+      blank.setAttribute("cellpadding", "0");
+      blank.setAttribute("cellspacing", "0");
+      blank.setAttribute("width", width.toString());
+      blank.setAttribute("height", height.toString());
+      blank.setAttribute("align", "left");
+
+      return blank;
+    }
+
+  addBlankTable(width, height) {
+    let blank = this.createTableElement(width, height);
+    return blank;
+  }
+
+  addImageTable() {
+    let image = this.createTableElement(320, 280);
+    let imageInnerTd = document.createElement('td');
+
+    imageInnerTd.appendChild(this.addImageEmailStyle());
+    image.appendChild(imageInnerTd);
     return image;
+  }
+
+  addTitleTable() {
+    let title = this.createTableElement(320, 30);
+    let titleInnerTd = document.createElement('td');
+
+    titleInnerTd.appendChild(this.addTitleEmailStyle());
+    title.appendChild(titleInnerTd);
+    return title;
+  }
+
+  addMessageTable() {
+    let message = this.createTableElement(320, 120);
+    let messageInnerTd = document.createElement('td');
+
+    messageInnerTd.appendChild(this.addMessageEmailStyle());
+    message.appendChild(messageInnerTd);
+    return message;
+  }
+
+  getPostcardGmailHTML() {
+    let postcard = document.createElement('table');
+    postcard.setAttribute("cellpadding", "0");
+    postcard.setAttribute("cellspacing", "0");
+    postcard.setAttribute("width", "640");
+    postcard.setAttribute("align", "center");
+
+    let postcardInnerTbody = document.createElement('tbody');
+    let postcardInnerTr = document.createElement('tr');
+    let postcardInnerTd = document.createElement('td');
+
+    postcardInnerTd.appendChild(this.addBlankTable(640, 150));
+    postcardInnerTd.appendChild(this.addImageTable());
+    postcardInnerTd.appendChild(this.addBlankTable(320, 120));
+    postcardInnerTd.appendChild(this.addTitleTable());
+    postcardInnerTd.appendChild(this.addMessageTable());
+
+    postcardInnerTr.appendChild(postcardInnerTd);
+    postcardInnerTbody.appendChild(postcardInnerTr);
+    postcard.appendChild(postcardInnerTbody);
+
+    return postcard;
   }
 }
 
-function displayPostcard() {
+function displayPostcard(title, message, imageUrl) {
   const bodyElem = document.getElementsByClassName('pcard-container')[0];
-  const title = "Happy birthday";
-  const message = "Another adventure filled year awaits you. I wish you a very happy and full-filled birthday!";
-  const imageUrl = "https://tse2.mm.bing.net/th/id/OIP.geCKcqpyVwMD6EJuAT3lVQHaEK?w=333&h=187&c=7&o=5&pid=1.7";
-
-  bodyElem.appendChild(new Postcard({title, message, imageUrl}).getPostcardHTML());
+  let postcd = new Postcard({title, message, imageUrl}).getPostcardHTML();
+  
+  postcd.id = "postcard";
+  bodyElem.appendChild(postcd);
 }
