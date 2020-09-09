@@ -54,6 +54,12 @@ public class MailServlet extends HttpServlet {
   static final String SUBJECT = "You've received a postcard!";
   static final String SENDER = "GPostcard";
   static final String RECEIVER = "You";
+  static final String POSTCARD_CONTAINER = "<div class='pcard-container' id='pcard-design' " +
+                "style='background-attachment: scroll; " +
+                "background-image: url(\"https://i.ibb.co/JjqsjjL/postcard.jpg\"); " +
+                "background-repeat: no-repeat; background-size: 700px 500px; color: black; " +
+                "display: block; height: 500px; margin-left: auto; margin-right: auto ;" +
+                "position: relative; text-align: center; width: 700px;'>";
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -66,10 +72,13 @@ public class MailServlet extends HttpServlet {
     }
 
     String email = userService.getCurrentUser().getEmail();
-    String postcard_link = request.getParameter("link");
+    String title = request.getParameter("title");
+    String message = request.getParameter("message");
+    String image = request.getParameter("image");
+
     String to = request.getParameter("mail");
 
-    String resp = sendMultipartMail(email, to, postcard_link);
+    String resp = sendMultipartMail(email, to, title, message, image);
 
     response.setContentType("text/html;");
     response.getWriter().println(resp);
@@ -79,30 +88,48 @@ public class MailServlet extends HttpServlet {
 * This function creates an email and sends it to the user
 **/
 
-  private String sendMultipartMail(String from, String to, String link) {
+  private String sendMultipartMail(String from, String to, String title, String userMessage, String image) {
     Properties props = new Properties();
     Session session = Session.getDefaultInstance(props, null);
-
+    
     try {
-      Message msg = new MimeMessage(session);
-      msg.setFrom(new InternetAddress(from, SENDER));
-      msg.addRecipient(Message.RecipientType.TO,
+      Message message = new MimeMessage(session);
+      message.setFrom(new InternetAddress(from, SENDER));
+      message.addRecipient(Message.RecipientType.TO,
                        new InternetAddress(to, RECEIVER));
-      msg.setSubject(SUBJECT);
-      msg.setText(MSG_BODY);
+      message.setSubject(SUBJECT);
+      message.setText(MSG_BODY);
 
-      String htmlBody = "<img src = " + "\"" + link + "\"" + "style=\"width:400px\">";
+      /*
+       * Problem: Sometimes application/x-www-form-urlencoded does NOT send the entire string.git 
+       * First solution: Use Java hard-coded html elements, instead of sending them from the front-end.
+       * TODO: Try to send JSON insted of application/x-www-form-urlencoded.
+       **/
+      final String htmlBody = POSTCARD_CONTAINER + 
+              "<table cellpadding='0' cellspacing='0' width='640' align='center'><tbody><tr><td>" + 
+              "<table cellpadding='0' cellspacing='0' width='640' height='150' align='left'></table>" +
+              "<table cellpadding='0' cellspacing='0' width='320' height='280' align='left'><td>" +
+              "<img src=" + image +" style='height: 200px; width: 250px;'></td>" +
+              "</table><table cellpadding='0' cellspacing='0' width='320' height='120' align='left'>" +
+              "</table><table cellpadding='0' cellspacing='0' width='320' height='30' align='left'>" +
+              "<td><div style='display: inline-block; font-family: Arial, sans-serif; " 
+              + "font-size: 25px; width: 250px;'>" +
+              title + "</div></td></table><table cellpadding='0' cellspacing='0' width='320' " +
+              "height='120' align='left'>" +
+              "<td><div style='display: inline-block; font-family: &quot;Comic Sans MS&quot; " +
+              "cursive, sans-serif; font-size: 30px; max-width: 300px; width: 250px;'>" + 
+              userMessage + "</div></td></table></td></tr></tbody></table></div>";
 
       byte[] attachmentData = null;  
       Multipart mp = new MimeMultipart();
-
+      
       MimeBodyPart htmlPart = new MimeBodyPart();
       htmlPart.setContent(htmlBody, "text/html");
       mp.addBodyPart(htmlPart);
 
-      msg.setContent(mp);
+      message.setContent(mp);
 
-      Transport.send(msg);
+      Transport.send(message);
 
     } catch (AddressException e) {
       System.err.println("Not existing address");

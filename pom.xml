@@ -14,6 +14,8 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <failOnMissingWebXml>false</failOnMissingWebXml>
+    <js-tests.skip>false</js-tests.skip>
+    <bower-components>${basedir}/src/main/webapp/script/bower_components</bower-components>
   </properties>
 
   <dependencies>
@@ -74,6 +76,16 @@
         <configuration>
           <deploy.projectId>google.com:gpostcard</deploy.projectId>
           <deploy.version>1</deploy.version>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.github.searls</groupId>
+        <artifactId>jasmine-maven-plugin</artifactId>
+        <version>1.3.1.6</version>
+        <configuration>
+          <skipJasmineTests>${js-tests.skip}</skipJasmineTests>
+          <jsSrcDir>${basedir}/src/main/webapp/script</jsSrcDir>
+          <jsTestSrcDir>${basedir}/src/test/webapp/script</jsTestSrcDir>
         </configuration>
       </plugin>
     </plugins>
