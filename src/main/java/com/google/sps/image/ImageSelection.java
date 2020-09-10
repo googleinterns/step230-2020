@@ -77,11 +77,10 @@ public final class ImageSelection {
       imgSrc.add(element.attr("abs:data-src"));
     }
 
-    ImageAnalyser imageAnalyser = new ImageAnalyser();
     // Return first relevant image
     for (String imageUrl : imgSrc) {
       if (!imageUrl.isEmpty()) {
-        imageAnalyser.analyse(imageUrl);
+        ImageScorer.score(imageUrl);
         return imageUrl;
       }
     }

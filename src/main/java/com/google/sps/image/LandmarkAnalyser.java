@@ -12,6 +12,7 @@ import com.google.cloud.vision.v1.Image;
 import com.google.cloud.vision.v1.ImageAnnotatorClient;
 import com.google.cloud.vision.v1.ImageAnnotatorSettings;
 import com.google.cloud.vision.v1.ImageSource;
+import com.google.cloud.vision.v1.LocationInfo;
 import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,7 +21,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ImageAnalyser {
+public final class LandmarkAnalyser implements Analyser {
 
   public static ImageAnnotatorSettings getSettings() throws IOException {
     HeaderProvider headerProvider =
@@ -28,16 +29,17 @@ public final class ImageAnalyser {
     return ImageAnnotatorSettings.newBuilder().setHeaderProvider(headerProvider).build();
   }
 
-  public static void analyse(String imageUrl) {
+  @Override
+  public void analyse(String imageUrl) {
     try (ImageAnnotatorClient vision = ImageAnnotatorClient.create(getSettings())) {
       // Builds the image annotation request
       List<AnnotateImageRequest> requests = new ArrayList<>();
-      ImageSource imageSource = ImageSource.newBuilder().setImageUri(imageUrl).build();
+      ImageSource imageSource = ImageSource.newBuilder().setImageUri("https://static.vecteezy.com/system/resources/thumbnails/000/191/189/small/10.-postcard-world-PARIS.jpg").build();
       Image img = Image.newBuilder().setSource(imageSource).build();
-      Feature feat = Feature.newBuilder().setType(Type.LABEL_DETECTION).build();
-      AnnotateImageRequest request =
-          AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
-      requests.add(request);
+      Feature label = Feature.newBuilder().setType(Type.LANDMARK_DETECTION).build();
+      AnnotateImageRequest labelRequest =
+          AnnotateImageRequest.newBuilder().addFeatures(label).setImage(img).build();
+      requests.add(labelRequest);
 
       // Performs label detection on the image file
       BatchAnnotateImagesResponse response = vision.batchAnnotateImages(requests);
@@ -49,10 +51,9 @@ public final class ImageAnalyser {
           return;
         }
 
-        for (EntityAnnotation annotation : res.getLabelAnnotationsList()) {
-          annotation
-              .getAllFields()
-              .forEach((k, v) -> System.out.format("%s : %s%n", k, v.toString()));
+        for (EntityAnnotation annotation : res.getLandmarkAnnotationsList()) {
+          LocationInfo info = annotation.getLocationsList().listIterator().next();
+          System.out.format("Landmark: %s%n %s%n", annotation.getDescription(), annotation.getScore());
         }
       }
     } catch(Exception ex) {
