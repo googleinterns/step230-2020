@@ -1,0 +1,74 @@
+
+.pcard-container {
+  background-attachment: scroll;
+  background-image: url("../image/postcard-frame.jpg");
+  background-repeat: no-repeat;
+  background-size: 700px 500px;
+  color: black;
+  display: block;
+  height: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  text-align: center;
+  width: 700px; 
+}
+
+.pcard-title {
+  bottom: 200px;
+  display: inline-block;
+  font-family: "Indie Flower", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  font-size: 25px;
+  font-weight: bolder;
+  max-width: 300px;
+  position: absolute;
+  right: 50px;
+  width: 250px;
+}
+
+.pcard-msg {
+  bottom: 90px;
+  display: inline-block;
+  font-family: "Indie Flower", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  font-size: 20px;
+  max-width: 300px;
+  position: absolute;
+  right: 50px;
+  width: 250px;
+}
+
+.pcard-img {
+  bottom: 150px;
+  height: 200px;
+  left: 50px;
+  position: absolute;
+  width: 250px; 
+}
+
+form, #submit_send {
+  margin: 20px auto;
+  max-width: 600px;
+  text-align: center;
+}
+
+form input, #submit_send {
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  display: block;
+  margin-top: 1em;
+  outline: 0;
+  padding: 1em;
+  resize: none;  
+  width: 100%;
+}
+
+#submit_send {
+  background: #e74c3c;
+  color: white;
+  cursor: pointer;
+}
+
+.container {
+  padding: inherit;
+}
