@@ -94,18 +94,6 @@ public final class TextAnalyserTest {
   }
 
   @Test
-  public void analyse_textWithVerbAdverb_verbAdverbPresent() throws IOException {
-    TextAnalyser textAnalyser = new TextAnalyser("He is here. Come see him!");
-    assertTrue("The text should identify verb-adverb combination.", textAnalyser.getSyntax().contains("is here"));
-  }
-
-  @Test
-  public void analyse_textWithNoVerbAdverb_emptySet() throws IOException {
-    TextAnalyser textAnalyser = new TextAnalyser("Good morning!");
-    assertEquals(Collections.emptySet(), textAnalyser.getSyntax());
-  }
-
-  @Test
   public void toLowerCase_KeyWords_lowerCaseKeyWords() throws IOException {
     TextAnalyser textAnalyser = new TextAnalyser("Hello, Mark! My Birthday is coming very soon and I want to" +
                                                   " invite you to my Party! It is in Paris. It is not expensive." +

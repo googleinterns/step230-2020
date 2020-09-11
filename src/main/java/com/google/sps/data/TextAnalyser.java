@@ -15,8 +15,6 @@ import com.google.api.gax.rpc.HeaderProvider;
 import com.google.api.gax.rpc.InvalidArgumentException;
 import com.google.cloud.language.v1.AnalyzeEntitiesRequest;
 import com.google.cloud.language.v1.AnalyzeEntitiesResponse;
-import com.google.cloud.language.v1.AnalyzeSyntaxRequest;
-import com.google.cloud.language.v1.AnalyzeSyntaxResponse;
 import com.google.cloud.language.v1.ClassificationCategory;
 import com.google.cloud.language.v1.ClassifyTextRequest;
 import com.google.cloud.language.v1.ClassifyTextResponse;
@@ -129,10 +127,6 @@ public final class TextAnalyser {
       for (ClassificationCategory category : classify().getCategoriesList()) {
         String[] listCategories = category.getName().split("/");
         categories.add(listCategories[listCategories.length - 1].toLowerCase());
-        /*
-        for (int i = 0; i < listCategories.length; i++) {
-          categories.add(listCategories[i].toLowerCase());
-        }*/
       }
 
       return categories;
@@ -195,42 +189,6 @@ public final class TextAnalyser {
     return entities;
   }
 
-  public AnalyzeSyntaxResponse analyseSyntaxText() throws IOException {
-    try (LanguageServiceClient language = LanguageServiceClient.create(getSettings())) {
-      Document doc = Document.newBuilder().setContent(message).setType(Type.PLAIN_TEXT).build();
-      AnalyzeSyntaxRequest request =
-           AnalyzeSyntaxRequest.newBuilder()
-                .setDocument(doc)
-                .setEncodingType(EncodingType.UTF16)
-                .build();
-      
-      return language.analyzeSyntax(request);
-    }
-  }
-
-  // Get the combination of verb-adverb
-  public Set<String> getSyntax() throws IOException {
-    Set<String> adjectives = new LinkedHashSet<String>();
-    String verb = "";
-    boolean add = false;
-
-    for (Token token : analyseSyntaxText().getTokensList()) {
-      String partOfSpeech = token.getPartOfSpeech().getTag().toString();
-      
-      if(partOfSpeech.equals("VERB") && !add) {
-        verb = token.getText().getContent().toLowerCase();
-        add = true;
-      }
-
-      if(partOfSpeech.equals("ADV") && add) {
-        adjectives.add(verb + " " + token.getLemma().toLowerCase());
-        add = false;
-      }
-    }
-
-    return adjectives;
-  }
-
   public boolean isInjection() {
     if (message.indexOf("<script>") != -1 || message.indexOf("</script>") != -1 ||
         message.indexOf("<html>") != -1 || message.indexOf("</html>") != -1) {
@@ -263,7 +221,7 @@ public final class TextAnalyser {
 
   public Set<String[]> getSetsOfKeyWords() {
     Set< String[] > setsOfKeyWords = new LinkedHashSet<>();
-    List<String> keyWords = convertToList(getKeyWords());
+    List<String> keyWords = new ArrayList<String>(getKeyWords());
 
     // Only returns one key word when only a sentiment is found
     if(keyWords.size() == 1) {
@@ -272,7 +230,7 @@ public final class TextAnalyser {
     }
 
     /**
-    * TODO: Add default value when no key word is found
+    * TODO: Add default value when no keyword is found
     * and discuss with team
     **/
 
@@ -283,11 +241,5 @@ public final class TextAnalyser {
     }
 
     return setsOfKeyWords;
-  }
-
-  // Generic function to convert set to list
-  public static List<String> convertToList(Set<String> set)
-  {
-	return new ArrayList<String>(set);
   }
 }
