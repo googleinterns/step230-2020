@@ -1,3 +1,4 @@
+
 #index_body {
   background-color: rgb(233, 233, 233);
   border: 1px solid #ccc;
@@ -68,15 +69,14 @@
 
 input {
   color: #5e6b79;
-  /*display: block;*/
   margin-bottom: 0px;
   margin-right: auto;
   margin-left: auto;
 }
 
 .input_text:focus {
+  background-color: rgb(203, 253, 225);  
   border: 3px solid #555;
-  background-color: rgb(203, 253, 225); 
 }
 
 .input_text {
@@ -98,10 +98,10 @@ input {
   margin-left: 600px;
   position: relative;
   padding-left: 40px;
-  -webkit-user-select: none;
+  user-select: none;  
   -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  -ms-user-select: none;  
+  -webkit-user-select: none;
 }
 
 .container input {
@@ -142,14 +142,14 @@ input {
 
 .container .checkmark:after {
   border: solid white;
-  height: 10px;
   border-width: 0 3px 3px 0;
+  height: 10px;
   left: 9px;
   top: 5px;
-  width: 5px;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
   transform: rotate(45deg);
+  width: 5px;
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
 }
 
 .checkbox {
@@ -168,17 +168,16 @@ input {
   border-radius: 8px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   color: white;
+  cursor: pointer;
   display: block;
+  height: 60px;
+  margin-left: 300px;
+  max-width: 300px;
   outline: 0;
   padding: 1em;
   resize: none;  
-  width: 100%;
-  cursor: pointer;
-  height: 60px;
-  margin-left: 300px;
-  /*margin: 20px auto;*/
-  max-width: 300px;
   text-align: center;
+  width: 100%;
 }
 
 #sent {
