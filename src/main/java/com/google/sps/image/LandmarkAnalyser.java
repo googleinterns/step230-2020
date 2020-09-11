@@ -24,7 +24,7 @@ public final class LandmarkAnalyser extends Analyser {
       for (EntityAnnotation annotation : res.getLandmarkAnnotationsList()) {
         LocationInfo info = annotation.getLocationsList().listIterator().next();
         // System.out.format("Landmark: %s%n %s%n", annotation.getDescription(), annotation.getScore());
-        elements.add(annotation.getDescription());
+        elements.add(annotation.getDescription().toLowerCase());
       }
     }
 

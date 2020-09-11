@@ -21,7 +21,7 @@ public final class LabelAnalyser extends Analyser {
       }
 
       for (EntityAnnotation annotation : res.getLabelAnnotationsList()) {
-        annotation.getAllFields().forEach((k, v) -> elements.add(v.toString()));
+        annotation.getAllFields().forEach((k, v) -> elements.add(v.toString().toLowerCase()));
       }
     }
 

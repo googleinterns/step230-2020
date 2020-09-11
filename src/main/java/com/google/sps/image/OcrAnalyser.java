@@ -22,7 +22,7 @@ public final class OcrAnalyser extends Analyser {
 
       for (EntityAnnotation annotation : res.getTextAnnotationsList()) {
         // System.out.format("Text: %s%n", annotation.getDescription());
-        elements.add(annotation.getDescription());
+        elements.add(annotation.getDescription().toLowerCase());
       }
     }
 

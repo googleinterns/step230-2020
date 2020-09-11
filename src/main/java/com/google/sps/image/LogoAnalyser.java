@@ -23,7 +23,7 @@ public final class LogoAnalyser extends Analyser {
       // For full list of available annotations, see http://g.co/cloud/vision/docs
       for (EntityAnnotation annotation : res.getLogoAnnotationsList()) {
         // System.out.println(annotation.getDescription());
-        elements.add(annotation.getDescription());
+        elements.add(annotation.getDescription().toLowerCase());
       }
     }
 

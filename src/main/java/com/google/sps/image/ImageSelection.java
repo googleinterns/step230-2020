@@ -20,6 +20,8 @@ public final class ImageSelection {
 
   private static final int MAX_NO_KEYWORDS = 10;
 
+  private static final int ANALYSATION_DEPTH = 15;
+
   public ImageSelection(Set<String> keywords) {
     this.keywords = keywords;
   }
@@ -77,11 +79,22 @@ public final class ImageSelection {
       imgSrc.add(element.attr("abs:data-src"));
     }
 
+    int analysedImages = 0;
+    float bestImageScore = 0;
+    String bestImage = "";
+
     // Return first relevant image
     for (String imageUrl : imgSrc) {
+      if (analysedImages > ANALYSATION_DEPTH) {
+        break;
+      }
       if (!imageUrl.isEmpty()) {
-        ImageScorer.score(imageUrl);
-        return imageUrl;
+        float currentImageScore = ImageScorer.score(imageUrl);
+        if (currentImageScore > bestImageScore) {
+          bestImageScore = currentImageScore;
+          bestImage = imageUrl;
+        }
+        ++analysedImages;
       }
     }
 
@@ -90,6 +103,6 @@ public final class ImageSelection {
      *   Relying on a single image is not enough.
      *   We must provide multiple images to the user.
      */
-    return "";
+    return bestImage;
   }
 }
