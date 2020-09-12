@@ -35,9 +35,9 @@ public abstract class Analyser {
     try (ImageAnnotatorClient vision = ImageAnnotatorClient.create(getSettings())) {
       // Builds the image annotation request
       List<AnnotateImageRequest> requests = new ArrayList<>();
-      ImageSource imageSource = ImageSource.newBuilder().setImageUri("https://static.vecteezy.com/system/resources/thumbnails/000/191/189/small/10.-postcard-world-PARIS.jpg").build();
+      ImageSource imageSource = ImageSource.newBuilder().setImageUri(imageUrl).build();
       Image img = Image.newBuilder().setSource(imageSource).build();
-      Feature label = Feature.newBuilder().setType(Type.TEXT_DETECTION).build();
+      Feature label = Feature.newBuilder().setType(analysis).build();
       AnnotateImageRequest labelRequest =
           AnnotateImageRequest.newBuilder().addFeatures(label).setImage(img).build();
       requests.add(labelRequest);

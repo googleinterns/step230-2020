@@ -20,7 +20,7 @@ public final class ImageSelection {
 
   private static final int MAX_NO_KEYWORDS = 10;
 
-  private static final int ANALYSATION_DEPTH = 15;
+  private static final int ANALYSATION_DEPTH = 8;
 
   public ImageSelection(Set<String> keywords) {
     this.keywords = keywords;
@@ -50,16 +50,16 @@ public final class ImageSelection {
       }
     }
 
-    // Free to share and use commercially license
-    final String licenseFilter = "&qft=+filterui:license-L2_L3_L4";
+    // Public Domain license
+    final String publicLicenseFilter = "&qft=+filterui:license-L1";
+    final String copyrightFilter = "&qft=+filterui:license-L2_L3_L4";
 
-    final String bingQueryParam = "&qs=HS&form=QBIR&scope=images&sp=-1&pq=hap&sc=8-3&cvid=44CA4B129FEF4B93B6F764BD083213D3&first=1&scenario=ImageBasicHover";
+    final String bingQueryParam = "&form=IRFLTR&first=1&scenario=ImageBasicHover";
     final String safeSearchFilter = "&adlt=strict";
 
+    bingUrl = addFilter(bingUrl, copyrightFilter);
     bingUrl = addFilter(bingUrl, bingQueryParam);
-    bingUrl = addFilter(bingUrl, licenseFilter);
     bingUrl = addFilter(bingUrl, safeSearchFilter);
-
     return bingUrl; 
   }
 
@@ -78,10 +78,10 @@ public final class ImageSelection {
     for (Element element : elements) {
       imgSrc.add(element.attr("abs:data-src"));
     }
-
     int analysedImages = 0;
-    float bestImageScore = 0;
+    float bestImageScore = -1;
     String bestImage = "";
+    ImageScorer imageScorer = new ImageScorer(keywords); 
 
     // Return first relevant image
     for (String imageUrl : imgSrc) {
@@ -89,7 +89,9 @@ public final class ImageSelection {
         break;
       }
       if (!imageUrl.isEmpty()) {
-        float currentImageScore = ImageScorer.score(imageUrl);
+        float currentImageScore = imageScorer.score(imageUrl);
+        System.out.println(analysedImages + " " + currentImageScore);
+
         if (currentImageScore > bestImageScore) {
           bestImageScore = currentImageScore;
           bestImage = imageUrl;
@@ -97,7 +99,6 @@ public final class ImageSelection {
         ++analysedImages;
       }
     }
-
     /**
      *   TODO: Multiple image selection.
      *   Relying on a single image is not enough.
