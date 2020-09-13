@@ -30,4 +30,24 @@ public final class LandmarkAnalyser extends Analyser {
 
     return elements;
   }
+
+  @Override
+  public List<String> analyseStoredImage(String imagePath) {
+    List<String> elements = new ArrayList<>();
+    List<AnnotateImageResponse> responses = getResponsesStoredImage(imagePath, Type.LANDMARK_DETECTION);
+
+    for (AnnotateImageResponse res : responses) {
+      if (res.hasError()) {
+        System.out.format("Error: %s%n", res.getError().getMessage());
+        return elements;
+      }
+
+      for (EntityAnnotation annotation : res.getLandmarkAnnotationsList()) {
+        LocationInfo info = annotation.getLocationsList().listIterator().next();
+        elements.add(annotation.getDescription().toLowerCase());
+      }
+    }
+
+    return elements;
+  }
 }

@@ -14,6 +14,7 @@ import com.google.cloud.vision.v1.ImageAnnotatorSettings;
 import com.google.cloud.vision.v1.ImageSource;
 import com.google.cloud.vision.v1.LocationInfo;
 import com.google.protobuf.ByteString;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,20 +30,47 @@ public abstract class Analyser {
     return ImageAnnotatorSettings.newBuilder().setHeaderProvider(headerProvider).build();
   }
   
+  public AnnotateImageRequest localImageAnnotationRequest(String imagePath, 
+                                                          Type analysis) throws IOException {
+    ByteString imageBytes = ByteString.readFrom(new FileInputStream(imagePath));
+    Image image = Image.newBuilder().setContent(imageBytes).build();
+    Feature feature = Feature.newBuilder().setType(analysis).build();
+
+    return AnnotateImageRequest.newBuilder().addFeatures(feature).setImage(image).build();
+  }
+
+  public AnnotateImageRequest remoteImageAnnotationRequest(String imageUrl, 
+                                                            Type analysis) throws IOException {
+    ImageSource imageSource = ImageSource.newBuilder().setImageUri(imageUrl).build();
+    Image image = Image.newBuilder().setSource(imageSource).build();
+    Feature feature = Feature.newBuilder().setType(analysis).build();
+    
+    return AnnotateImageRequest.newBuilder().addFeatures(feature).setImage(image).build();
+  }
+
   public List<AnnotateImageResponse> getResponses(String imageUrl, Type analysis) {
     List<AnnotateImageResponse> responses;
 
     try (ImageAnnotatorClient vision = ImageAnnotatorClient.create(getSettings())) {
-      // Builds the image annotation request
       List<AnnotateImageRequest> requests = new ArrayList<>();
-      ImageSource imageSource = ImageSource.newBuilder().setImageUri(imageUrl).build();
-      Image img = Image.newBuilder().setSource(imageSource).build();
-      Feature label = Feature.newBuilder().setType(analysis).build();
-      AnnotateImageRequest labelRequest =
-          AnnotateImageRequest.newBuilder().addFeatures(label).setImage(img).build();
-      requests.add(labelRequest);
+      requests.add(remoteImageAnnotationRequest(imageUrl, analysis));
 
-      // Performs label detection on the image file
+      BatchAnnotateImagesResponse response = vision.batchAnnotateImages(requests);
+      responses = response.getResponsesList();
+    } catch(Exception ex) {
+      responses = new ArrayList<>();
+      System.out.println(ex);
+    }
+    return responses;
+  }
+
+  public List<AnnotateImageResponse> getResponsesStoredImage(String imagePath, Type analysis) {
+    List<AnnotateImageResponse> responses;
+
+    try (ImageAnnotatorClient vision = ImageAnnotatorClient.create(getSettings())) {
+      List<AnnotateImageRequest> requests = new ArrayList<>();
+      requests.add(localImageAnnotationRequest(imagePath, analysis));
+
       BatchAnnotateImagesResponse response = vision.batchAnnotateImages(requests);
       responses = response.getResponsesList();
     } catch(Exception ex) {
@@ -58,4 +86,11 @@ public abstract class Analyser {
    * @return  List of elements that appear in the picture.
    */
   public abstract List<String> analyse(String imageUrl);
+
+  /**
+   * Analyses the elements inside the picture.
+   * @param   imageUrl Link of image that needs to be analysed.
+   * @return  List of elements that appear in the picture.
+   */
+  public abstract List<String> analyseStoredImage(String imagePath);
 }

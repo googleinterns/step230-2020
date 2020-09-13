@@ -14,82 +14,78 @@ public final class ImageAnalyserTest {
   @Test
   public void parisLandmark() {
     Analyser landmark = new LandmarkAnalyser();
-    List<String> actualElements = landmark.analyse("../image/paris.jpg");
+    List<String> actualElements = landmark.analyseStoredImage("./src/test/image/paris.jpg");
 
     for (String element : actualElements) {
       if (element.contains("eiffel")) {
-        Assert.assertTrue(true);
+        return;
       }
     }
-    Assert.fail("None element contains Eiffel Tour.");
+    Assert.fail("None element contains Eiffel Tour, but " + actualElements);
   }
 
   @Test
-  public void sydnayLandmark() {
+  public void londonLandmark() {
     Analyser landmark = new LandmarkAnalyser();
-    List<String> actualElements = landmark.analyse("../image/opera.jpg");
+    List<String> actualElements = landmark.analyseStoredImage("./src/test/image/bigben.jpg");
 
     for (String element : actualElements) {
-      if (element.contains("opera")) {
-        Assert.assertTrue(true);
+      if (element.contains("ben")) {
+        return;
       }
     }
-    Assert.fail("None element contains Opera House.");
+    Assert.fail("None element contains Big Ben, but " + actualElements);
   }
 
   @Test
   public void googleLogo() {
     Analyser logo = new LogoAnalyser();
-    List<String> actualElements = logo.analyse("../image/google.jpg");
+    List<String> actualElements = logo.analyseStoredImage("./src/test/image/google.jpg");
 
     for (String element : actualElements) {
       if (element.contains("google")) {
-        Assert.assertTrue(true);
         return;
       }
     }
-    Assert.fail("None element contains Google Logo.");
+    Assert.fail("None element contains Google Logo, but " + actualElements);
   }
 
   @Test
   public void morningDigitalFont() {
     Analyser ocr = new OcrAnalyser();
-    List<String> actualElements = ocr.analyse("../image/morning.jpg");
+    List<String> actualElements = ocr.analyseStoredImage("./src/test/image/morning.jpg");
 
     for (String element : actualElements) {
       if (element.contains("morning")) {
-        Assert.assertTrue(true);
         return;
       }
     }
-    Assert.fail("None element contains a morning text.");
+    Assert.fail("None element contains a morning text, but " + actualElements);
   }
 
   @Test
   public void birthdayHandwriting() {
     Analyser ocr = new OcrAnalyser();
-    List<String> actualElements = ocr.analyse("../image/morning.jpg");
+    List<String> actualElements = ocr.analyseStoredImage("./src/test/image/birthday.jpg");
 
     for (String element : actualElements) {
-      if (element.contains("morning")) {
-        Assert.assertTrue(true);
+      if (element.contains("birthday")) {
         return;
       }
     }
-    Assert.fail("None element contains a morning text.");
+    Assert.fail("None element contains a birthday text, but " + actualElements);
   }
 
   @Test
   public void catLabel() {
     Analyser label = new LabelAnalyser();
-    List<String> actualElements = label.analyse("../image/cat.jpg");
+    List<String> actualElements = label.analyseStoredImage("./src/test/image/cat.jpg");
 
     for (String element : actualElements) {
       if (element.contains("cat")) {
-        Assert.assertTrue(true);
         return;
       }
     }
-    Assert.fail("None element contains a cat label.");
+    Assert.fail("None element contains a cat label, but " + actualElements + " " + System.getProperty("user.dir"));
   }
 }

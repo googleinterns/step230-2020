@@ -27,4 +27,23 @@ public final class LabelAnalyser extends Analyser {
 
     return elements;
   }
+
+  @Override
+  public List<String> analyseStoredImage(String imagePath) {
+    List<String> elements = new ArrayList<>();
+    List<AnnotateImageResponse> responses = getResponsesStoredImage(imagePath, Type.LABEL_DETECTION);
+
+    for (AnnotateImageResponse res : responses) {
+      if (res.hasError()) {
+        System.out.format("Error: %s%n", res.getError().getMessage());
+        return elements;
+      }
+
+      for (EntityAnnotation annotation : res.getLabelAnnotationsList()) {
+        annotation.getAllFields().forEach((k, v) -> elements.add(v.toString().toLowerCase()));
+      }
+    }
+
+    return elements;
+  }
 }

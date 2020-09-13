@@ -20,9 +20,26 @@ public final class LogoAnalyser extends Analyser {
         return elements;
       }
 
-      // For full list of available annotations, see http://g.co/cloud/vision/docs
       for (EntityAnnotation annotation : res.getLogoAnnotationsList()) {
-        // System.out.println(annotation.getDescription());
+        elements.add(annotation.getDescription().toLowerCase());
+      }
+    }
+
+    return elements;
+  }
+
+  @Override
+  public List<String> analyseStoredImage(String imagePath) {
+    List<String> elements = new ArrayList<>();
+    List<AnnotateImageResponse> responses = getResponsesStoredImage(imagePath, Type.LOGO_DETECTION);
+
+    for (AnnotateImageResponse res : responses) {
+      if (res.hasError()) {
+        System.out.format("Error: %s%n", res.getError().getMessage());
+        return elements;
+      }
+
+      for (EntityAnnotation annotation : res.getLogoAnnotationsList()) {
         elements.add(annotation.getDescription().toLowerCase());
       }
     }
