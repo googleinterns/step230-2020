@@ -12,7 +12,7 @@ import java.util.Set;
 
 public final class ImageSelection {
 
-  private final Set<String> keywords;
+  private final Set<String[]> keywordQueries;
 
   private static final String USER_AGENT = "Mozilla/5.0 (X11; CrOS x86_64 13099.85.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.110 Safari/537.36";
   
@@ -20,10 +20,19 @@ public final class ImageSelection {
 
   private static final int MAX_NO_KEYWORDS = 10;
 
-  private static final int ANALYSATION_DEPTH = 8;
+  private static final int ANALYSATION_DEPTH = 5;
 
-  public ImageSelection(Set<String> keywords) {
-    this.keywords = keywords;
+  // Public Domain license
+  private static final String PUBLIC_LICENSE_FILTER = "&qft=+filterui:license-L1";
+  
+  private static final String USE_SHARE_FILTER = "&qft=+filterui:license-L2_L3_L4";
+
+  public ImageSelection() {
+    this.keywordQueries = new HashSet<>();
+  }
+
+  public ImageSelection(Set<String[]> keywordQueries) {
+    this.keywordQueries = keywordQueries;
   }
 
   private String addFilter(String url, String filter) {
@@ -33,7 +42,7 @@ public final class ImageSelection {
   /**
    * @return  URL where the search will be made.
    */
-  public String generateSearchUrl() {
+  public String generateSearchUrl(String[] keywords, String copyrightFilter) {
     int addedWords = 0;
     int addedLetters = 0;
     String bingUrl = "https://www.bing.com/images/search?q=";
@@ -50,55 +59,89 @@ public final class ImageSelection {
       }
     }
 
-    // Public Domain license
-    final String publicLicenseFilter = "&qft=+filterui:license-L1";
-    final String copyrightFilter = "&qft=+filterui:license-L2_L3_L4";
-
     final String bingQueryParam = "&form=IRFLTR&first=1&scenario=ImageBasicHover";
     final String safeSearchFilter = "&adlt=strict";
 
     bingUrl = addFilter(bingUrl, copyrightFilter);
     bingUrl = addFilter(bingUrl, bingQueryParam);
     bingUrl = addFilter(bingUrl, safeSearchFilter);
+    
     return bingUrl; 
   }
 
   /**
    * This is an endpoint. Call this function to get a relevant image.
    *
-   * @return  URL of the first image scraped from Bing Image Search.
+   * @param     maxQueries Maximm number of different queries that the web crawler does. 
+   * @return    URL of the first image scraped from Bing Image Search.
    * @exception IOException if Bing doesn't map any image to the keywords.
    */
-  public String getBestImage() throws IOException {
-    List<String> imgSrc = new ArrayList<>();
+  public String getBestImage(int maxQueries) throws IOException {
 
-    Document doc = Jsoup.connect(generateSearchUrl()).userAgent(USER_AGENT).get();
-    Elements elements = doc.getElementsByTag("img");
-
-    for (Element element : elements) {
-      imgSrc.add(element.attr("abs:data-src"));
-    }
-    int analysedImages = 0;
     float bestImageScore = -1;
     String bestImage = "";
-    ImageScorer imageScorer = new ImageScorer(keywords); 
-
-    // Return first relevant image
-    for (String imageUrl : imgSrc) {
-      if (analysedImages > ANALYSATION_DEPTH) {
+    for (String[] keywords : keywordQueries) {
+      if (maxQueries == 0) {
         break;
       }
-      if (!imageUrl.isEmpty()) {
-        float currentImageScore = imageScorer.score(imageUrl);
-        System.out.println(analysedImages + " " + currentImageScore);
 
-        if (currentImageScore > bestImageScore) {
-          bestImageScore = currentImageScore;
-          bestImage = imageUrl;
-        }
-        ++analysedImages;
+      List<String> imgSrc = new ArrayList<>();
+
+      Document doc = Jsoup.connect(generateSearchUrl(keywords, PUBLIC_LICENSE_FILTER)).userAgent(USER_AGENT).get();
+      Elements elements = doc.getElementsByTag("img");
+
+      for (Element element : elements) {
+        imgSrc.add(element.attr("abs:data-src"));
       }
+      
+      int analysedImages = 0;
+      ImageScorer imageScorer = new ImageScorer(keywords); 
+
+      // Analyse a number of images to get the improve relevancy0
+      for (String imageUrl : imgSrc) {
+        if (analysedImages >= ANALYSATION_DEPTH) {
+          break;
+        }
+        if (!imageUrl.isEmpty()) {
+          float currentImageScore = imageScorer.score(imageUrl);
+          System.out.println(analysedImages + " " + currentImageScore);
+
+          if (currentImageScore > bestImageScore) {
+            bestImageScore = currentImageScore;
+            bestImage = imageUrl;
+          }
+          ++analysedImages;
+        }
+      }
+
+      // Analyse the rest of images
+      if (analysedImages < ANALYSATION_DEPTH) {
+        doc = Jsoup.connect(generateSearchUrl(keywords, USE_SHARE_FILTER)).userAgent(USER_AGENT).get();
+        elements = doc.getElementsByTag("img");
+
+        for (Element element : elements) {
+          imgSrc.add(element.attr("abs:data-src"));
+        }
+
+        for (String imageUrl : imgSrc) {
+          if (analysedImages >= ANALYSATION_DEPTH) {
+            break;
+          }
+          if (!imageUrl.isEmpty()) {
+            float currentImageScore = imageScorer.score(imageUrl);
+            System.out.println(analysedImages + " " + currentImageScore);
+
+            if (currentImageScore > bestImageScore) {
+              bestImageScore = currentImageScore;
+              bestImage = imageUrl;
+            }
+            ++analysedImages;
+          }
+        }
+      }
+      --maxQueries;
     }
+    
     /**
      *   TODO: Multiple image selection.
      *   Relying on a single image is not enough.

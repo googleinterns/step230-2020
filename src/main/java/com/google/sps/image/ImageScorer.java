@@ -15,7 +15,7 @@ public final class ImageScorer {
 
   private static final double EPS = 1e-5;
 
-  private Set<String> keywords;
+  private String[] keywords;
 
   private Analyser label;
   
@@ -25,7 +25,7 @@ public final class ImageScorer {
 
   private Analyser logo;
 
-  public ImageScorer(Set<String> keywords) {
+  public ImageScorer(String[] keywords) {
     label = new LabelAnalyser();
     landmark = new LandmarkAnalyser();
     ocr = new OcrAnalyser();

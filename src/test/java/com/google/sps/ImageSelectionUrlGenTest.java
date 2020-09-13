@@ -14,7 +14,7 @@ public final class ImageSelectionUrlGenTest {
 
   private static final int EXCEEDING_NO_LETTERS = 400;
 
-  private static final String COPYRIGHT_FILTER = "qft=+filterui:license-L2_L3_L4";
+  private static final String COPYRIGHT_FILTER = "&qft=+filterui:license-L2-L3-L4";
 
   private static final String SAFE_SEARCH_FILTER = "adlt=strict";
 
@@ -23,9 +23,9 @@ public final class ImageSelectionUrlGenTest {
     Set<String> keywords = new LinkedHashSet<>();
 
     keywords.add("london");
-    ImageSelection imageSelection = new ImageSelection(keywords);
+    ImageSelection imageSelection = new ImageSelection();
     String expected = "https://www.bing.com/images/search?q=+london";
-    String actual = imageSelection.generateSearchUrl();
+    String actual = imageSelection.generateSearchUrl(keywords.toArray(new String[0]), COPYRIGHT_FILTER);
 
     Assert.assertTrue(actual.contains(expected));
     Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
@@ -41,9 +41,9 @@ public final class ImageSelectionUrlGenTest {
     keywords.add("sun");
     keywords.add("Washington, D.C.");
 
-    ImageSelection imageSelection = new ImageSelection(keywords);
+    ImageSelection imageSelection = new ImageSelection();
     String expected = "https://www.bing.com/images/search?q=+travel+morning+sun+Washington,+D.C.";
-    String actual = imageSelection.generateSearchUrl();
+    String actual = imageSelection.generateSearchUrl(keywords.toArray(new String[0]), COPYRIGHT_FILTER);
 
     Assert.assertTrue(actual.contains(expected));
     Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
@@ -58,9 +58,9 @@ public final class ImageSelectionUrlGenTest {
     keywords.add("promotion");
     keywords.add("engineer");
 
-    ImageSelection imageSelection = new ImageSelection(keywords);
+    ImageSelection imageSelection = new ImageSelection();
     String expected = "https://www.bing.com/images/search?q=+job+promotion+engineer";
-    String actual = imageSelection.generateSearchUrl();
+    String actual = imageSelection.generateSearchUrl(keywords.toArray(new String[0]), COPYRIGHT_FILTER);
 
     Assert.assertTrue(actual.contains(expected));
     Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
@@ -74,9 +74,9 @@ public final class ImageSelectionUrlGenTest {
 
     keywords.add("good morning");
 
-    ImageSelection imageSelection = new ImageSelection(keywords);
+    ImageSelection imageSelection = new ImageSelection();
     String expected = "https://www.bing.com/images/search?q=+good+morning";
-    String actual = imageSelection.generateSearchUrl();
+    String actual = imageSelection.generateSearchUrl(keywords.toArray(new String[0]), COPYRIGHT_FILTER);
 
     Assert.assertTrue(actual.contains(expected));
     Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
@@ -92,9 +92,9 @@ public final class ImageSelectionUrlGenTest {
       keywords.add(String.valueOf(letter));
     }
 
-    ImageSelection imageSelection = new ImageSelection(keywords);
+    ImageSelection imageSelection = new ImageSelection();
     String expected = "https://www.bing.com/images/search?q=+a+b+c+d+e+f+g+h+i+j&";
-    String actual = imageSelection.generateSearchUrl();
+    String actual = imageSelection.generateSearchUrl(keywords.toArray(new String[0]), COPYRIGHT_FILTER);
 
     Assert.assertTrue(actual.contains(expected));
     Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
@@ -111,9 +111,9 @@ public final class ImageSelectionUrlGenTest {
     keywords.add("enjoyit");
     keywords.add("haveagreattime");
 
-    ImageSelection imageSelection = new ImageSelection(keywords);
+    ImageSelection imageSelection = new ImageSelection();
     String expected = "https://www.bing.com/images/search?q=+goodmorningmate+thisissuchabeautifulday+enjoyit";
-    String actual = imageSelection.generateSearchUrl();
+    String actual = imageSelection.generateSearchUrl(keywords.toArray(new String[0]), COPYRIGHT_FILTER);
 
     Assert.assertTrue(actual.contains(expected));
     Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));
@@ -130,9 +130,9 @@ public final class ImageSelectionUrlGenTest {
     }
     keywords.add(new String(keyword));
 
-    ImageSelection imageSelection = new ImageSelection(keywords);
+    ImageSelection imageSelection = new ImageSelection();
     String expected = "https://www.bing.com/images/search?q=&";
-    String actual = imageSelection.generateSearchUrl();
+    String actual = imageSelection.generateSearchUrl(keywords.toArray(new String[0]), COPYRIGHT_FILTER);
 
     Assert.assertTrue(actual.contains(expected));
     Assert.assertTrue(actual.contains(COPYRIGHT_FILTER));

@@ -208,7 +208,7 @@ public final class TextAnalyser {
       keyWords.addAll(getEvents());
       keyWords.addAll(getEntities());
       keyWords.addAll(getCategories());
-      keyWords.add(getMood());
+      // keyWords.add(getMood());
 
       return keyWords;
     } catch (IOException e) {
