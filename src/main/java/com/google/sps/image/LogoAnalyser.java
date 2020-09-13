@@ -7,6 +7,7 @@ import com.google.cloud.vision.v1.Image;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Extracts logos from images using Cloud Vision API. */
 public final class LogoAnalyser extends Analyser {
 
   @Override

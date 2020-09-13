@@ -86,6 +86,6 @@ public final class ImageAnalyserTest {
         return;
       }
     }
-    Assert.fail("None element contains a cat label, but " + actualElements + " " + System.getProperty("user.dir"));
+    Assert.fail("None element contains a cat label, but " + actualElements);
   }
 }

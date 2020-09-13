@@ -1,7 +1,7 @@
 package com.google.sps.image;
 
-import com.google.api.gax.rpc.HeaderProvider;
 import com.google.api.gax.rpc.FixedHeaderProvider;
+import com.google.api.gax.rpc.HeaderProvider;
 import com.google.cloud.vision.v1.AnnotateImageRequest;
 import com.google.cloud.vision.v1.AnnotateImageResponse;
 import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
@@ -12,16 +12,17 @@ import com.google.cloud.vision.v1.Image;
 import com.google.cloud.vision.v1.ImageAnnotatorClient;
 import com.google.cloud.vision.v1.ImageAnnotatorSettings;
 import com.google.cloud.vision.v1.ImageSource;
-import com.google.cloud.vision.v1.LocationInfo;
 import com.google.protobuf.ByteString;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/** 
+ *  Includes multiple ways of analysing an image
+ *  (label, landmark, logo, ocr)
+ *  using Strategy Design Pattern.
+ */
 public abstract class Analyser {
 
   public static ImageAnnotatorSettings getSettings() throws IOException {
@@ -30,7 +31,7 @@ public abstract class Analyser {
     return ImageAnnotatorSettings.newBuilder().setHeaderProvider(headerProvider).build();
   }
   
-  public AnnotateImageRequest localImageAnnotationRequest(String imagePath, 
+  private AnnotateImageRequest localImageAnnotationRequest(String imagePath, 
                                                           Type analysis) throws IOException {
     ByteString imageBytes = ByteString.readFrom(new FileInputStream(imagePath));
     Image image = Image.newBuilder().setContent(imageBytes).build();
@@ -39,7 +40,7 @@ public abstract class Analyser {
     return AnnotateImageRequest.newBuilder().addFeatures(feature).setImage(image).build();
   }
 
-  public AnnotateImageRequest remoteImageAnnotationRequest(String imageUrl, 
+  private AnnotateImageRequest remoteImageAnnotationRequest(String imageUrl, 
                                                             Type analysis) throws IOException {
     ImageSource imageSource = ImageSource.newBuilder().setImageUri(imageUrl).build();
     Image image = Image.newBuilder().setSource(imageSource).build();
@@ -48,7 +49,7 @@ public abstract class Analyser {
     return AnnotateImageRequest.newBuilder().addFeatures(feature).setImage(image).build();
   }
 
-  public List<AnnotateImageResponse> getResponses(String imageUrl, Type analysis) {
+  protected List<AnnotateImageResponse> getResponses(String imageUrl, Type analysis) {
     List<AnnotateImageResponse> responses;
 
     try (ImageAnnotatorClient vision = ImageAnnotatorClient.create(getSettings())) {
@@ -64,7 +65,7 @@ public abstract class Analyser {
     return responses;
   }
 
-  public List<AnnotateImageResponse> getResponsesStoredImage(String imagePath, Type analysis) {
+  protected List<AnnotateImageResponse> getResponsesStoredImage(String imagePath, Type analysis) {
     List<AnnotateImageResponse> responses;
 
     try (ImageAnnotatorClient vision = ImageAnnotatorClient.create(getSettings())) {

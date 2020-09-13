@@ -7,6 +7,7 @@ import com.google.cloud.vision.v1.Image;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Extracts text from images using Cloud Vision API. */
 public final class OcrAnalyser extends Analyser {
 
   @Override
@@ -21,7 +22,6 @@ public final class OcrAnalyser extends Analyser {
       }
 
       for (EntityAnnotation annotation : res.getTextAnnotationsList()) {
-        // System.out.format("Text: %s%n", annotation.getDescription());
         elements.add(annotation.getDescription().toLowerCase());
       }
     }
@@ -41,7 +41,6 @@ public final class OcrAnalyser extends Analyser {
       }
 
       for (EntityAnnotation annotation : res.getTextAnnotationsList()) {
-        // System.out.format("Text: %s%n", annotation.getDescription());
         elements.add(annotation.getDescription().toLowerCase());
       }
     }

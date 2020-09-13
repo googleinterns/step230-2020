@@ -7,6 +7,7 @@ import com.google.cloud.vision.v1.Image;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Extracts labels from images using Cloud Vision API. */
 public final class LabelAnalyser extends Analyser {
 
   @Override

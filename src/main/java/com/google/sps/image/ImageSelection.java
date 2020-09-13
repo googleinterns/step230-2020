@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/** Web crawler that extracts images given a set of keywords */
 public final class ImageSelection {
 
   private final Set<String[]> keywordQueries;
@@ -105,7 +106,6 @@ public final class ImageSelection {
         }
         if (!imageUrl.isEmpty()) {
           float currentImageScore = imageScorer.score(imageUrl);
-          System.out.println(analysedImages + " " + currentImageScore);
 
           if (currentImageScore > bestImageScore) {
             bestImageScore = currentImageScore;
@@ -130,8 +130,6 @@ public final class ImageSelection {
           }
           if (!imageUrl.isEmpty()) {
             float currentImageScore = imageScorer.score(imageUrl);
-            System.out.println(analysedImages + " " + currentImageScore);
-
             if (currentImageScore > bestImageScore) {
               bestImageScore = currentImageScore;
               bestImage = imageUrl;

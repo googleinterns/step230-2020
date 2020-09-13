@@ -8,6 +8,7 @@ import com.google.cloud.vision.v1.LocationInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Extracts landmarks from images using Cloud Vision API. */
 public final class LandmarkAnalyser extends Analyser {
 
   @Override
@@ -23,7 +24,6 @@ public final class LandmarkAnalyser extends Analyser {
 
       for (EntityAnnotation annotation : res.getLandmarkAnnotationsList()) {
         LocationInfo info = annotation.getLocationsList().listIterator().next();
-        // System.out.format("Landmark: %s%n %s%n", annotation.getDescription(), annotation.getScore());
         elements.add(annotation.getDescription().toLowerCase());
       }
     }

@@ -3,6 +3,10 @@ package com.google.sps.image;
 import java.util.List;
 import java.util.Set;
 
+/** 
+ *  Custom class of scoring images using
+ *  the elements extracted using Cloud Vision API.
+ */
 public final class ImageScorer {
 
   private static final float LANDMARK_SCORE = 0.8f;
@@ -36,7 +40,7 @@ public final class ImageScorer {
 
   private float landmarkScore(String imageUrl) {
     List<String> landmarkElements = landmark.analyse(imageUrl);
-    System.out.println(landmarkElements);
+
     if (!landmarkElements.isEmpty()) {
       return LANDMARK_SCORE;
     }
@@ -45,7 +49,7 @@ public final class ImageScorer {
 
   private float logoScore(String imageUrl) {
     List<String> logoElements = logo.analyse(imageUrl);
-    System.out.println(logoElements);
+
     if (!logoElements.isEmpty()) {
       for (String keyword : keywords) {
         if (logoElements.contains(keyword)) {
@@ -58,7 +62,7 @@ public final class ImageScorer {
 
   private float ocrScore(String imageUrl) {
     List<String> ocrElements = ocr.analyse(imageUrl);
-    System.out.println(ocrElements);
+
     if (ocrElements.size() > 0) {
       return -OCR_SCORE;
     }
@@ -68,7 +72,7 @@ public final class ImageScorer {
   private float labelScore(String imageUrl) {
     float score = 0;
     List<String> labelElements = label.analyse(imageUrl);
-    System.out.println(labelElements);
+
     if (!labelElements.isEmpty()) {
       for (String keyword : keywords) {
         if (labelElements.contains(keyword)) {
@@ -79,6 +83,10 @@ public final class ImageScorer {
     return score;
   }
 
+  /**
+   *  The algorithm that socres images.
+   *  @param  imageUrl link of image that needs to be scored.
+   */
   public float score(String imageUrl) {
     float imageScore = landmarkScore(imageUrl);
     float logo = logoScore(imageUrl);
