@@ -20,7 +20,7 @@ public final class ImageSelection {
 
   private static final int MAX_NO_KEYWORDS = 10;
 
-  private static final int ANALYSATION_DEPTH = 5;
+  private static final int MAX_NO_QUERIES = 3;
 
   // Public Domain license
   private static final String PUBLIC_LICENSE_FILTER = "&qft=+filterui:license-L1";
@@ -72,16 +72,17 @@ public final class ImageSelection {
   /**
    * This is an endpoint. Call this function to get a relevant image.
    *
-   * @param     maxQueries Maximm number of different queries that the web crawler does. 
+   * @param     analysationDepth Maximm number of different queries that the web crawler does. 
    * @return    URL of the first image scraped from Bing Image Search.
    * @exception IOException if Bing doesn't map any image to the keywords.
    */
-  public String getBestImage(int maxQueries) throws IOException {
+  public String getBestImage(int analysationDepth) throws IOException {
 
+    int remainingSearches = MAX_NO_QUERIES;
     float bestImageScore = -1;
     String bestImage = "";
     for (String[] keywords : keywordQueries) {
-      if (maxQueries == 0) {
+      if (remainingSearches == 0) {
         break;
       }
 
@@ -99,7 +100,7 @@ public final class ImageSelection {
 
       // Analyse a number of images to get the improve relevancy0
       for (String imageUrl : imgSrc) {
-        if (analysedImages >= ANALYSATION_DEPTH) {
+        if (analysedImages >= analysationDepth) {
           break;
         }
         if (!imageUrl.isEmpty()) {
@@ -115,7 +116,7 @@ public final class ImageSelection {
       }
 
       // Analyse the rest of images
-      if (analysedImages < ANALYSATION_DEPTH) {
+      if (analysedImages < analysationDepth) {
         doc = Jsoup.connect(generateSearchUrl(keywords, USE_SHARE_FILTER)).userAgent(USER_AGENT).get();
         elements = doc.getElementsByTag("img");
 
@@ -124,7 +125,7 @@ public final class ImageSelection {
         }
 
         for (String imageUrl : imgSrc) {
-          if (analysedImages >= ANALYSATION_DEPTH) {
+          if (analysedImages >= analysationDepth) {
             break;
           }
           if (!imageUrl.isEmpty()) {
@@ -139,7 +140,7 @@ public final class ImageSelection {
           }
         }
       }
-      --maxQueries;
+      --remainingSearches;
     }
     
     /**
