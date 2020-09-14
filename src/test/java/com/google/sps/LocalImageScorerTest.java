@@ -12,15 +12,10 @@ import java.util.List;
 public final class LocalImageScorerTest {
 
   private static final String PARIS_IMAGE_PATH = "./src/test/image/paris.jpg";
-
   private static final String LONDON_IMAGE_PATH = "./src/test/image/bigben.jpg";
-
   private static final String GOOGLE_IMAGE_PATH = "./src/test/image/google.jpg";
-
   private static final String MORNING_IMAGE_PATH = "./src/test/image/morning.jpg";
-
   private static final String BIRTHDAY_IMAGE_PATH = "./src/test/image/birthday.jpg";
-
   private static final String CAT_IMAGE_PATH = "./src/test/image/cat.jpg";
 
   private static String getBestImage(String[] keywords, String[] imagePathList) {

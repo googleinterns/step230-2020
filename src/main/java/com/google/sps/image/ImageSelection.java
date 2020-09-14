@@ -19,14 +19,12 @@ public final class ImageSelection {
   private static final String USER_AGENT = "Mozilla/5.0 (X11; CrOS x86_64 13099.85.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.110 Safari/537.36";
   
   private static final int MAX_NO_LETTERS = 50;
-
   private static final int MAX_NO_KEYWORDS = 10;
-
   private static final int MAX_NO_QUERIES = 3;
 
   // Public Domain license
   private static final String PUBLIC_LICENSE_FILTER = "&qft=+filterui:license-L1";
-  
+  // Free to share and use commercially license
   private static final String USE_SHARE_FILTER = "&qft=+filterui:license-L2_L3_L4";
 
   public ImageSelection() {

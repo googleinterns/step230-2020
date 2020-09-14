@@ -15,7 +15,6 @@ public final class ImageSelectionUrlGenTest {
   private static final int EXCEEDING_NO_LETTERS = 400;
 
   private static final String COPYRIGHT_FILTER = "&qft=+filterui:license-L2-L3-L4";
-
   private static final String SAFE_SEARCH_FILTER = "adlt=strict";
 
   @Test

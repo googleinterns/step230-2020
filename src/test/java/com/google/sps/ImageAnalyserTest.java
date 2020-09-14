@@ -11,10 +11,17 @@ import java.util.List;
 @RunWith(JUnit4.class)
 public final class ImageAnalyserTest {
 
+  private static final String PARIS_IMAGE_PATH = "./src/test/image/paris.jpg";
+  private static final String LONDON_IMAGE_PATH = "./src/test/image/bigben.jpg";
+  private static final String GOOGLE_IMAGE_PATH = "./src/test/image/google.jpg";
+  private static final String MORNING_IMAGE_PATH = "./src/test/image/morning.jpg";
+  private static final String BIRTHDAY_IMAGE_PATH = "./src/test/image/birthday.jpg";
+  private static final String CAT_IMAGE_PATH = "./src/test/image/cat.jpg";
+
   @Test
   public void parisLandmark() {
     Analyser landmark = new LandmarkAnalyser();
-    List<String> actualElements = landmark.analyseStoredImage("./src/test/image/paris.jpg");
+    List<String> actualElements = landmark.analyseStoredImage(PARIS_IMAGE_PATH);
 
     for (String element : actualElements) {
       if (element.contains("eiffel")) {
@@ -27,7 +34,7 @@ public final class ImageAnalyserTest {
   @Test
   public void londonLandmark() {
     Analyser landmark = new LandmarkAnalyser();
-    List<String> actualElements = landmark.analyseStoredImage("./src/test/image/bigben.jpg");
+    List<String> actualElements = landmark.analyseStoredImage(LONDON_IMAGE_PATH);
 
     for (String element : actualElements) {
       if (element.contains("ben")) {
@@ -40,7 +47,7 @@ public final class ImageAnalyserTest {
   @Test
   public void googleLogo() {
     Analyser logo = new LogoAnalyser();
-    List<String> actualElements = logo.analyseStoredImage("./src/test/image/google.jpg");
+    List<String> actualElements = logo.analyseStoredImage(GOOGLE_IMAGE_PATH);
 
     for (String element : actualElements) {
       if (element.contains("google")) {
@@ -53,7 +60,7 @@ public final class ImageAnalyserTest {
   @Test
   public void morningDigitalFont() {
     Analyser ocr = new OcrAnalyser();
-    List<String> actualElements = ocr.analyseStoredImage("./src/test/image/morning.jpg");
+    List<String> actualElements = ocr.analyseStoredImage(MORNING_IMAGE_PATH);
 
     for (String element : actualElements) {
       if (element.contains("morning")) {
@@ -66,7 +73,7 @@ public final class ImageAnalyserTest {
   @Test
   public void birthdayHandwriting() {
     Analyser ocr = new OcrAnalyser();
-    List<String> actualElements = ocr.analyseStoredImage("./src/test/image/birthday.jpg");
+    List<String> actualElements = ocr.analyseStoredImage(BIRTHDAY_IMAGE_PATH);
 
     for (String element : actualElements) {
       if (element.contains("birthday")) {
@@ -79,7 +86,7 @@ public final class ImageAnalyserTest {
   @Test
   public void catLabel() {
     Analyser label = new LabelAnalyser();
-    List<String> actualElements = label.analyseStoredImage("./src/test/image/cat.jpg");
+    List<String> actualElements = label.analyseStoredImage(CAT_IMAGE_PATH);
 
     for (String element : actualElements) {
       if (element.contains("cat")) {
