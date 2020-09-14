@@ -81,7 +81,7 @@ public final class LocalImageScorer {
   }
 
   /**
-   *  The algorithm that socres images.
+   *  The algorithm that scores images.
    *  @param  imagePath link of image that needs to be scored.
    */
   public float score(String imagePath) {

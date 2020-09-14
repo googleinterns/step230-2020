@@ -84,7 +84,7 @@ public final class ImageScorer {
   }
 
   /**
-   *  The algorithm that socres images.
+   *  The algorithm that scores images.
    *  @param  imageUrl link of image that needs to be scored.
    */
   public float score(String imageUrl) {

@@ -87,20 +87,20 @@ public final class ImageSelection {
         break;
       }
 
-      List<String> imgSrc = new ArrayList<>();
+      List<String> imageSources = new ArrayList<>();
 
       Document doc = Jsoup.connect(generateSearchUrl(keywords, PUBLIC_LICENSE_FILTER)).userAgent(USER_AGENT).get();
       Elements elements = doc.getElementsByTag("img");
 
       for (Element element : elements) {
-        imgSrc.add(element.attr("abs:data-src"));
+        imageSources.add(element.attr("abs:data-src"));
       }
       
-      int analysedImages = 0;
+      
       ImageScorer imageScorer = new ImageScorer(keywords); 
 
-      // Analyse a number of images to get the improve relevancy0
-      for (String imageUrl : imgSrc) {
+      // Analyse images with Public License.
+      for (String imageUrl : imageSources) {
         if (analysedImages >= analysationDepth) {
           break;
         }
@@ -113,18 +113,20 @@ public final class ImageSelection {
           }
           ++analysedImages;
         }
-      }
+      } 
+      
 
-      // Analyse the rest of images
+      // Analyse the rest of images using the other license.
       if (analysedImages < analysationDepth) {
+        imageSources.clear();
         doc = Jsoup.connect(generateSearchUrl(keywords, USE_SHARE_FILTER)).userAgent(USER_AGENT).get();
         elements = doc.getElementsByTag("img");
 
         for (Element element : elements) {
-          imgSrc.add(element.attr("abs:data-src"));
+          imageSources.add(element.attr("abs:data-src"));
         }
 
-        for (String imageUrl : imgSrc) {
+        for (String imageUrl : imageSources) {
           if (analysedImages >= analysationDepth) {
             break;
           }
