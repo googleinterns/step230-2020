@@ -7,11 +7,8 @@ import java.util.Set;
 public final class LocalImageScorer {
 
   private static final float LANDMARK_SCORE = 0.8f;
-
   private static final float LOGO_SCORE = 0.5f;
-
   private static final float OCR_SCORE = 0.1f;
-
   private static final float LABEL_SCORE = 0.2f;
 
   private static final double EPS = 1e-5;
