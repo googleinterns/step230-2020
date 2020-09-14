@@ -96,8 +96,8 @@ input {
   font-size: 22px;
   margin-bottom: 12px;
   margin-left: 600px;
-  position: relative;
   padding-left: 40px;
+  position: relative;
   user-select: none;  
   -moz-user-select: none;
   -ms-user-select: none;  
@@ -157,8 +157,8 @@ input {
 }
 
 #submit_input:hover {
-  box-shadow: 5px 5px 5px rgb(163, 156, 156);
   background-color: rgb(10, 107, 31);
+  box-shadow: 5px 5px 5px rgb(163, 156, 156);
 }
 
 #submit_input {

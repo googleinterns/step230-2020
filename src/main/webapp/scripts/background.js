@@ -157,9 +157,9 @@ class Background {
     this.rgb_blue_now_b = this.rgb_blue_from_b;
 
     hexa = this.body_colors[this.color_D];
-    hexa_red = hexa.substring(1,3);
-    hexa_green = hexa.substring(3,5);
-    hexa_blue = hexa.substring(5,7);
+    hexa_red = hexa.substring(1, 3);
+    hexa_green = hexa.substring(3, 5);
+    hexa_blue = hexa.substring(5, 7);
     this.rgd_red_to_b = parseInt("0x" + hexa_red);
     this.rgb_green_to_b = parseInt("0x" + hexa_green);
     this.rgb_blue_to_b = parseInt("0x" + hexa_blue);
