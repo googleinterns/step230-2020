@@ -45,6 +45,15 @@
   width: 250px; 
 }
 
+.pcard-stamp {
+  background: #b1a985;
+  height: 70px;
+  position: absolute;
+  right: 40px;
+  top: 40px;
+  width: 65px;
+}
+
 form, #submit_send {
   margin: 20px auto;
   max-width: 600px;
