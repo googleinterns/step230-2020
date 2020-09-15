@@ -69,7 +69,7 @@ public class InputServlet extends HttpServlet {
 
     ImageSelection imageSelect = new ImageSelection(keywordSet);
 
-    Output output = new Output(input_text, imageSelect.getBestImage(ANALYSATION_DEPTH));
+    Output output = new Output(input_text, imageSelect.getBestImage(ANALYSATION_DEPTH).get(0));
 
     Gson gson = new Gson();
 

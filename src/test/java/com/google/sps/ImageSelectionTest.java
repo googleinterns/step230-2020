@@ -22,7 +22,7 @@ public final class ImageSelectionTest {
   private void assertOutputLink(Set<String[]> keywordQueries, String expectedLink) throws IOException {
     ImageSelection imageSelection = new ImageSelection(keywordQueries);
 
-    String actualLink = imageSelection.getBestImage(ANALYSATION_DEPTH);
+    String actualLink = imageSelection.getBestImage(ANALYSATION_DEPTH).get(0);
     Assert.assertEquals(expectedLink, actualLink.substring(0, 11));
   }
 

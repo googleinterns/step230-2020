@@ -97,7 +97,7 @@ public final class ImageSelection {
    * @return    URL of the first image scraped from Bing Image Search.
    * @exception IOException if Bing doesn't map any image to the keywords.
    */
-  public String getBestImage(int analysationDepth) throws IOException {
+  public List<String> getBestImage(int analysationDepth) throws IOException {
 
     int remainingSearches = MAX_NO_QUERIES;
     float bestImageScore = -1;
@@ -139,12 +139,7 @@ public final class ImageSelection {
       }
       --remainingSearches;
     }
-    
-    /**
-     *   TODO: Multiple image selection.
-     *   Relying on a single image is not enough.
-     *   We must provide multiple images to the user.
-     */
-    return bestImage.toString();
+
+    return Arrays.asList(bestImage.toString());
   }
 }
