@@ -15,7 +15,7 @@ import java.util.Set;
 public final class ImageSelectionTest {
 
   // This is how every Bing image link starts
-  private static final String EXPECTED_LINK = "https://tse";
+  private static final String EXPECTED_LINK = "https://";
 
   private static final int ANALYSATION_DEPTH = 1;
 
@@ -25,7 +25,7 @@ public final class ImageSelectionTest {
     ImageSelection imageSelection = new ImageSelection(keywordQueries);
 
     String actualLink = imageSelection.getBestImage(ANALYSATION_DEPTH, EXTRACTED_IMAGES).get(0);
-    Assert.assertEquals(expectedLink, actualLink.substring(0, 11));
+    Assert.assertTrue(actualLink.contains(expectedLink));
   }
 
   @Test
@@ -59,6 +59,15 @@ public final class ImageSelectionTest {
   public void addSpaceIntoKeywords() throws IOException {
     Set<String[]> keywordQueries = new LinkedHashSet<>();
     String[] keywords = {"job promotion"};
+    keywordQueries.add(keywords);
+
+    assertOutputLink(keywordQueries, EXPECTED_LINK);
+  }
+
+  @Test
+  public void noKeywords() throws IOException {
+    Set<String[]> keywordQueries = new LinkedHashSet<>();
+    String[] keywords = {""};
     keywordQueries.add(keywords);
 
     assertOutputLink(keywordQueries, EXPECTED_LINK);
