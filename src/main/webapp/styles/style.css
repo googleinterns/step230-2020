@@ -7,6 +7,17 @@
   width: 900px;
 }
 
+#recording {
+  width: 50px;
+  height: 50px;
+  border-left: groove;
+  margin: 10px;
+}
+
+.text-rec {
+  display: flex;
+}
+
 #index_content {
   visibility: hidden;
 }
