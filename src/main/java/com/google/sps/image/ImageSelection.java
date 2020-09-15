@@ -98,21 +98,24 @@ public final class ImageSelection {
     return bestImageScore;
   }
 
-  private List<String> addBackups(List<String> images, int noBackups) {
-    for (int i = 1; i <= noBackups; ++i) {
-      switch(i) {
-        case 1:
-          images.add(BACKUP_IMAGE1);
-          break;
-        case 2:
-          images.add(BACKUP_IMAGE2);
-          break;
-        case 3:
-          images.add(BACKUP_IMAGE3);
-          break;
-        default:
-          images.add(BACKUP_IMAGE4);
-      }   
+  private List<String> generateBackupImages() {
+    List<String> backupImages = new ArrayList<>();
+    backupImages.add(BACKUP_IMAGE1);
+    backupImages.add(BACKUP_IMAGE2);
+    backupImages.add(BACKUP_IMAGE3);
+    backupImages.add(BACKUP_IMAGE4);
+
+    return backupImages;
+  }
+
+  private List<String> addBackups(List<String> images, int imagesNeeded) {
+    List<String> backupImages = generateBackupImages();
+    for (int imageID = 0; imageID < imagesNeeded; ++imageID) {
+      if (imageID < backupImages.size()) {
+        images.add(backupImages.get(imageID));
+      } else {
+        images.add(backupImages.get(backupImages.size() - 1));
+      }
     }
 
     return images;
