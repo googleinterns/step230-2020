@@ -46,6 +46,8 @@ public class InputServlet extends HttpServlet {
 
   private static final int ANALYSATION_DEPTH = 5;
 
+  private static final int EXTRACTED_IMAGES = 3;
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
@@ -69,7 +71,7 @@ public class InputServlet extends HttpServlet {
 
     ImageSelection imageSelect = new ImageSelection(keywordSet);
 
-    Output output = new Output(input_text, imageSelect.getBestImage(ANALYSATION_DEPTH).get(0));
+    Output output = new Output(input_text, imageSelect.getBestImage(ANALYSATION_DEPTH, EXTRACTED_IMAGES).get(0));
 
     Gson gson = new Gson();
 

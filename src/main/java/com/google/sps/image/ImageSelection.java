@@ -97,7 +97,7 @@ public final class ImageSelection {
    * @return    URL of the first image scraped from Bing Image Search.
    * @exception IOException if Bing doesn't map any image to the keywords.
    */
-  public List<String> getBestImage(int analysationDepth) throws IOException {
+  public List<String> getBestImage(int analysationDepth, int extractions) throws IOException {
 
     int remainingSearches = MAX_NO_QUERIES;
     float bestImageScore = -1;

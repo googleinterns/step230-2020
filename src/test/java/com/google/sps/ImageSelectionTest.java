@@ -19,10 +19,12 @@ public final class ImageSelectionTest {
 
   private static final int ANALYSATION_DEPTH = 1;
 
+  private static final int EXTRACTED_IMAGES = 1;
+
   private void assertOutputLink(Set<String[]> keywordQueries, String expectedLink) throws IOException {
     ImageSelection imageSelection = new ImageSelection(keywordQueries);
 
-    String actualLink = imageSelection.getBestImage(ANALYSATION_DEPTH).get(0);
+    String actualLink = imageSelection.getBestImage(ANALYSATION_DEPTH, EXTRACTED_IMAGES).get(0);
     Assert.assertEquals(expectedLink, actualLink.substring(0, 11));
   }
 
