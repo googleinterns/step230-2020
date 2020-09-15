@@ -43,6 +43,13 @@ describe('Postcard - generate elements', () => {
     expect(actualImage).toContain('pcard-img');
     expect(actualImage).toContain('https://tse2.mm.bing.net/th/id/');
   });
+
+  it('should generate image stamp', () => {
+    let actualImage = new Postcard({}).addStampElem().outerHTML;
+
+    expect(actualImage).toContain('pcard-stamp');
+    expect(actualImage).toContain('logo.png');
+  });
 });
 
 describe('Postcard - add elements together', () => {
