@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 /** Web crawler that extracts images given a set of keywords */
@@ -27,6 +28,11 @@ public final class ImageSelection {
   // Free to share and use commercially license
   private static final String USE_SHARE_FILTER = "&qft=+filterui:license-L2_L3_L4";
 
+  private static final String BACKUP_IMAGE1 = "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg";
+  private static final String BACKUP_IMAGE2 = "https://media.nationalgeographic.org/assets/photos/167/142/7dbe792c-eb3b-4743-9135-2e6087c7446c.jpg";
+  private static final String BACKUP_IMAGE3 = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.thecoromandel.com%2Fexplore%2Fpauanui-tairua-new-years-eve-fireworks-display&psig=AOvVaw11KkfPQsY02iLGH0BbTie8&ust=1600259849353000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjLsNSW6-sCFQAAAAAdAAAAABAV";
+  private static final String BACKUP_IMAGE4 = "https://www.wallpaperup.com/uploads/wallpapers/2017/01/18/1074860/b2d88573c9f3d799a4b23048e5dd9193-700.jpg";
+
   public ImageSelection() {
     this.keywordQueries = new HashSet<>();
   }
@@ -40,6 +46,8 @@ public final class ImageSelection {
   }
 
   /**
+   * @param   keywords list of keywords to be added in the search query.
+   * @param   copyrightFiter filter copyrighted images - added in the search query.
    * @return  URL where the search will be made.
    */
   public String generateSearchUrl(String[] keywords, String copyrightFilter) {
@@ -70,9 +78,9 @@ public final class ImageSelection {
   }
 
   private static float findBestImage(ImageScorer imageScorer, StringBuilder bestImage, 
-                                    float bestImageScore, List<String> imageSources, 
-                                    int analysationDepth) {
+                                    List<String> imageSources, int analysationDepth) {
     int analysedImages = 0;
+    float bestImageScore = -1f;
     for (String imageUrl : imageSources) {
       if (analysedImages >= analysationDepth) {
         break;
@@ -90,18 +98,56 @@ public final class ImageSelection {
     return bestImageScore;
   }
 
+  private List<String> generateBackupImages() {
+    List<String> backupImages = new ArrayList<>();
+    backupImages.add(BACKUP_IMAGE1);
+    backupImages.add(BACKUP_IMAGE2);
+    backupImages.add(BACKUP_IMAGE3);
+    backupImages.add(BACKUP_IMAGE4);
+
+    return backupImages;
+  }
+
+  private List<String> addBackups(List<String> images, int imagesNeeded) {
+    List<String> backupImages = generateBackupImages();
+    for (int imageID = 0; imageID < imagesNeeded; ++imageID) {
+      if (imageID < backupImages.size()) {
+        images.add(backupImages.get(imageID));
+      } else {
+        images.add(backupImages.get(backupImages.size() - 1));
+      }
+    }
+
+    return images;
+  }
+
+  private List<String> getUrls(List<ImageDetails> images, int extractions) {
+    List<String> imageUrls = new ArrayList<>();
+    for (ImageDetails image : images) {
+      imageUrls.add(image.getUrl());
+    }
+
+    imageUrls.removeAll(Arrays.asList("", null));
+    if (imageUrls.size() < extractions) {
+      imageUrls = addBackups(imageUrls, extractions - imageUrls.size());
+    }
+
+    return imageUrls;
+  } 
+
   /**
    * This is an endpoint. Call this function to get a relevant image.
    *
    * @param     analysationDepth Maximm number of different queries that the web crawler does. 
+   * @param     extractions Number of images returned.
    * @return    URL of the first image scraped from Bing Image Search.
    * @exception IOException if Bing doesn't map any image to the keywords.
    */
-  public String getBestImage(int analysationDepth) throws IOException {
-
+  public List<String> getBestImage(int analysationDepth, int extractions) throws IOException {
+    List<ImageDetails> bestImages = new ArrayList<>();
     int remainingSearches = MAX_NO_QUERIES;
-    float bestImageScore = -1;
     StringBuilder bestImage = new StringBuilder("");
+
     for (String[] keywords : keywordQueries) {
       if (remainingSearches == 0) {
         break;
@@ -120,8 +166,8 @@ public final class ImageSelection {
       ImageScorer imageScorer = new ImageScorer(keywords); 
 
       imageSources.removeAll(Arrays.asList("", null));
-      bestImageScore = findBestImage(imageScorer, bestImage, bestImageScore, 
-                                    imageSources, analysationDepth);  
+      float firstScore = findBestImage(imageScorer, bestImage, imageSources, analysationDepth);  
+      bestImages.add(new ImageDetails(bestImage.toString(), firstScore));
 
       // Analyse the rest of images using the other license.
       if (imageSources.size() < analysationDepth) {
@@ -134,17 +180,16 @@ public final class ImageSelection {
           imageSources.add(element.attr("abs:data-src"));
         }
 
-        bestImageScore = findBestImage(imageScorer, bestImage, bestImageScore, 
-                                      imageSources, remainingAnalysations);
+        float secondScore = findBestImage(imageScorer, bestImage, imageSources, analysationDepth);
+        if (secondScore > firstScore) {
+            bestImages.remove(bestImages.size() - 1);
+            bestImages.add(new ImageDetails(bestImage.toString(), secondScore));
+        }
       }
       --remainingSearches;
     }
-    
-    /**
-     *   TODO: Multiple image selection.
-     *   Relying on a single image is not enough.
-     *   We must provide multiple images to the user.
-     */
-    return bestImage.toString();
+
+
+    return getUrls(bestImages, extractions);
   }
 }
