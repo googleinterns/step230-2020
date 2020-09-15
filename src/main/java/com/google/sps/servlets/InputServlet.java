@@ -67,7 +67,7 @@ public class InputServlet extends HttpServlet {
       setsOfKeyWords = textAnalyser.getSetsOfKeyWords();
     } else {
       setsOfKeyWords = new Set<>();
-      for(String[] keywords : textAnalyser.getSetsOfKeyWOrds()) {
+      for (String[] keywords : textAnalyser.getSetsOfKeyWOrds()) {
         setsOfKeyWords.add(new String[] {user_location, keywords[0], keywords[1]});
       }
     }
