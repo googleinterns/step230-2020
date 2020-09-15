@@ -40,6 +40,8 @@ public final class ImageSelection {
   }
 
   /**
+   * @param   keywords list of keywords to be added in the search query.
+   * @param   copyrightFiter filter copyrighted images - added in the search query.
    * @return  URL where the search will be made.
    */
   public String generateSearchUrl(String[] keywords, String copyrightFilter) {
@@ -94,6 +96,7 @@ public final class ImageSelection {
    * This is an endpoint. Call this function to get a relevant image.
    *
    * @param     analysationDepth Maximm number of different queries that the web crawler does. 
+   * @param     extractions Number of images returned.
    * @return    URL of the first image scraped from Bing Image Search.
    * @exception IOException if Bing doesn't map any image to the keywords.
    */
