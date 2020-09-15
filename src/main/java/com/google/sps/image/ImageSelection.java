@@ -7,7 +7,6 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -74,9 +73,9 @@ public final class ImageSelection {
   }
 
   private static float findBestImage(ImageScorer imageScorer, StringBuilder bestImage, 
-                                    float bestImageScore, List<String> imageSources, 
-                                    int analysationDepth) {
+                                    List<String> imageSources, int analysationDepth) {
     int analysedImages = 0;
+    float bestImageScore = -1f;
     for (String imageUrl : imageSources) {
       if (analysedImages >= analysationDepth) {
         break;
@@ -94,6 +93,15 @@ public final class ImageSelection {
     return bestImageScore;
   }
 
+  private static List<String> getUrls(List<ImageDetails> images) {
+    List<String> imageUrls = new ArrayList<>();
+    for (ImageDetails image : images) {
+      imageUrls.add(image.getUrl());
+    }
+
+    return imageUrls;
+  } 
+
   /**
    * This is an endpoint. Call this function to get a relevant image.
    *
@@ -104,10 +112,8 @@ public final class ImageSelection {
    */
   public List<String> getBestImage(int analysationDepth, int extractions) throws IOException {
 
-    PriorityQueue<ImageDetails> imageScore =  
-             new PriorityQueue<>(Collections.reverseOrder());
+    List<ImageDetails> bestImages = new ArrayList<>();
     int remainingSearches = MAX_NO_QUERIES;
-    float bestImageScore = -1;
     StringBuilder bestImage = new StringBuilder("");
     for (String[] keywords : keywordQueries) {
       if (remainingSearches == 0) {
@@ -127,8 +133,8 @@ public final class ImageSelection {
       ImageScorer imageScorer = new ImageScorer(keywords); 
 
       imageSources.removeAll(Arrays.asList("", null));
-      bestImageScore = findBestImage(imageScorer, bestImage, bestImageScore, 
-                                    imageSources, analysationDepth);  
+      float firstScore = findBestImage(imageScorer, bestImage, imageSources, analysationDepth);  
+      bestImages.add(new ImageDetails(bestImage.toString(), firstScore));
 
       // Analyse the rest of images using the other license.
       if (imageSources.size() < analysationDepth) {
@@ -141,12 +147,16 @@ public final class ImageSelection {
           imageSources.add(element.attr("abs:data-src"));
         }
 
-        bestImageScore = findBestImage(imageScorer, bestImage, bestImageScore, 
-                                      imageSources, remainingAnalysations);
+        float secondScore = findBestImage(imageScorer, bestImage, imageSources, analysationDepth);
+        if (secondScore > firstScore) {
+            bestImages.remove(bestImages.size() - 1);
+            bestImages.add(new ImageDetails(bestImage.toString(), secondScore));
+        }
       }
       --remainingSearches;
     }
 
-    return Arrays.asList(bestImage.toString());
+
+    return getUrls(bestImages);
   }
 }
