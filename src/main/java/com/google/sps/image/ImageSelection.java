@@ -28,6 +28,10 @@ public final class ImageSelection {
   // Free to share and use commercially license
   private static final String USE_SHARE_FILTER = "&qft=+filterui:license-L2_L3_L4";
 
+  private static final String BACKUP_IMAGE1 = "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg";
+  private static final String BACKUP_IMAGE2 = "https://media.nationalgeographic.org/assets/photos/167/142/7dbe792c-eb3b-4743-9135-2e6087c7446c.jpg";
+  private static final String BACKUP_IMAGE3 = "https://www.wallpaperup.com/uploads/wallpapers/2017/01/18/1074860/b2d88573c9f3d799a4b23048e5dd9193-700.jpg";
+
   public ImageSelection() {
     this.keywordQueries = new HashSet<>();
   }
@@ -93,10 +97,29 @@ public final class ImageSelection {
     return bestImageScore;
   }
 
-  private static List<String> getUrls(List<ImageDetails> images) {
+  private void addBackups(List<String> images, int noBackups) {
+    for (int i = 1; i <= noBackups; ++i) {
+      switch(i) {
+        case 1:
+          images.add(BACKUP_IMAGE1);
+          break;
+        case 2:
+          images.add(BACKUP_IMAGE2);
+          break;
+        default:
+          images.add(BACKUP_IMAGE3);
+      }   
+    }
+  }
+
+  private List<String> getUrls(List<ImageDetails> images, int extractions) {
     List<String> imageUrls = new ArrayList<>();
     for (ImageDetails image : images) {
       imageUrls.add(image.getUrl());
+    }
+    
+    if (imageUrls.size() < extractions) {
+      addBackups(imageUrls, extractions - imageUrls.size());
     }
 
     return imageUrls;
@@ -157,6 +180,6 @@ public final class ImageSelection {
     }
 
 
-    return getUrls(bestImages);
+    return getUrls(bestImages, extractions);
   }
 }
