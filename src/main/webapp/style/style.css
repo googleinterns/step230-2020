@@ -7,15 +7,15 @@ body {
   height: 100%;
 }
 
-#postcard_body {
+#postcard-body {
   color: #586877;
 }
 
-#index_body {
+#index-body {
   color: #adb5bdd5;
 }
 
-#index_body input {
+#index-body input {
   color: #394f64;
 }
 

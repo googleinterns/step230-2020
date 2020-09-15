@@ -12,7 +12,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 function login() {
-  fetch('/login_page').then(response => response.json()).then(login => {loginDomManipulation(login.message, login.status);});
+  fetch('/login-page').then(response => response.json()).then(login => {loginDomManipulation(login.message, login.status);});
 }
 
 function loginDomManipulation(message, status) {
@@ -20,14 +20,14 @@ function loginDomManipulation(message, status) {
   loginElement.className = 'login';
   loginElement.innerHTML = message;
 
-  const page = document.getElementById('login_page');
+  const page = document.getElementById('login-page');
   page.appendChild(loginElement);
 
   if (status) {
-    document.getElementById('index_content').style.visibility = "visible";
+    document.getElementById('index-content').style.visibility = "visible";
     loginElement.style.marginLeft = "1300px";
   } else {
-    document.getElementById('index_content').style.visibility = "hidden";
+    document.getElementById('index-content').style.visibility = "hidden";
     loginElement.style.marginLeft = "auto";
     loginElement.style.marginTop = "200px";
   }
@@ -63,8 +63,8 @@ function sendMailPOST(title, message, image, email) {
 
 
 function analyseInput() {
-  let text = document.getElementsByName('input_text')[0].value;
-  let location = document.getElementsByName('location_checkbox')[0].value;
+  let text = document.getElementsByName('input-text')[0].value;
+  let location = document.getElementsByName('location-checkbox')[0].value;
   sendInputPOST(text, location);
 }
 
@@ -89,7 +89,7 @@ function send() {
 
 //  code used for adding the location option
 
-let x = document.getElementById('location_checkbox');
+let x = document.getElementById('location-checkbox');
 
 function getUserLocation() {
   getLocation();
@@ -167,7 +167,7 @@ function record() {
   recognition.lang = "en-GB";
 
   recognition.onresult = function(event) {
-    document.getElementById("input_text").value = event.results[0][0].transcript;
+    document.getElementById("input-text").value = event.results[0][0].transcript;
   }
 
   recognition.addEventListener('nomatch', function() { 

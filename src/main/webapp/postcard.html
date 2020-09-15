@@ -16,10 +16,10 @@
     <script src="scripts/script.js"></script>
     <script src="scripts/background.js"></script>
   </head>
-  <body onload="loadPostcard()" id="postcard_body">
+  <body onload="loadPostcard()" id="postcard-body">
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="main-nav">
-      <a class="navbar-brand" href="index.html"> <img src="image/logo.png" class="navbar-logo" alt=""></a>
+      <a class="navbar-brand" href="index.html"><img src="image/logo.png" alt="logo" class="navbar-logo"></a>
 
       <ul class="navbar-nav">
         <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
@@ -35,10 +35,10 @@
           <br/>
           <h1>Who is the receiver?</h1>
           <br/>
-          <form method="POST" action="/mail" id="input_email">
-            <input type="email" id="input_text" name="mail" placeholder="Enter email.." required="True">
+          <form method="POST" action="/mail" id="input-email">
+            <input type="email" id="input-text" name="mail" placeholder="Enter email.." required="True">
           </form>
-          <button onclick="send()" id="submit_send">Send</button>
+          <button onclick="send()" id="submit-send">Send</button>
 
           <div id="sent"></div>
         </div>

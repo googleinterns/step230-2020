@@ -1,5 +1,5 @@
 
-#index_body {
+#index-body {
   background-color: rgb(233, 233, 233);
   border: 1px solid #ccc;
   height: 900px;
@@ -7,7 +7,7 @@
   margin-right: auto;
 }
 
-#index_content {
+#index-content {
   visibility: hidden;
 }
 
@@ -18,7 +18,7 @@
   text-align: center;
 }
 
-#about_text {
+#about-text {
   color: black;
   font-size: 12px;
   padding: 0%;
@@ -37,7 +37,7 @@
   visibility: hidden;
 }
 
-#login_page {
+#login-page {
   left: 100px;
   margin-right: auto;
   margin-top: 0px;
@@ -54,7 +54,7 @@
   width: 300px;
 }
 
-#index_content {
+#index-content {
   margin-left: auto;
   margin-right: auto;
 }
@@ -63,7 +63,7 @@
   display: inline-block;
 }
 
-#input_form {
+#input-form {
   margin-left: 300px;
 }
 
@@ -74,12 +74,12 @@ input {
   margin-left: auto;
 }
 
-.input_text:focus {
+.input-text:focus {
   background-color: rgb(203, 253, 225);  
   border: 3px solid #555;
 }
 
-.input_text {
+.input-text {
   border-bottom: 3px solid blue;
   border-left: 3px solid green;
   border-right: 3px solid yellow;
@@ -156,12 +156,12 @@ input {
   display: inline-block;
 }
 
-#submit_input:hover {
+#submit-input:hover {
   background-color: rgb(10, 107, 31);
   box-shadow: 5px 5px 5px rgb(163, 156, 156);
 }
 
-#submit_input {
+#submit-input {
   background-color: #8694a3;
   background-image: linear-gradient(rgba(25, 209, 65, 0.603),rgb(15, 145, 73));
   border: thin solid rgb(255, 255, 255);
@@ -183,4 +183,9 @@ input {
 #sent {
   height: 50px;
   width: 100px;
+}
+
+#recording {
+  margin-left: 870px;
+  position: relative;
 }
