@@ -44,6 +44,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/text-input")
 public class InputServlet extends HttpServlet {
 
+  private static final int ANALYSATION_DEPTH = 5;
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
@@ -63,11 +65,11 @@ public class InputServlet extends HttpServlet {
     }
 
     TextAnalyser textAnalyser = new TextAnalyser(input_text);
-    Set<String> keywords = textAnalyser.getKeyWords();
-    keywords.add(user_location);
-    ImageSelection imageSelect = new ImageSelection(keywords);
+    Set<String[]> keywordSet = textAnalyser.getSetsOfKeyWords();
 
-    Output output = new Output(input_text, imageSelect.getBestImage());
+    ImageSelection imageSelect = new ImageSelection(keywordSet);
+
+    Output output = new Output(input_text, imageSelect.getBestImage(ANALYSATION_DEPTH));
 
     Gson gson = new Gson();
 
