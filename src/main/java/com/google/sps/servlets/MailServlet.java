@@ -56,7 +56,7 @@ public class MailServlet extends HttpServlet {
   static final String RECEIVER = "You";
   static final String POSTCARD_CONTAINER = "<div class='pcard-container' id='pcard-design' " +
                 "style='background-attachment: scroll; " +
-                "background-image: url(\"https://i.ibb.co/JjqsjjL/postcard.jpg\"); " +
+                "background-image: url(\"https://i.ibb.co/w4qK6qD/postcard-frame.jpg\"); " +
                 "background-repeat: no-repeat; background-size: 700px 500px; color: black; " +
                 "display: block; height: 500px; margin-left: auto; margin-right: auto ;" +
                 "position: relative; text-align: center; width: 700px;'>";
@@ -107,17 +107,16 @@ public class MailServlet extends HttpServlet {
        **/
       final String htmlBody = POSTCARD_CONTAINER + 
               "<table cellpadding='0' cellspacing='0' width='640' align='center'><tbody><tr><td>" + 
-              "<table cellpadding='0' cellspacing='0' width='640' height='150' align='left'></table>" +
+              "<table cellpadding='0' cellspacing='0' width='640' height='35' align='left'></table>" +
+              "<table cellpadding='0' cellspacing='0' width='555' height='75' align='left'></table>" +
+              "<table cellpadding='0' cellspacing='0' width='85' height='75' align='left'><tbody><tr><td>" +
+              "<img src='https://i.ibb.co/3BBjZD1/Postcard-Pix-Teller-removebg-preview.png' height=70px width=65px></td></tr><tbody></table>" +
+              "<table cellpadding='0' cellspacing='0' width='640' height='40' align='left'></table>" +
               "<table cellpadding='0' cellspacing='0' width='320' height='280' align='left'><td>" +
               "<img src=" + image +" style='height: 200px; width: 250px;'></td>" +
-              "</table><table cellpadding='0' cellspacing='0' width='320' height='120' align='left'>" +
               "</table><table cellpadding='0' cellspacing='0' width='320' height='30' align='left'>" +
-              "<td><div style='display: inline-block; font-family: Arial, sans-serif; " 
-              + "font-size: 25px; width: 250px;'>" +
-              title + "</div></td></table><table cellpadding='0' cellspacing='0' width='320' " +
-              "height='120' align='left'>" +
-              "<td><div style='display: inline-block; font-family: &quot;Comic Sans MS&quot; " +
-              "cursive, sans-serif; font-size: 30px; max-width: 300px; width: 250px;'>" + 
+              "</table><table cellpadding='0' cellspacing='0' width='320' height='250' align='left'>" +
+              "<td><div style='display: inline-block; font-family: sans-serif; font-size: 20px; max-width: 300px; width: 250px;'>" + 
               userMessage + "</div></td></table></td></tr></tbody></table></div>";
 
       byte[] attachmentData = null;  

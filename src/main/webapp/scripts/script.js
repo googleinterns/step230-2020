@@ -74,12 +74,12 @@ function generatePostcard() {
 
 
 function loadPostcard() {
-  displayPostcard("Hello!", localStorage["text"], localStorage["link"]);
+  displayPostcard("", localStorage["text"], localStorage["link"]);
 }
 
  //  click and send the postcard
 function send() {
-  const title = "Hello";
+  const title = "";
   const message = localStorage["text"];
   const imageUrl = localStorage["link"];
 

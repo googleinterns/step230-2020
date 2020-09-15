@@ -15,7 +15,7 @@
 }
 
 .pcard-title {
-  bottom: 200px;
+  bottom: 250px;
   display: inline-block;
   font-family: "Indie Flower", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
   font-size: 25px;
@@ -27,7 +27,7 @@
 }
 
 .pcard-msg {
-  bottom: 90px;
+  bottom: 200px;
   display: inline-block;
   font-family: "Indie Flower", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
   font-size: 20px;
@@ -45,7 +45,15 @@
   width: 250px; 
 }
 
-form, #submit-send {
+.pcard-stamp {
+  height: 70px;
+  position: absolute;
+  right: 40px;
+  top: 40px;
+  width: 65px;
+}
+
+form, #submit_send {
   margin: 20px auto;
   max-width: 600px;
   text-align: center;
