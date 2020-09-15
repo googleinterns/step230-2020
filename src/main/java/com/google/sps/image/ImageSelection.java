@@ -7,8 +7,10 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 /** Web crawler that extracts images given a set of keywords */
@@ -102,6 +104,8 @@ public final class ImageSelection {
    */
   public List<String> getBestImage(int analysationDepth, int extractions) throws IOException {
 
+    PriorityQueue<ImageDetails> imageScore =  
+             new PriorityQueue<>(Collections.reverseOrder());
     int remainingSearches = MAX_NO_QUERIES;
     float bestImageScore = -1;
     StringBuilder bestImage = new StringBuilder("");
