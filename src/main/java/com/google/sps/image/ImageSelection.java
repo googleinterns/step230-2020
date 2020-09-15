@@ -30,7 +30,8 @@ public final class ImageSelection {
 
   private static final String BACKUP_IMAGE1 = "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg";
   private static final String BACKUP_IMAGE2 = "https://media.nationalgeographic.org/assets/photos/167/142/7dbe792c-eb3b-4743-9135-2e6087c7446c.jpg";
-  private static final String BACKUP_IMAGE3 = "https://www.wallpaperup.com/uploads/wallpapers/2017/01/18/1074860/b2d88573c9f3d799a4b23048e5dd9193-700.jpg";
+  private static final String BACKUP_IMAGE3 = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.thecoromandel.com%2Fexplore%2Fpauanui-tairua-new-years-eve-fireworks-display&psig=AOvVaw11KkfPQsY02iLGH0BbTie8&ust=1600259849353000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjLsNSW6-sCFQAAAAAdAAAAABAV";
+  private static final String BACKUP_IMAGE4 = "https://www.wallpaperup.com/uploads/wallpapers/2017/01/18/1074860/b2d88573c9f3d799a4b23048e5dd9193-700.jpg";
 
   public ImageSelection() {
     this.keywordQueries = new HashSet<>();
@@ -106,8 +107,11 @@ public final class ImageSelection {
         case 2:
           images.add(BACKUP_IMAGE2);
           break;
-        default:
+        case 3:
           images.add(BACKUP_IMAGE3);
+          break;
+        default:
+          images.add(BACKUP_IMAGE4);
       }   
     }
 
