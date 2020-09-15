@@ -97,7 +97,7 @@ public final class ImageSelection {
     return bestImageScore;
   }
 
-  private void addBackups(List<String> images, int noBackups) {
+  private List<String> addBackups(List<String> images, int noBackups) {
     for (int i = 1; i <= noBackups; ++i) {
       switch(i) {
         case 1:
@@ -110,6 +110,8 @@ public final class ImageSelection {
           images.add(BACKUP_IMAGE3);
       }   
     }
+
+    return images;
   }
 
   private List<String> getUrls(List<ImageDetails> images, int extractions) {
@@ -117,9 +119,10 @@ public final class ImageSelection {
     for (ImageDetails image : images) {
       imageUrls.add(image.getUrl());
     }
-    
+
+    imageUrls.removeAll(Arrays.asList("", null));
     if (imageUrls.size() < extractions) {
-      addBackups(imageUrls, extractions - imageUrls.size());
+      imageUrls = addBackups(imageUrls, extractions - imageUrls.size());
     }
 
     return imageUrls;
@@ -134,10 +137,10 @@ public final class ImageSelection {
    * @exception IOException if Bing doesn't map any image to the keywords.
    */
   public List<String> getBestImage(int analysationDepth, int extractions) throws IOException {
-
     List<ImageDetails> bestImages = new ArrayList<>();
     int remainingSearches = MAX_NO_QUERIES;
     StringBuilder bestImage = new StringBuilder("");
+
     for (String[] keywords : keywordQueries) {
       if (remainingSearches == 0) {
         break;
