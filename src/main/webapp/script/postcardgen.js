@@ -3,6 +3,7 @@ class Postcard {
     this._title = title;
     this._message = message;
     this._imageUrl = imageUrl;
+    this._stampImage = "../image/logo.png";
   }
 
   get title() {
@@ -41,11 +42,20 @@ class Postcard {
     return title;
   }
 
+  addStampElem() {
+    let stamp = document.createElement('img');
+    stamp.className = 'pcard-stamp';
+    stamp.setAttribute('src', this._stampImage);
+
+    return stamp;
+  }
+
   getPostcardHTML() {
     let postcard = document.createElement('div');
     postcard.className = 'pcard-container';
     postcard.id = 'pcard-design';
 
+    postcard.appendChild(this.addStampElem());
     postcard.appendChild(this.addTitleElem());
     postcard.appendChild(this.addMessageElem());
     postcard.appendChild(this.addImageElem());
