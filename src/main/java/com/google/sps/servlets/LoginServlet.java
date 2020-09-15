@@ -42,7 +42,7 @@ import javax.servlet.http.HttpServletResponse;
 * This class is responsible for handling user authentication.
 **/
 
-@WebServlet("/login_page")
+@WebServlet("/login-page")
 public class LoginServlet extends HttpServlet {
 
   @Override
