@@ -4,6 +4,7 @@ class Postcard {
     this._message = message;
     this._imageUrl = imageUrl;
     this._stampImage = "../image/logo.png";
+    this._maxMessageLength = 310;
   }
 
   get title() {
@@ -28,6 +29,9 @@ class Postcard {
 
   addMessageElem() {
     let message = document.createElement('div');
+    if (this._message.length > this._maxMessageLength) {
+      this._message = this._message.substring(0, this._maxMessageLength);
+    }
     message.className = 'pcard-msg';
     message.appendChild(document.createTextNode(this._message));
 
