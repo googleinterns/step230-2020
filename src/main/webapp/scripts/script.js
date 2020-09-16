@@ -164,7 +164,10 @@ function record() {
 function record() {
   const recognition = new webkitSpeechRecognition();
   const message = document.getElementById("recording-message");
+  const recButton = document.getElementById("recording");
   recognition.lang = "en-GB";
+
+  recButton.style.backgroundColor = "green";
 
   recognition.onresult = function(event) {
     document.getElementById("input-text").value = event.results[0][0].transcript;
@@ -180,6 +183,7 @@ function record() {
 
   recognition.onaudioend = function() {
     message.innerText = "DONE RECORDING";
+    recButton.style.backgroundColor = "red";
   }
 
   recognition.onerror = function() {

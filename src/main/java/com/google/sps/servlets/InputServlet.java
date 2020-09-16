@@ -27,6 +27,7 @@ import com.google.sps.data.Output;
 import java.io.IOException;
 
 import java.util.Set;
+import java.util.HashSet;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -68,8 +69,8 @@ public class InputServlet extends HttpServlet {
       user_location = "";
       setsOfKeyWords = textAnalyser.getSetsOfKeyWords();
     } else {
-      setsOfKeyWords = new Set<>();
-      for (String[] keywords : textAnalyser.getSetsOfKeyWOrds()) {
+      setsOfKeyWords = new HashSet<String[]>();
+      for (String[] keywords : textAnalyser.getSetsOfKeyWords()) {
         setsOfKeyWords.add(new String[] {user_location, keywords[0], keywords[1]});
       }
     }

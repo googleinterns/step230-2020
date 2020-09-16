@@ -94,11 +94,12 @@ input {
   cursor: pointer;
   color: #394f64;
   font-size: 22px;
+  margin: 30px auto;
   margin-bottom: 12px;
-  margin-left: 600px;
   padding-left: 40px;
   position: relative;
   user-select: none;  
+  width: 60%;
   -moz-user-select: none;
   -ms-user-select: none;  
   -webkit-user-select: none;
@@ -172,6 +173,7 @@ input {
   display: block;
   height: 60px;
   margin-left: 300px;
+  margin-top: 20px;
   max-width: 300px;
   outline: 0;
   padding: 1em;
@@ -186,6 +188,26 @@ input {
 }
 
 #recording {
-  margin-left: 870px;
+  background-color: red;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  /*margin-bottom: 30px;*/
+  margin-left: 300px;
   position: relative;
+}
+
+#recording:hover {
+  background-color: rgb(10, 107, 31);
+  box-shadow: 5px 5px 5px rgb(163, 156, 156);
+}
+
+#recording-message {
+  color: rgb(77, 106, 133);
+  margin-left: 300px;
+  position: relative;
+}
+
+.rec {
+  display: inline-block
 }
