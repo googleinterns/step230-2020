@@ -2,6 +2,7 @@
 #index-body {
   background-color: rgb(233, 233, 233);
   border: 1px solid #ccc;
+  color: #adb5bdd5;
   height: 900px;
   margin-left: auto;
   margin-right: auto;
@@ -96,6 +97,7 @@ input {
   font-size: 22px;
   margin: 30px auto;
   margin-bottom: 12px;
+  padding: inherit;
   padding-left: 40px;
   position: relative;
   user-select: none;  
@@ -105,7 +107,7 @@ input {
   -webkit-user-select: none;
 }
 
-.container input {
+.container #location-checkbox {
   cursor: pointer;
   height: 0;
   opacity: 0;
@@ -210,4 +212,55 @@ input {
 
 .rec {
   display: inline-block
+}
+
+
+body {
+  background-color: #e9ecef;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  height: 100%;
+}
+
+#postcard-body {
+  color: #586877;
+}
+
+#index-body input {
+  color: #394f64;
+}
+
+#main-nav {
+  background-color: #545b62;
+  padding-bottom: 0.7rem;
+  padding-top: 0.7rem;
+}
+
+#main-nav .navbar-brand {
+  color: #ffc107;
+  font-family: "Montserrat", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.0625em;
+  margin-left: 2em;
+  text-transform: uppercase;
+}
+
+#main-nav .navbar-logo {
+  width: 85px;
+}
+
+.page-section {
+  padding: 6rem 0;
+}
+
+@media (min-width: 640px) {
+  #main-nav {
+    font-size: 1.5em;
+  }
+
+  #main-nav .navbar-brand {
+    margin-left: 2em;
+    transition: font-size 0.3s ease-in-out;
+  }
 }
