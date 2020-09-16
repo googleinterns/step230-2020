@@ -23,6 +23,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.TextAnalyser;
 import com.google.sps.data.Output;
+import java.util.LinkedHashSet;
 
 import java.io.IOException;
 
@@ -68,8 +69,8 @@ public class InputServlet extends HttpServlet {
       user_location = "";
       setsOfKeyWords = textAnalyser.getSetsOfKeyWords();
     } else {
-      setsOfKeyWords = new Set<>();
-      for (String[] keywords : textAnalyser.getSetsOfKeyWOrds()) {
+      setsOfKeyWords = new LinkedHashSet<>();
+      for (String[] keywords : textAnalyser.getSetsOfKeyWords()) {
         setsOfKeyWords.add(new String[] {user_location, keywords[0], keywords[1]});
       }
     }
