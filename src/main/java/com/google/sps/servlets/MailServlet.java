@@ -17,11 +17,15 @@ package com.google.sps.servlets;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
+import com.google.sps.data.ParseMails;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -76,9 +80,9 @@ public class MailServlet extends HttpServlet {
     String message = request.getParameter("message");
     String image = request.getParameter("image");
 
-    String to = request.getParameter("mail");
+    String mails = request.getParameter("mail");
 
-    String resp = sendMultipartMail(email, to, title, message, image);
+    String resp = sendMultipartMail(email, mails, title, message, image);
 
     response.setContentType("text/html;");
     response.getWriter().println(resp);
@@ -88,24 +92,28 @@ public class MailServlet extends HttpServlet {
 * This function creates an email and sends it to the user
 **/
 
-  private String sendMultipartMail(String from, String to, String title, String userMessage, String image) {
+  private String sendMultipartMail(String from, String mails, String title, String userMessage, String image) {
     Properties props = new Properties();
     Session session = Session.getDefaultInstance(props, null);
     
     try {
-      Message message = new MimeMessage(session);
-      message.setFrom(new InternetAddress(from, SENDER));
-      message.addRecipient(Message.RecipientType.TO,
-                       new InternetAddress(to, RECEIVER));
-      message.setSubject(SUBJECT);
-      message.setText(MSG_BODY);
+      ParseMails parseMails = new ParseMails(mails);
+      List<String> mailsList = parseMails.getMails();
 
-      /*
-       * Problem: Sometimes application/x-www-form-urlencoded does NOT send the entire string.git 
-       * First solution: Use Java hard-coded html elements, instead of sending them from the front-end.
-       * TODO: Try to send JSON insted of application/x-www-form-urlencoded.
-       **/
-      final String htmlBody = POSTCARD_CONTAINER + 
+      for (String to:mailsList) {
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(from, SENDER));
+        message.addRecipient(Message.RecipientType.TO,
+                       new InternetAddress(to, RECEIVER));
+        message.setSubject(SUBJECT);
+        message.setText(MSG_BODY);
+
+        /*
+         * Problem: Sometimes application/x-www-form-urlencoded does NOT send the entire string.git 
+         * First solution: Use Java hard-coded html elements, instead of sending them from the front-end.
+         * TODO: Try to send JSON insted of application/x-www-form-urlencoded.
+        **/
+        final String htmlBody = POSTCARD_CONTAINER + 
               "<table cellpadding='0' cellspacing='0' width='640' align='center'><tbody><tr><td>" + 
               "<table cellpadding='0' cellspacing='0' width='640' height='35' align='left'></table>" +
               "<table cellpadding='0' cellspacing='0' width='555' height='75' align='left'></table>" +
@@ -119,17 +127,18 @@ public class MailServlet extends HttpServlet {
               "<td><div style='display: inline-block; font-family: sans-serif; font-size: 20px; max-width: 300px; width: 250px;'>" + 
               userMessage + "</div></td></table></td></tr></tbody></table></div>";
 
-      byte[] attachmentData = null;  
-      Multipart mp = new MimeMultipart();
+        byte[] attachmentData = null;  
+        Multipart mp = new MimeMultipart();
       
-      MimeBodyPart htmlPart = new MimeBodyPart();
-      htmlPart.setContent(htmlBody, "text/html");
-      mp.addBodyPart(htmlPart);
+        MimeBodyPart htmlPart = new MimeBodyPart();
+        htmlPart.setContent(htmlBody, "text/html");
+        mp.addBodyPart(htmlPart);
 
-      message.setContent(mp);
+        message.setContent(mp);
 
-      Transport.send(message);
-
+        Transport.send(message);
+      }
+      
     } catch (AddressException e) {
       System.err.println("Not existing address");
       return "Not existing address";
