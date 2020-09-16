@@ -60,16 +60,21 @@ public class InputServlet extends HttpServlet {
 
     String input_text = request.getParameter("input_text");
     String user_location = request.getParameter("location_checkbox");
+    TextAnalyser textAnalyser = new TextAnalyser(input_text);
+    Set<String[]> setsOfKeyWords;
 
-
+    // If user ticks location, every set of keywords will contain that location
     if (user_location.equals("none") || user_location.equals(null)) {
       user_location = "";
+      setsOfKeyWords = textAnalyser.getSetsOfKeyWords();
+    } else {
+      setsOfKeyWords = new Set<>();
+      for (String[] keywords : textAnalyser.getSetsOfKeyWOrds()) {
+        setsOfKeyWords.add(new String[] {user_location, keywords[0], keywords[1]});
+      }
     }
-
-    TextAnalyser textAnalyser = new TextAnalyser(input_text);
-    Set<String[]> keywordSet = textAnalyser.getSetsOfKeyWords();
-
-    ImageSelection imageSelect = new ImageSelection(keywordSet);
+    
+    ImageSelection imageSelect = new ImageSelection(setsOfKeyWords);
 
     Output output = new Output(input_text, imageSelect.getBestImage(ANALYSATION_DEPTH, EXTRACTED_IMAGES).get(0));
 

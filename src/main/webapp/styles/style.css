@@ -7,6 +7,17 @@
   width: 900px;
 }
 
+#recording {
+  border-left: groove;
+  height: 50px;
+  margin: 10px;
+  width: 50px;
+}
+
+.text-rec {
+  display: flex;
+}
+
 #index_content {
   visibility: hidden;
 }
@@ -51,7 +62,7 @@
   margin-right: auto;
 }
 
-input {
+#input {
   display: block;
   margin-bottom: 30px;
   margin-right: auto;
