@@ -1,31 +1,28 @@
-#index_body {
+
+#index-body {
   background-color: rgb(233, 233, 233);
   border: 1px solid #ccc;
-  height: 800px;
+  color: #adb5bdd5;
+  height: 900px;
   margin-left: auto;
   margin-right: auto;
-  width: 900px;
 }
 
-#recording {
-  border-left: groove;
-  height: 50px;
-  margin: 10px;
-  width: 50px;
-}
-
-.text-rec {
-  display: flex;
-}
-
-#index_content {
+#index-content {
   visibility: hidden;
 }
 
 #about {
-  margin-bottom: 100px;
+  margin-bottom: 70px;
+  margin-top: 100px;
   font-size: 22px;
   text-align: center;
+}
+
+#about-text {
+  color: black;
+  font-size: 12px;
+  padding: 0%;
 }
 
 #gpostcard {
@@ -41,7 +38,7 @@
   visibility: hidden;
 }
 
-#login_page {
+#login-page {
   left: 100px;
   margin-right: auto;
   margin-top: 0px;
@@ -50,35 +47,44 @@
 }
 
 .login {
-  height: 200px;
+  color: red;
+  height: 100px;
   margin-left: auto;
   margin-right: auto;
-  top: 200px;
+  margin-top: 100px;
   width: 300px;
 }
 
-#index_content {
+#index-content {
   margin-left: auto;
   margin-right: auto;
 }
 
-#input {
-  display: block;
-  margin-bottom: 30px;
+.inline {
+  display: inline-block;
+}
+
+#input-form {
+  margin-left: 300px;
+}
+
+input {
+  color: #5e6b79;
+  margin-bottom: 0px;
   margin-right: auto;
   margin-left: auto;
 }
 
-.input_text:focus {
+.input-text:focus {
+  background-color: rgb(203, 253, 225);  
   border: 3px solid #555;
-  background-color: rgb(203, 253, 225); 
 }
 
-.input_text {
-  border-left: 3px solid green;
-  border-top: 3px solid red;
-  border-right: 3px solid yellow;
+.input-text {
   border-bottom: 3px solid blue;
+  border-left: 3px solid green;
+  border-right: 3px solid yellow;
+  border-top: 3px solid red;
   height: 60px;
   font-size: 20px;
   text-align: center;
@@ -87,19 +93,21 @@
 
 .container {
   cursor: pointer;
-  display: block;
+  color: #394f64;
   font-size: 22px;
+  margin: 30px auto;
   margin-bottom: 12px;
-  margin-left: 200px;
+  padding: inherit;
+  padding-left: 40px;
   position: relative;
-  padding-left: 35px;
-  -webkit-user-select: none;
+  user-select: none;  
+  width: 60%;
   -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  -ms-user-select: none;  
+  -webkit-user-select: none;
 }
 
-.container input {
+.container #location-checkbox {
   cursor: pointer;
   height: 0;
   opacity: 0;
@@ -109,12 +117,12 @@
 
 .checkmark {
   background-color: rgb(255, 255, 255);
-  border: thick solid rgb(0, 0, 143);
-  height: 25px;
+  border: thick solid rgb(19, 107, 100);
+  height: 30px;
   left: 0;
   position: absolute;
   top: 0;
-  width: 25px;
+  width: 30px;
 }
 
 .container:hover input ~ .checkmark {
@@ -122,7 +130,7 @@
 }
 
 .container input:checked ~ .checkmark {
-  background-color: rgb(21, 116, 84);
+  background-color: rgb(21, 148, 142);
 }
 
 .checkmark:after {
@@ -137,34 +145,121 @@
 
 .container .checkmark:after {
   border: solid white;
-  height: 10px;
   border-width: 0 3px 3px 0;
+  height: 10px;
   left: 9px;
   top: 5px;
-  width: 5px;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
   transform: rotate(45deg);
+  width: 5px;
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
 }
 
 .checkbox {
   display: inline-block;
 }
 
-#submit_input:hover {
-  box-shadow: 5px 5px 5px red;
-  background-color: rgb(255, 238, 238);
+#submit-input:hover {
+  background-color: rgb(10, 107, 31);
+  box-shadow: 5px 5px 5px rgb(163, 156, 156);
 }
 
-#submit_input {
-  background: rgb(255, 255, 255);
-  border: 2px solid rgb(0, 98, 116);
+#submit-input {
+  background-color: #8694a3;
+  background-image: linear-gradient(rgba(25, 209, 65, 0.603),rgb(15, 145, 73));
+  border: thin solid rgb(255, 255, 255);
+  border-radius: 8px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  color: white;
+  cursor: pointer;
+  display: block;
   height: 60px;
-  margin-left: 200px;
-  width: 100px;
+  margin-left: 300px;
+  margin-top: 20px;
+  max-width: 300px;
+  outline: 0;
+  padding: 1em;
+  resize: none;  
+  text-align: center;
+  width: 100%;
 }
 
 #sent {
   height: 50px;
   width: 100px;
+}
+
+#recording {
+  background-color: red;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  margin-left: 300px;
+  position: relative;
+}
+
+#recording:hover {
+  background-color: rgb(10, 107, 31);
+  box-shadow: 5px 5px 5px rgb(163, 156, 156);
+}
+
+#recording-message {
+  color: rgb(77, 106, 133);
+  margin-left: 300px;
+  position: relative;
+}
+
+.rec {
+  display: inline-block
+}
+
+
+body {
+  background-color: #e9ecef;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  height: 100%;
+}
+
+#postcard-body {
+  color: #586877;
+}
+
+#index-body input {
+  color: #394f64;
+}
+
+#main-nav {
+  background-color: #545b62;
+  padding-bottom: 0.7rem;
+  padding-top: 0.7rem;
+}
+
+#main-nav .navbar-brand {
+  color: #ffc107;
+  font-family: "Montserrat", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.0625em;
+  margin-left: 2em;
+  text-transform: uppercase;
+}
+
+#main-nav .navbar-logo {
+  width: 85px;
+}
+
+.page-section {
+  padding: 6rem 0;
+}
+
+@media (min-width: 640px) {
+  #main-nav {
+    font-size: 1.5em;
+  }
+
+  #main-nav .navbar-brand {
+    margin-left: 2em;
+    transition: font-size 0.3s ease-in-out;
+  }
 }
