@@ -223,15 +223,10 @@ public final class TextAnalyser {
     List<String> keyWords = new ArrayList<String>(getKeyWords());
 
     // Only returns one key word when only a sentiment is found
-    if(keyWords.size() == 1) {
+    if (keyWords.size() == 1) {
       setsOfKeyWords.add(new String[] {keyWords.get(0)});
       return setsOfKeyWords;
     }
-
-    /**
-    * TODO: Add default value when no keyword is found
-    * and discuss with team
-    **/
 
     for (int i = 0; i < keyWords.size(); i++) {
       for (int j = i + 1; j < keyWords.size(); j++) {
