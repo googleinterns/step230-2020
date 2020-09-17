@@ -36,3 +36,12 @@ To get started:
 * Login to [Google Cloud Shell](https://ssh.cloud.google.com/cloudshell/editor)
 * Clone this repo: `cd; git clone https://github.com/googleinterns/step230-2020.git`
 
+To run the project:
+
+### Contributing
+
+* See the [Contributing Guide](https://github.com/GoogleCloudPlatform/java-docs-samples/blob/master/CONTRIBUTING.md)
+
+### License
+
+* See [License](https://github.com/GoogleCloudPlatform/java-docs-samples/blob/master/LICENSE)
