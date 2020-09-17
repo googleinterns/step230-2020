@@ -4,7 +4,7 @@
 
 GPostcard is a Web application that can generate postcards based on the text that is on them. After a postcard is generated, it can be sent to any Gmail user. By ticking the location, the user can get on the postcard a representative photo for their current location. Moreover, the user can record a message which will be automatically filled into the text area allowing accessability. 
 
-##### Goals
+#### Goals
 
 * Text analysis
 * Image analysis
@@ -12,7 +12,7 @@ GPostcard is a Web application that can generate postcards based on the text tha
 * Design variability
 * Use API pre-trained models
 
-##### NON-Goals
+#### NON-Goals
 
 * Store user data
 * Use images that are not free for comercial use
