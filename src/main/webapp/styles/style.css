@@ -186,7 +186,6 @@ input {
 
 #sent {
   height: 50px;
-  width: 100px;
 }
 
 #recording {
@@ -212,7 +211,6 @@ input {
 .rec {
   display: inline-block
 }
-
 
 body {
   background-color: #e9ecef;
