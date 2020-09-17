@@ -33,8 +33,6 @@ Please follow the [Set Up Your Project](https://cloud.google.com/natural-languag
 
 To get started:
 
-* Login to Google Cloud Shell
-* Clone this repo: `cd; git clone `
-
-
+* Login to [Google Cloud Shell](https://ssh.cloud.google.com/cloudshell/editor)
+* Clone this repo: `cd; git clone https://github.com/googleinterns/step230-2020.git`
 
