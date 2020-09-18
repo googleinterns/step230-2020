@@ -80,6 +80,10 @@
   color: orangered;
 }
 
+.logout {
+  border-left: double;
+}
+
 .email {
   font-size: medium;
   margin-top: 13px;
