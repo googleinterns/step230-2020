@@ -12,18 +12,23 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 function login() {
-  fetch('/login-page').then(response => response.json()).then(login => {loginDomManipulation(login.message, login.status);});
+  fetch('/login-page').then(response => response.json()).then(login => {loginDomManipulation(login.message, login.status, login.email);});
 }
 
-function loginDomManipulation(message, status) {
+function loginDomManipulation(message, status, email) {
   if (status) {
     document.getElementById('index-content').style.visibility = "visible";
 
     const menuList = document.getElementById("menu");
-    const menuElement = document.createElement("li");
+    const menuLogoutElement = document.createElement("li");
+    const menuEmailElement = document.createElement("li");
 
-    menuElement.innerHTML = message;
-    menuList.appendChild(menuElement);
+    menuLogoutElement.innerHTML = message;
+    menuEmailElement.innerText = "(" + email + ")";
+    menuEmailElement.className = "email"
+
+    menuList.appendChild(menuLogoutElement);
+    menuList.appendChild(menuEmailElement);
   } else {
     document.getElementById('index-content').style.visibility = "hidden";
 
