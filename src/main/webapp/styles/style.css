@@ -6,6 +6,7 @@
   height: 900px;
   margin-left: auto;
   margin-right: auto;
+  overflow: auto;
 }
 
 #index-content {
@@ -80,13 +81,20 @@
   color: orangered;
 }
 
+.email {
+  font-size: medium;
+  margin-top: 13px;
+}
+
 #index-content {
   margin-left: auto;
   margin-right: auto;
+  display: flex;
 }
 
 .inline {
   display: inline-block;
+  margin-top: 320px;
 }
 
 #input-form {
@@ -230,7 +238,7 @@ input {
 #recording-message {
   color: rgb(77, 106, 133);
   margin-left: 300px;
-  position: relative;
+  display: content;
 }
 
 .rec {
