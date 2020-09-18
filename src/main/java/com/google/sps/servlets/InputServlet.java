@@ -23,6 +23,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.TextAnalyser;
 import com.google.sps.data.Output;
+import java.util.LinkedHashSet;
 
 import java.io.IOException;
 
@@ -44,6 +45,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/text-input")
 public class InputServlet extends HttpServlet {
 
+  private static final int ANALYSATION_DEPTH = 5;
+
+  private static final int EXTRACTED_IMAGES = 3;
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
@@ -56,18 +61,23 @@ public class InputServlet extends HttpServlet {
 
     String input_text = request.getParameter("input_text");
     String user_location = request.getParameter("location_checkbox");
+    TextAnalyser textAnalyser = new TextAnalyser(input_text);
+    Set<String[]> setsOfKeyWords;
 
-
+    // If user ticks location, every set of keywords will contain that location
     if (user_location.equals("none") || user_location.equals(null)) {
       user_location = "";
+      setsOfKeyWords = textAnalyser.getSetsOfKeyWords();
+    } else {
+      setsOfKeyWords = new LinkedHashSet<>();
+      for (String[] keywords : textAnalyser.getSetsOfKeyWords()) {
+        setsOfKeyWords.add(new String[] {user_location, keywords[0], keywords[1]});
+      }
     }
+    
+    ImageSelection imageSelect = new ImageSelection(setsOfKeyWords);
 
-    TextAnalyser textAnalyser = new TextAnalyser(input_text);
-    Set<String> keywords = textAnalyser.getKeyWords();
-    keywords.add(user_location);
-    ImageSelection imageSelect = new ImageSelection(keywords);
-
-    Output output = new Output(input_text, imageSelect.getBestImage());
+    Output output = new Output(input_text, imageSelect.getBestImage(ANALYSATION_DEPTH, EXTRACTED_IMAGES).get(0));
 
     Gson gson = new Gson();
 

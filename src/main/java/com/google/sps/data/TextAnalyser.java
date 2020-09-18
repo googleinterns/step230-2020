@@ -10,12 +10,11 @@
 
 package com.google.sps.data;
 
-import com.google.api.gax.rpc.HeaderProvider;
 import com.google.api.gax.rpc.FixedHeaderProvider;
+import com.google.api.gax.rpc.HeaderProvider;
+import com.google.api.gax.rpc.InvalidArgumentException;
 import com.google.cloud.language.v1.AnalyzeEntitiesRequest;
 import com.google.cloud.language.v1.AnalyzeEntitiesResponse;
-import com.google.cloud.language.v1.AnalyzeSyntaxRequest;
-import com.google.cloud.language.v1.AnalyzeSyntaxResponse;
 import com.google.cloud.language.v1.ClassificationCategory;
 import com.google.cloud.language.v1.ClassifyTextRequest;
 import com.google.cloud.language.v1.ClassifyTextResponse;
@@ -94,11 +93,11 @@ public final class TextAnalyser {
  
     int position = 0;
     String[] moods = new String[] {"neutral", "calm", "relaxed", "serene", "contented",
-                                    "joyful", "happy", "delighted", "excited", "thrilled",
+                                    "joyful", "happy", "delighted", "excited", "happy",
                                    "tense", "nervous", "stressed", "upset", "sad", 
                                    "depressed", "bored", "fatigued", "pessimistic"};
 
-    assert moods.length == 19 : "There can only be 20 moods.";
+    assert moods.length == 19 : "There can only be 19 moods.";
 
     position = (int) (score * 10);
  
@@ -109,46 +108,38 @@ public final class TextAnalyser {
     return moods[position];
   }
 
-  private ClassifyTextResponse classify() throws IOException {
+  private ClassifyTextResponse classify() throws InvalidArgumentException, IOException {
     try (LanguageServiceClient language = LanguageServiceClient.create(getSettings())) {
       Document document = 
             Document.newBuilder().setContent(message).setType(Type.PLAIN_TEXT).build();
       ClassifyTextRequest request = ClassifyTextRequest.newBuilder().setDocument(document).build();
       
       return language.classifyText(request);
-    } catch (Exception e) {
-      System.err.println("Not enough tokens (words) to actually get a category.");
-      return null;
     }
   }
 
   // list of all the categories that text is about
   // check https://cloud.google.com/natural-language/docs/categories
   public Set<String> getCategories() throws IOException {
-    ClassifyTextResponse response = classify();
+    try {
+      Set<String> categories = new LinkedHashSet<String>();
 
-    // no categories could be identified
-    if (response == null) {
+      for (ClassificationCategory category : classify().getCategoriesList()) {
+        String[] listCategories = category.getName().split("/");
+        categories.add(listCategories[listCategories.length - 1].toLowerCase());
+      }
+
+      return categories;
+    } catch (InvalidArgumentException e) {
+      e.printStackTrace();
       return Collections.emptySet();
     }
-      
-    Set<String> categories = new LinkedHashSet<String>();
-
-    for (ClassificationCategory category : response.getCategoriesList()) {
-      String[] listCategories = category.getName().split("/");
-      for (int i = 0; i < listCategories.length; i++) {
-        categories.add(listCategories[i].toLowerCase());
-      }
-    }
-
-    return categories;
   }
 
   public Set<String> getEvents() {
     Set<String> events = new LinkedHashSet<String>();
-    String[] allEvents = new String[] {"birthday", "wedding", "baby shower", "travel", 
-                                       "promotion", "holiday", "graduation", "funeral",
-                                       "party"};
+    String[] allEvents = new String[] {"wedding", "travel", "promotion", "graduation", 
+                                       "funeral", "party"};
 
     for (int i = 0; i < allEvents.length; i++) {
       if (message.indexOf(allEvents[i]) != -1) {
@@ -161,8 +152,9 @@ public final class TextAnalyser {
 
   public Set<String> getGreetings() {
     Set<String> greetings = new LinkedHashSet<String>();
-    String[] allGreetings = new String[] {"good morning", "congratulation", "welcome", "good evening", 
-                                          "good night", "happy holiday", "good afternoon", " hello", "hey"};
+    String[] allGreetings = new String[] {"good morning", "welcome", "good evening", 
+                                          "good night", "good afternoon", "hello", "hey",
+                                          "happy birthday", "love you"};
     
     for (int i = 0; i < allGreetings.length; i++) {
       if (message.indexOf(allGreetings[i]) != -1) {
@@ -197,58 +189,51 @@ public final class TextAnalyser {
     return entities;
   }
 
-  public AnalyzeSyntaxResponse analyseSyntaxText() throws IOException {
-    try (LanguageServiceClient language = LanguageServiceClient.create(getSettings())) {
-      Document doc = Document.newBuilder().setContent(message).setType(Type.PLAIN_TEXT).build();
-      AnalyzeSyntaxRequest request =
-           AnalyzeSyntaxRequest.newBuilder()
-                .setDocument(doc)
-                .setEncodingType(EncodingType.UTF16)
-                .build();
-      
-      return language.analyzeSyntax(request);
-    }
-  }
-
-  public Set<String> getAdjectives() throws IOException {
-    Set<String> adjectives = new LinkedHashSet<String>();
-
-    for (Token token : analyseSyntaxText().getTokensList()) {
-      String partOfSpeech = token.getPartOfSpeech().getTag().toString();
-      if(partOfSpeech.equals("ADJ")) {
-        adjectives.add(token.getLemma().toLowerCase());
-      }
-    }
-
-    return adjectives;
-  }
-
-  public String checkInjection() {
+  public boolean isInjection() {
     if (message.indexOf("<script>") != -1 || message.indexOf("</script>") != -1 ||
         message.indexOf("<html>") != -1 || message.indexOf("</html>") != -1) {
-      return "html-injection";
+      return true;
     }
 
-    return "no-html-injection";
+    return false;
   }
 
-  // put all the key words together
-  // use a LinkedHashSet to remove duplicates but maintain order
+  // Put all the key words together
+  // Use a LinkedHashSet to remove duplicates but maintain order
   public Set<String> getKeyWords() {
     try {
       Set<String> keyWords = new LinkedHashSet<String>();
+
       keyWords.addAll(getGreetings());
-      keyWords.addAll(getEntities());
       keyWords.addAll(getEvents());
-      keyWords.addAll(getAdjectives());
+      keyWords.addAll(getEntities());
       keyWords.addAll(getCategories());
-      keyWords.add(getMood());
 
       return keyWords;
     } catch (IOException e) {
-      // no key words  
+      // No key words  
       System.err.println("There are no key words.");
+      e.printStackTrace();
       return Collections.emptySet();
     }
+  }
+
+  public Set<String[]> getSetsOfKeyWords() {
+    Set< String[] > setsOfKeyWords = new LinkedHashSet<>();
+    List<String> keyWords = new ArrayList<String>(getKeyWords());
+
+    // Only returns one key word when only a sentiment is found
+    if (keyWords.size() == 1) {
+      setsOfKeyWords.add(new String[] {keyWords.get(0)});
+      return setsOfKeyWords;
+    }
+
+    for (int i = 0; i < keyWords.size(); i++) {
+      for (int j = i + 1; j < keyWords.size(); j++) {
+        setsOfKeyWords.add(new String[] {keyWords.get(i), keyWords.get(j)});
+      }
+    }
+
+    return setsOfKeyWords;
   }
 }

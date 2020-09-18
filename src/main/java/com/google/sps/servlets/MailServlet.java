@@ -17,11 +17,15 @@ package com.google.sps.servlets;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
+import com.google.sps.data.ParseMails;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -56,7 +60,7 @@ public class MailServlet extends HttpServlet {
   static final String RECEIVER = "You";
   static final String POSTCARD_CONTAINER = "<div class='pcard-container' id='pcard-design' " +
                 "style='background-attachment: scroll; " +
-                "background-image: url(\"https://i.ibb.co/JjqsjjL/postcard.jpg\"); " +
+                "background-image: url(\"https://i.ibb.co/w4qK6qD/postcard-frame.jpg\"); " +
                 "background-repeat: no-repeat; background-size: 700px 500px; color: black; " +
                 "display: block; height: 500px; margin-left: auto; margin-right: auto ;" +
                 "position: relative; text-align: center; width: 700px;'>";
@@ -76,9 +80,9 @@ public class MailServlet extends HttpServlet {
     String message = request.getParameter("message");
     String image = request.getParameter("image");
 
-    String to = request.getParameter("mail");
+    String mails = request.getParameter("mail");
 
-    String resp = sendMultipartMail(email, to, title, message, image);
+    String resp = sendMultipartMail(email, mails, title, message, image);
 
     response.setContentType("text/html;");
     response.getWriter().println(resp);
@@ -88,49 +92,53 @@ public class MailServlet extends HttpServlet {
 * This function creates an email and sends it to the user
 **/
 
-  private String sendMultipartMail(String from, String to, String title, String userMessage, String image) {
+  private String sendMultipartMail(String from, String mails, String title, String userMessage, String image) {
     Properties props = new Properties();
     Session session = Session.getDefaultInstance(props, null);
     
     try {
-      Message message = new MimeMessage(session);
-      message.setFrom(new InternetAddress(from, SENDER));
-      message.addRecipient(Message.RecipientType.TO,
-                       new InternetAddress(to, RECEIVER));
-      message.setSubject(SUBJECT);
-      message.setText(MSG_BODY);
+      ParseMails parseMails = new ParseMails(mails);
+      List<String> mailsList = parseMails.getMails();
 
-      /*
-       * Problem: Sometimes application/x-www-form-urlencoded does NOT send the entire string.git 
-       * First solution: Use Java hard-coded html elements, instead of sending them from the front-end.
-       * TODO: Try to send JSON insted of application/x-www-form-urlencoded.
-       **/
-      final String htmlBody = POSTCARD_CONTAINER + 
+      for (String to:mailsList) {
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(from, SENDER));
+        message.addRecipient(Message.RecipientType.TO,
+                       new InternetAddress(to, RECEIVER));
+        message.setSubject(SUBJECT);
+        message.setText(MSG_BODY);
+
+        /*
+         * Problem: Sometimes application/x-www-form-urlencoded does NOT send the entire string.git 
+         * First solution: Use Java hard-coded html elements, instead of sending them from the front-end.
+         * TODO: Try to send JSON insted of application/x-www-form-urlencoded.
+        **/
+        final String htmlBody = POSTCARD_CONTAINER + 
               "<table cellpadding='0' cellspacing='0' width='640' align='center'><tbody><tr><td>" + 
-              "<table cellpadding='0' cellspacing='0' width='640' height='150' align='left'></table>" +
+              "<table cellpadding='0' cellspacing='0' width='640' height='35' align='left'></table>" +
+              "<table cellpadding='0' cellspacing='0' width='555' height='75' align='left'></table>" +
+              "<table cellpadding='0' cellspacing='0' width='85' height='75' align='left'><tbody><tr><td>" +
+              "<img src='https://i.ibb.co/3BBjZD1/Postcard-Pix-Teller-removebg-preview.png' height=70px width=65px></td></tr><tbody></table>" +
+              "<table cellpadding='0' cellspacing='0' width='640' height='40' align='left'></table>" +
               "<table cellpadding='0' cellspacing='0' width='320' height='280' align='left'><td>" +
               "<img src=" + image +" style='height: 200px; width: 250px;'></td>" +
-              "</table><table cellpadding='0' cellspacing='0' width='320' height='120' align='left'>" +
               "</table><table cellpadding='0' cellspacing='0' width='320' height='30' align='left'>" +
-              "<td><div style='display: inline-block; font-family: Arial, sans-serif; " 
-              + "font-size: 25px; width: 250px;'>" +
-              title + "</div></td></table><table cellpadding='0' cellspacing='0' width='320' " +
-              "height='120' align='left'>" +
-              "<td><div style='display: inline-block; font-family: &quot;Comic Sans MS&quot; " +
-              "cursive, sans-serif; font-size: 30px; max-width: 300px; width: 250px;'>" + 
+              "</table><table cellpadding='0' cellspacing='0' width='320' height='250' align='left'>" +
+              "<td><div style='display: inline-block; font-family: sans-serif; font-size: 20px; max-width: 300px; width: 250px;'>" + 
               userMessage + "</div></td></table></td></tr></tbody></table></div>";
 
-      byte[] attachmentData = null;  
-      Multipart mp = new MimeMultipart();
+        byte[] attachmentData = null;  
+        Multipart mp = new MimeMultipart();
       
-      MimeBodyPart htmlPart = new MimeBodyPart();
-      htmlPart.setContent(htmlBody, "text/html");
-      mp.addBodyPart(htmlPart);
+        MimeBodyPart htmlPart = new MimeBodyPart();
+        htmlPart.setContent(htmlBody, "text/html");
+        mp.addBodyPart(htmlPart);
 
-      message.setContent(mp);
+        message.setContent(mp);
 
-      Transport.send(message);
-
+        Transport.send(message);
+      }
+      
     } catch (AddressException e) {
       System.err.println("Not existing address");
       return "Not existing address";
