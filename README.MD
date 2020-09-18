@@ -38,6 +38,8 @@ To get started:
 
 To run the project:
 
+* cd into the directory where the `pom.xml` is and then run: `mvn package appengine:run`
+
 ### Contributing
 
 * See the [Contributing Guide](https://github.com/GoogleCloudPlatform/java-docs-samples/blob/master/CONTRIBUTING.md)
