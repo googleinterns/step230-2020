@@ -24,6 +24,7 @@ function loginDomManipulation(message, status, email) {
     const menuEmailElement = document.createElement("li");
 
     menuLogoutElement.innerHTML = message;
+    menuLogoutElement.className = "logout";
     menuEmailElement.innerText = "(" + email + ")";
     menuEmailElement.className = "email"
 
