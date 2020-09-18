@@ -39,20 +39,45 @@
 }
 
 #login-page {
-  left: 100px;
   margin-right: auto;
-  margin-top: 0px;
-  position: absolute;
-  z-index: 0;
+  margin-left: auto;
+  position: relative;
+  top: 200px;
 }
 
 .login {
-  color: red;
-  height: 100px;
+  color: dimgrey;
+  font-family: serif;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 100px;
-  width: 300px;
+  text-align: center;
+}
+
+.login-button {
+  align-items: center;
+  background-color: dimgrey;
+  border-radius: 2em;
+  box-sizing: border-box;
+  color: orangered;
+  display: inline-block;
+  font-size: 100%;
+  font-weight: 200;
+  left: 850px;
+  margin: 0 0.3em 0.3em 0;
+  margin-top: 40px;
+  padding: 0.3em 1.2em;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 2px 2px 5px black;
+  transition: all 0.2s;
+}
+
+.login-button:hover {
+  background-color: transparent;
+}
+
+.login-link:visited {
+  color: orangered;
 }
 
 #index-content {

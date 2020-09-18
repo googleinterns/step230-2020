@@ -16,20 +16,25 @@ function login() {
 }
 
 function loginDomManipulation(message, status) {
-  const loginElement = document.createElement('div');
-  loginElement.className = 'login';
-  loginElement.innerHTML = message;
-
-  const page = document.getElementById('login-page');
-  page.appendChild(loginElement);
-
   if (status) {
     document.getElementById('index-content').style.visibility = "visible";
-    loginElement.style.marginLeft = "1300px";
+
+    const menuList = document.getElementById("menu");
+    const menuElement = document.createElement("li");
+
+    menuElement.innerHTML = message;
+    menuList.appendChild(menuElement);
   } else {
     document.getElementById('index-content').style.visibility = "hidden";
-    loginElement.style.marginLeft = "auto";
-    loginElement.style.marginTop = "200px";
+
+    const loginElement = document.createElement('div');
+    const page = document.getElementById('login-page');
+
+    loginElement.className = 'login';
+    loginElement.innerHTML = "<h1>Welcome to GPostcard!</h1>" +
+                            "<h4>To get to use the app, please login first.</h4>" +
+                            "<p><button class='login-button'>" + message + "</button></p>";
+    page.appendChild(loginElement);
   }
 
   const load = document.getElementById('loading');
@@ -129,37 +134,6 @@ function geocodeLatLng(position) {
     }
   );
 }
-
-function record() {
-  const recognition = new webkitSpeechRecognition();
-  const message = document.getElementById("recording-message");
-  recognition.lang = "en-GB";
-
-  recognition.onresult = function(event) {
-    document.getElementById("input_text").value = event.results[0][0].transcript;
-  }
-
-  recognition.addEventListener('nomatch', function() { 
-    message.innerText = "SPEECH NOT RECOGNISED";
-  });
-
-  recognition.onaudiostart = function() {
-    message.innerText = "RECORDING...";
-  }
-
-  recognition.onaudioend = function() {
-    message.innerText = "DONE RECORDING";
-  }
-
-  recognition.onerror = function() {
-    message.innerText = "SPEECH NOT RECOGNISED";
-  }
-
-  recognition.start();
-}
-
-
- 
 
 function record() {
   const recognition = new webkitSpeechRecognition();
