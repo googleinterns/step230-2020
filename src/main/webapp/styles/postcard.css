@@ -31,7 +31,6 @@
   display: inline-block;
   font-family: "Indie Flower", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
   font-size: 20px;
-  max-height: 150px;
   max-width: 300px;
   position: absolute;
   right: 50px;
@@ -54,13 +53,13 @@
   width: 65px;
 }
 
-form, #submit_send {
+form, #submit-send {
   margin: 20px auto;
   max-width: 600px;
   text-align: center;
 }
 
-form input, #submit_send {
+form input, #submit-send {
   border: 0;
   border-radius: 8px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
@@ -72,12 +71,8 @@ form input, #submit_send {
   width: 100%;
 }
 
-#submit_send {
+#submit-send {
   background: #e74c3c;
   color: white;
   cursor: pointer;
-}
-
-.container {
-  padding: inherit;
 }
