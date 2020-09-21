@@ -264,11 +264,11 @@ body {
 .loader {
   animation: spin 2s linear infinite;
   border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 10px solid blue;
-  border-right: 10px solid red;
   border-bottom: 10px solid yellow;
   border-left: 10px solid green;
+  border-radius: 50%;
+  border-right: 10px solid red;
+  border-top: 10px solid blue;
   height: 50px;
   margin-left: 420px;
   margin-top: 20px;
