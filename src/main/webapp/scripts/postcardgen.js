@@ -1,3 +1,4 @@
+
 class Postcard {
   constructor({title = '', message = '', imageUrl = ''}) {
     this._title = title;
@@ -189,3 +190,11 @@ function displayPostcard(title, message, imageUrl) {
   postcd.id = "postcard";
   bodyElem.appendChild(postcd);
 }
+
+function savePostcard() {
+  domtoimage.toBlob(document.getElementById('pcard-design')).then(function(blob) {
+    saveAs(blob, 'postcard.png');
+  });
+}
+
+
