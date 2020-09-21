@@ -2,10 +2,14 @@
 
 ### Project Description
 
-GPostcard is a Web application that can generate postcards based on the text that is on them. After a postcard is generated, it can be sent to any Gmail user. By ticking the location, the user can get on the postcard a representative photo for their current location. Moreover, the user can record a message which will be automatically filled into the text area allowing accessability. 
+GPostcard is a Web Application that can generate postcards by selecting the best image available online based on the postcard's text.  
+By ticking the location, the image selector will get a representative image of the current location of the user.
+Moreover, the user can also input a message via microphone, allowing accesability. 
+In the end, the generated postcard can be sent to any Gmail user.
 
 #### Goals
 
+* Login before using the app
 * Text analysis
 * Image analysis
 * Generate relevant postcards
@@ -15,7 +19,7 @@ GPostcard is a Web application that can generate postcards based on the text tha
 #### NON-Goals
 
 * Store user data
-* Use images that are not free for comercial use
+* Use images that are not free for commercial use
 
 ### Prerequisites
 
