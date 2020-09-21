@@ -69,9 +69,11 @@ function analyseInput() {
 }
 
 function generatePostcard() {
+  let loader = document.getElementById("loader-animation");
+  loader.className = "loader";
+  
   analyseInput();
 }
-
 
 function loadPostcard() {
   displayPostcard("", localStorage["text"], localStorage["link"]);
