@@ -57,9 +57,9 @@ public class LoginServlet extends HttpServlet {
       String userEmail = userService.getCurrentUser().getEmail();
       String urlToRedirectToAfterUserLogsOut = "/index.html";
       String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
-      String loginMessage = "<p>Hello " + userEmail + "!</p>" 
-           + "<p><a href=\"" + logoutUrl + "\">Logout</a></p>";
-      Login login = new Login(loginStatus, loginMessage);
+      String loginMessage = "<a class='nav-link' href='" + logoutUrl + "'>Logout</a>";
+      
+      Login login = new Login(loginStatus, loginMessage, userEmail);
 
       Gson gson = new Gson();
       out.println(gson.toJson(login));
@@ -69,8 +69,8 @@ public class LoginServlet extends HttpServlet {
     boolean loginStatus = false;
     String loginUrl = userService.createLoginURL("/index.html");
     String logoutMessage = "<h1><a href=\"" + loginUrl 
-          + "\">Login</a></h1>";
-    Login login = new Login(loginStatus, logoutMessage);
+          + "\" class='login-link'>Login</a></h1>";
+    Login login = new Login(loginStatus, logoutMessage, "");
 
     Gson gson = new Gson();
     out.println(gson.toJson(login)); 

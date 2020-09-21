@@ -19,9 +19,11 @@ public final class Login {
 
   private final boolean status;
   private final String message;
+  private final String email;
 
-  public Login(boolean status, String message) {
+  public Login(boolean status, String message, String email) {
     this.status = status;
     this.message = message;
+    this.email = email;
   }
 }
