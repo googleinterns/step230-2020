@@ -21,7 +21,7 @@ public final class ImageSelection {
   
   private static final int MAX_NO_LETTERS = 50;
   private static final int MAX_NO_KEYWORDS = 10;
-  private static final int MAX_NO_QUERIES = 3;
+  private static final int MAX_NO_QUERIES = 2;
 
   // Public Domain license
   private static final String PUBLIC_LICENSE_FILTER = "&qft=+filterui:license-L1";

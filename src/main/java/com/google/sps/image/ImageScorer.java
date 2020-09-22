@@ -1,6 +1,8 @@
 package com.google.sps.image;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /** 
@@ -18,6 +20,8 @@ public final class ImageScorer {
 
   private String[] keywords;
 
+  private final Map<String, Boolean> keyAppearance = new HashMap<>();
+
   private Analyser label;
   
   private Analyser landmark;
@@ -33,6 +37,9 @@ public final class ImageScorer {
     logo = new LogoAnalyser();
 
     this.keywords = keywords;
+    for (String keyword : keywords) {
+      keyAppearance.put(keyword, true);
+    }
   }
 
   private float landmarkScore(String imageUrl) {
@@ -48,8 +55,8 @@ public final class ImageScorer {
     List<String> logoElements = logo.analyse(imageUrl);
 
     if (!logoElements.isEmpty()) {
-      for (String keyword : keywords) {
-        if (logoElements.contains(keyword)) {
+      for (String element : logoElements) {
+        if (keyAppearance.containsKey(element)) {
           return LOGO_SCORE;
         }
       }
@@ -71,8 +78,8 @@ public final class ImageScorer {
     List<String> labelElements = label.analyse(imageUrl);
 
     if (!labelElements.isEmpty()) {
-      for (String keyword : keywords) {
-        if (labelElements.contains(keyword)) {
+      for (String element : labelElements) {
+        if (keyAppearance.containsKey(element)) {
           score += LABEL_SCORE;
         }
       }
