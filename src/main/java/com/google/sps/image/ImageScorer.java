@@ -20,8 +20,6 @@ public final class ImageScorer {
 
   private String[] keywords;
 
-  private final Map<String, Boolean> keyAppearance = new HashMap<>();
-
   private Analyser label;
   
   private Analyser landmark;
@@ -37,9 +35,15 @@ public final class ImageScorer {
     logo = new LogoAnalyser();
 
     this.keywords = keywords;
-    for (String keyword : keywords) {
-      keyAppearance.put(keyword, true);
+  }
+
+  private Map<String, Boolean> generateMap(List<String> elements) {
+    Map<String, Boolean> result = new HashMap<>();
+
+    for (String element : elements) {
+      result.put(element, true);
     }
+    return result;
   }
 
   private float landmarkScore(String imageUrl) {
@@ -53,10 +57,11 @@ public final class ImageScorer {
 
   private float logoScore(String imageUrl) {
     List<String> logoElements = logo.analyse(imageUrl);
+    Map<String, Boolean> logoAppearance = generateMap(logoElements);
 
     if (!logoElements.isEmpty()) {
-      for (String element : logoElements) {
-        if (keyAppearance.containsKey(element)) {
+      for (String keyword : keywords) {
+        if (logoAppearance.containsKey(keyword)) {
           return LOGO_SCORE;
         }
       }
@@ -76,10 +81,11 @@ public final class ImageScorer {
   private float labelScore(String imageUrl) {
     float score = 0;
     List<String> labelElements = label.analyse(imageUrl);
+    Map<String, Boolean> labelAppearance = generateMap(labelElements);
 
     if (!labelElements.isEmpty()) {
-      for (String element : labelElements) {
-        if (keyAppearance.containsKey(element)) {
+      for (String keyword : keywords) {
+        if (labelAppearance.containsKey(keyword)) {
           score += LABEL_SCORE;
         }
       }
