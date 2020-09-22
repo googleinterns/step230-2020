@@ -1,7 +1,7 @@
 class Background {
   constructor() {
-    this.body_colors = new Array("#E8E8E8", "#CFCFCF", "#E6E4C1", "#DEBDBD", "#B4D1B4",
-                            "#FFEABF", "#FFD7A3", "#D6C8E0", "#B9D8ED");
+    this.body_colors = new Array("#E8E8E8", "#CFCFCF", "#F0EFE1", "#EDE1E1", "#D3E0D3",
+                            "#DED7C8", "#FFF9E3", "#E3DFE6", "#CFDBE3");
     this.hex_col = new Array('0','1','2','3','4','5','6','7','8','9',
                             'A','B','C','D','E','F')
     this.pause = 2000;

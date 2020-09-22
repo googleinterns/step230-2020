@@ -11,6 +11,19 @@
 //  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
+
+
+function count(input_id, counter_id, length) {
+    let el = document.getElementById(counter_id);
+    el.innerHTML = "<text>" + document.getElementById(input_id).value.length + length + "</text>";
+}
+
+let textInput = document.getElementById("input-text");
+if (textInput) {
+    textInput.addEventListener("input", function() {count("input-text", "result_user", "/100");}, false);
+    textInput.addEventListener("click", function() {textInput.value = "";}, false);
+}
+
 function login() {
   fetch('/login-page').then(response => response.json()).then(login => {loginDomManipulation(login.message, login.status, login.email);});
 }

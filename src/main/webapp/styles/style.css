@@ -165,7 +165,7 @@ input {
 }
 
 .container input:checked ~ .checkmark {
-  background-color: rgb(21, 148, 142);
+  background-color: rgba(3, 182, 137, 0.849);
 }
 
 .checkmark:after {
@@ -194,6 +194,14 @@ input {
   display: inline-block;
 }
 
+#result_user {
+  color: #5e6b79;
+  font-size: 18px;
+  height: 60px;
+  margin-left: 10px;
+  width: 30px;
+}
+
 #submit-input:hover {
   background-color: rgb(10, 107, 31);
   box-shadow: 5px 5px 5px rgb(163, 156, 156);
@@ -201,17 +209,17 @@ input {
 
 #submit-input {
   background-color: #8694a3;
-  background-image: linear-gradient(rgba(25, 209, 65, 0.603),rgb(15, 145, 73));
+  background-image: linear-gradient(rgba(84, 209, 111, 0.459),rgb(8, 151, 73));
   border: thin solid rgb(255, 255, 255);
   border-radius: 8px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  color: white;
+  color: rgb(255, 255, 255);
   cursor: pointer;
   display: block;
   height: 60px;
   margin-left: 300px;
   margin-top: 20px;
-  max-width: 300px;
+  max-width: 200px;
   outline: 0;
   padding: 1em;
   resize: none;  
@@ -224,16 +232,16 @@ input {
 }
 
 #recording {
-  background-color: red;
-  border: none;
+  background-color: rgb(255, 210, 193);
+  border: 2px solidrgb(146, 3, 3);
   border-radius: 8px;
-  color: white;
+  box-shadow: 1px 1px 1px rgba(146, 3, 3, 0.541);
+  color: rgb(80, 95, 99);
   margin-left: 300px;
   position: relative;
 }
 
 #recording:hover {
-  background-color: rgb(10, 107, 31);
   box-shadow: 5px 5px 5px rgb(163, 156, 156);
 }
 
