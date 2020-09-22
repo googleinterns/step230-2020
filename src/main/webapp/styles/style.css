@@ -263,7 +263,6 @@ body {
 
 .loader {
   animation: spin 2s linear infinite;
-  border: 16px solid #f3f3f3;
   border-radius: 50%;
   border-top: 10px solid blue;
   border-right: 10px solid red;
