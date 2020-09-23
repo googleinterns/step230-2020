@@ -16,7 +16,7 @@
 if (document.getElementById('input-text')) {
     document.getElementById('input-text').addEventListener('input', function() {
         let el = document.getElementById('result-user');
-        el.innerHTML = "<text>" + document.getElementById('input-text').value.length + "/300" + "</text>";
+        el.innerHTML = "<text>" + document.getElementById('input-text').value.length + "/310" + "</text>";
         }, false);
 }
 
