@@ -11,6 +11,15 @@
 //  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
+
+
+if (document.getElementById('input-text')) {
+    document.getElementById('input-text').addEventListener('input', function() {
+        let el = document.getElementById('result-user');
+        el.innerHTML = "<text>" + document.getElementById('input-text').value.length + "/310" + "</text>";
+        }, false);
+}
+
 function login() {
   fetch('/login-page').then(response => response.json()).then(login => {loginDomManipulation(login.message, login.status, login.email);});
 }
@@ -145,14 +154,20 @@ function geocodeLatLng(position) {
 
 function record() {
   const recognition = new webkitSpeechRecognition();
-  const message = document.getElementById("recording-message");
-  const recButton = document.getElementById("recording");
+  const message = document.getElementById('recording-message');
+  const recButton = document.getElementById('recording');
+  const symbCounter = document.getElementById('result-user');
   recognition.lang = "en-GB";
 
   recButton.style.backgroundColor = "green";
 
   recognition.onresult = function(event) {
-    document.getElementById("input-text").value = event.results[0][0].transcript;
+    if (event.results[0][0].transcript.length > 310) {
+      document.getElementById('input-text').value = event.results[0][0].transcript.slice(0, 310);
+    } else {
+      document.getElementById('input-text').value = event.results[0][0].transcript;
+    }
+    symbCounter.innerHTML = "<text>" + document.getElementById('input-text').value.length + "/310" + "</text>";
   }
 
   recognition.addEventListener('nomatch', function() { 
