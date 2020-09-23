@@ -1,8 +1,7 @@
 package com.google.sps.image;
 
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /** 
@@ -37,15 +36,6 @@ public final class ImageScorer {
     this.keywords = keywords;
   }
 
-  private static Map<String, Boolean> generateMap(Iterable<String> elements) {
-    Map<String, Boolean> result = new HashMap<>();
-
-    for (String element : elements) {
-      result.put(element, true);
-    }
-    return result;
-  }
-
   private float landmarkScore(String imageUrl) {
     List<String> landmarkElements = landmark.analyse(imageUrl);
 
@@ -56,12 +46,12 @@ public final class ImageScorer {
   }
 
   private float logoScore(String imageUrl) {
-    List<String> logoElements = logo.analyse(imageUrl);
-    Map<String, Boolean> logoAppearance = generateMap(logoElements);
+    List<String> logoElements = label.analyse(imageUrl);
+    Set<String> logoAppearance = new HashSet<>(logoElements);
 
     if (!logoElements.isEmpty()) {
       for (String keyword : keywords) {
-        if (logoAppearance.containsKey(keyword)) {
+        if (logoAppearance.contains(keyword)) {
           return LOGO_SCORE;
         }
       }
@@ -81,11 +71,11 @@ public final class ImageScorer {
   private float labelScore(String imageUrl) {
     float score = 0;
     List<String> labelElements = label.analyse(imageUrl);
-    Map<String, Boolean> labelAppearance = generateMap(labelElements);
+    Set<String> labelAppearance = new HashSet<>(labelElements);
 
     if (!labelElements.isEmpty()) {
       for (String keyword : keywords) {
-        if (labelAppearance.containsKey(keyword)) {
+        if (labelAppearance.contains(keyword)) {
           score += LABEL_SCORE;
         }
       }
