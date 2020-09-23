@@ -162,7 +162,11 @@ function record() {
   recButton.style.backgroundColor = "green";
 
   recognition.onresult = function(event) {
-    document.getElementById('input-text').value = event.results[0][0].transcript;
+    if (event.results[0][0].transcript.length > 310) {
+      document.getElementById('input-text').value = event.results[0][0].transcript.slice(0, 310);
+    } else {
+      document.getElementById('input-text').value = event.results[0][0].transcript;
+    }
     symbCounter.innerHTML = "<text>" + document.getElementById('input-text').value.length + "/310" + "</text>";
   }
 
