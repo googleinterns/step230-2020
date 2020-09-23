@@ -37,7 +37,7 @@ public final class ImageScorer {
     this.keywords = keywords;
   }
 
-  private Map<String, Boolean> generateMap(List<String> elements) {
+  private static Map<String, Boolean> generateMap(Iterable<String> elements) {
     Map<String, Boolean> result = new HashMap<>();
 
     for (String element : elements) {
