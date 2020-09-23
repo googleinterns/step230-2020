@@ -13,15 +13,11 @@
 //  limitations under the License.
 
 
-function count(input_id, counter_id, length) {
-    let el = document.getElementById(counter_id);
-    el.innerHTML = "<text>" + document.getElementById(input_id).value.length + length + "</text>";
-}
-
-let textInput = document.getElementById("input-text");
-if (textInput) {
-    textInput.addEventListener("input", function() {count("input-text", "result_user", "/100");}, false);
-    textInput.addEventListener("click", function() {textInput.value = "";}, false);
+if (document.getElementById('input-text')) {
+    document.getElementById('input-text').addEventListener('input', function() {
+        let el = document.getElementById('result-user');
+        el.innerHTML = "<text>" + document.getElementById('input-text').value.length + "/300" + "</text>";
+        }, false);
 }
 
 function login() {

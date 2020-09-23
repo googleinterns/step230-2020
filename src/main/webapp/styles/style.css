@@ -7,6 +7,10 @@
   margin-right: auto;
 }
 
+#p {
+  color: #b0bcca;
+}
+
 #index-content {
   visibility: hidden;
 }
@@ -116,10 +120,10 @@ input {
 }
 
 .input-text {
-  border-bottom: 3px solid blue;
-  border-left: 3px solid green;
-  border-right: 3px solid yellow;
-  border-top: 3px solid red;
+  border-bottom: 3px solid rgb(113, 113, 180);
+  border-left: 3px solid rgb(89, 133, 89);
+  border-right: 3px solid rgb(228, 228, 127);
+  border-top: 3px solid rgb(255, 108, 108);
   height: 60px;
   font-size: 20px;
   text-align: center;
@@ -152,7 +156,7 @@ input {
 
 .checkmark {
   background-color: rgb(255, 255, 255);
-  border: thick solid rgb(19, 107, 100);
+  border: thick solid rgb(129, 129, 129);
   height: 30px;
   left: 0;
   position: absolute;
@@ -194,7 +198,7 @@ input {
   display: inline-block;
 }
 
-#result_user {
+#result-user {
   color: #5e6b79;
   font-size: 18px;
   height: 60px;
@@ -204,22 +208,22 @@ input {
 
 #submit-input:hover {
   background-color: rgb(10, 107, 31);
-  box-shadow: 5px 5px 5px rgb(163, 156, 156);
+  box-shadow: 3px 3px 3px rgb(163, 156, 156);
 }
 
 #submit-input {
   background-color: #8694a3;
-  background-image: linear-gradient(rgba(84, 209, 111, 0.459),rgb(8, 151, 73));
+  background-image: linear-gradient(rgb(81, 207, 108),rgb(8, 156, 75));
   border: thin solid rgb(255, 255, 255);
   border-radius: 8px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  color: rgb(255, 255, 255);
+  color: white;
   cursor: pointer;
   display: block;
   height: 60px;
   margin-left: 300px;
   margin-top: 20px;
-  max-width: 200px;
+  max-width: 150px;
   outline: 0;
   padding: 1em;
   resize: none;  
@@ -232,27 +236,29 @@ input {
 }
 
 #recording {
-  background-color: rgb(255, 210, 193);
-  border: 2px solidrgb(146, 3, 3);
-  border-radius: 8px;
-  box-shadow: 1px 1px 1px rgba(146, 3, 3, 0.541);
-  color: rgb(80, 95, 99);
+  background-image: url("../image/rec.png");
+  background-size: 47px;
+  border-color: white;
+  border-radius: 50%;
+  height: 50px;
   margin-left: 300px;
   position: relative;
+  width: 50px;
 }
 
 #recording:hover {
-  box-shadow: 5px 5px 5px rgb(163, 156, 156);
+  border-color: red;
+  box-shadow: 2px 2px 2px rgb(212, 185, 185);
 }
 
 #recording-message {
   color: rgb(77, 106, 133);
-  margin-left: 300px;
+  margin-left: 20px;
   display: content;
 }
 
 .rec {
-  display: inline-block
+  display: inline-block;
 }
 
 body {
@@ -307,13 +313,13 @@ body {
 
 .loader {
   animation: spin 2s linear infinite;
-  border-bottom: 10px solid yellow;
-  border-left: 10px solid green;
+  border-bottom: 10px solid rgb(228, 228, 127);
+  border-left: 10px solid rgb(89, 133, 89);
   border-radius: 50%;
-  border-right: 10px solid red;
-  border-top: 10px solid blue;
+  border-right: 10px solid rgb(255, 108, 108);
+  border-top: 10px solid rgb(92, 92, 146);
   height: 50px;
-  margin-left: 420px;
+  margin-left: 520px;
   margin-top: 20px;
   -webkit-animation: spin 2s linear infinite;
   width: 50px;

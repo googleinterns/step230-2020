@@ -50,18 +50,18 @@
       </div>
       <div class="inline">
         <form id="input-form">
-          <input type="text" class="input-text" id="input-text" maxlength="100" name="input-text" onkeydown="return (event.keyCode!=13);" placeholder="Enter your postcard text.."> 
-          <span id="result_user">0/100</span> 
+          <input type="text" class="input-text" id="input-text" maxlength="300" name="input-text" onkeydown="return (event.keyCode!=13);" placeholder="Enter your postcard text.."> 
+          <span id="result-user">0/300</span> 
           <label class="container"> Tick to share location
             <input type="checkbox" id="location-checkbox" name="location-checkbox" onclick="getUserLocation()" value="none">
             <span class="checkmark"></span>
           </label>
           <br/>
         </form>
-        <button class="rec" onclick="record()" id="recording">Record text</button>
-        <div class="rec" id="recording-message"></div>        
-        <button onclick="generatePostcard()" id="submit-input">Generate</button>
-        <div id="loader-animation"></div>
+        <button class="rec" onclick="record()" id="recording"></button>
+        <div class="rec" id="recording-message">Record your text</div>        
+        <button onclick="generatePostcard()" class="generate" id="submit-input">Generate</button>
+        <div class="generate" id="loader-animation"></div>
       </div>  
     </div>
     <a href="postcard.html" id="link"></a>
