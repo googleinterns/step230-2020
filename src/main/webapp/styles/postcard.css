@@ -32,6 +32,7 @@
   font-family: "Indie Flower", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
   font-size: 20px;
   max-width: 300px;
+  max-height: 150px;
   position: absolute;
   right: 50px;
   width: 250px;
@@ -53,13 +54,13 @@
   width: 65px;
 }
 
-form, #submit-send {
+form, #submit-send, #save {
   margin: 20px auto;
   max-width: 600px;
   text-align: center;
 }
 
-form input, #submit-send {
+form input, #submit-send, #save {
   border: 0;
   border-radius: 8px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
@@ -73,6 +74,12 @@ form input, #submit-send {
 
 #submit-send {
   background: #e74c3c;
+  color: white;
+  cursor: pointer;
+}
+
+#save {
+  background: #28a745d6;
   color: white;
   cursor: pointer;
 }

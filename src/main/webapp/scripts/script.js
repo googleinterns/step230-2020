@@ -11,25 +11,45 @@
 //  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
-function login() {
-  fetch('/login-page').then(response => response.json()).then(login => {loginDomManipulation(login.message, login.status);});
+
+
+if (document.getElementById('input-text')) {
+    document.getElementById('input-text').addEventListener('input', function() {
+        let el = document.getElementById('result-user');
+        el.innerHTML = "<text>" + document.getElementById('input-text').value.length + "/310" + "</text>";
+        }, false);
 }
 
-function loginDomManipulation(message, status) {
-  const loginElement = document.createElement('div');
-  loginElement.className = 'login';
-  loginElement.innerHTML = message;
+function login() {
+  fetch('/login-page').then(response => response.json()).then(login => {loginDomManipulation(login.message, login.status, login.email);});
+}
 
-  const page = document.getElementById('login-page');
-  page.appendChild(loginElement);
-
+function loginDomManipulation(message, status, email) {
   if (status) {
     document.getElementById('index-content').style.visibility = "visible";
-    loginElement.style.marginLeft = "1300px";
+
+    const menuList = document.getElementById("menu");
+    const menuLogoutElement = document.createElement("li");
+    const menuEmailElement = document.createElement("li");
+
+    menuLogoutElement.innerHTML = message;
+    menuLogoutElement.className = "logout";
+    menuEmailElement.innerText = "(" + email + ")";
+    menuEmailElement.className = "email"
+
+    menuList.appendChild(menuLogoutElement);
+    menuList.appendChild(menuEmailElement);
   } else {
     document.getElementById('index-content').style.visibility = "hidden";
-    loginElement.style.marginLeft = "auto";
-    loginElement.style.marginTop = "200px";
+
+    const loginElement = document.createElement('div');
+    const page = document.getElementById('login-page');
+
+    loginElement.className = 'login';
+    loginElement.innerHTML = "<h1>Welcome to GPostcard!</h1>" +
+                            "<h4>To get to use the app, please login first.</h4>" +
+                            "<p><button class='login-button'>" + message + "</button></p>";
+    page.appendChild(loginElement);
   }
 
   const load = document.getElementById('loading');
@@ -69,9 +89,11 @@ function analyseInput() {
 }
 
 function generatePostcard() {
+  let loader = document.getElementById("loader-animation");
+  loader.className = "loader";
+  
   analyseInput();
 }
-
 
 function loadPostcard() {
   displayPostcard("", localStorage["text"], localStorage["link"]);
@@ -132,45 +154,20 @@ function geocodeLatLng(position) {
 
 function record() {
   const recognition = new webkitSpeechRecognition();
-  const message = document.getElementById("recording-message");
-  recognition.lang = "en-GB";
-
-  recognition.onresult = function(event) {
-    document.getElementById("input_text").value = event.results[0][0].transcript;
-  }
-
-  recognition.addEventListener('nomatch', function() { 
-    message.innerText = "SPEECH NOT RECOGNISED";
-  });
-
-  recognition.onaudiostart = function() {
-    message.innerText = "RECORDING...";
-  }
-
-  recognition.onaudioend = function() {
-    message.innerText = "DONE RECORDING";
-  }
-
-  recognition.onerror = function() {
-    message.innerText = "SPEECH NOT RECOGNISED";
-  }
-
-  recognition.start();
-}
-
-
- 
-
-function record() {
-  const recognition = new webkitSpeechRecognition();
-  const message = document.getElementById("recording-message");
-  const recButton = document.getElementById("recording");
+  const message = document.getElementById('recording-message');
+  const recButton = document.getElementById('recording');
+  const symbCounter = document.getElementById('result-user');
   recognition.lang = "en-GB";
 
   recButton.style.backgroundColor = "green";
 
   recognition.onresult = function(event) {
-    document.getElementById("input-text").value = event.results[0][0].transcript;
+    if (event.results[0][0].transcript.length > 310) {
+      document.getElementById('input-text').value = event.results[0][0].transcript.slice(0, 310);
+    } else {
+      document.getElementById('input-text').value = event.results[0][0].transcript;
+    }
+    symbCounter.innerHTML = "<text>" + document.getElementById('input-text').value.length + "/310" + "</text>";
   }
 
   recognition.addEventListener('nomatch', function() { 

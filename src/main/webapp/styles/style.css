@@ -1,4 +1,3 @@
-
 #index-body {
   background-color: rgb(233, 233, 233);
   border: 1px solid #ccc;
@@ -6,6 +5,10 @@
   height: 900px;
   margin-left: auto;
   margin-right: auto;
+}
+
+#p {
+  color: #b0bcca;
 }
 
 #index-content {
@@ -39,29 +42,65 @@
 }
 
 #login-page {
-  left: 100px;
   margin-right: auto;
-  margin-top: 0px;
-  position: absolute;
-  z-index: 0;
+  margin-left: auto;
+  position: relative;
+  top: 200px;
 }
 
 .login {
-  color: red;
-  height: 100px;
+  color: dimgrey;
+  font-family: serif;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 100px;
-  width: 300px;
+  text-align: center;
+}
+
+.login-button {
+  align-items: center;
+  background-color: dimgrey;
+  border-radius: 2em;
+  box-sizing: border-box;
+  color: orangered;
+  display: inline-block;
+  font-size: 100%;
+  font-weight: 200;
+  left: 850px;
+  margin: 0 0.3em 0.3em 0;
+  margin-top: 40px;
+  padding: 0.3em 1.2em;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 2px 2px 5px black;
+  transition: all 0.2s;
+}
+
+.login-button:hover {
+  background-color: transparent;
+}
+
+.login-link:visited {
+  color: orangered;
+}
+
+.logout {
+  border-left: double;
+}
+
+.email {
+  font-size: medium;
+  margin-top: 13px;
 }
 
 #index-content {
   margin-left: auto;
   margin-right: auto;
+  display: flex;
 }
 
 .inline {
   display: inline-block;
+  margin-top: 320px;
 }
 
 #input-form {
@@ -81,10 +120,10 @@ input {
 }
 
 .input-text {
-  border-bottom: 3px solid blue;
-  border-left: 3px solid green;
-  border-right: 3px solid yellow;
-  border-top: 3px solid red;
+  border-bottom: 3px solid rgb(113, 113, 180);
+  border-left: 3px solid rgb(89, 133, 89);
+  border-right: 3px solid rgb(228, 228, 127);
+  border-top: 3px solid rgb(255, 108, 108);
   height: 60px;
   font-size: 20px;
   text-align: center;
@@ -117,7 +156,7 @@ input {
 
 .checkmark {
   background-color: rgb(255, 255, 255);
-  border: thick solid rgb(19, 107, 100);
+  border: thick solid rgb(129, 129, 129);
   height: 30px;
   left: 0;
   position: absolute;
@@ -130,7 +169,7 @@ input {
 }
 
 .container input:checked ~ .checkmark {
-  background-color: rgb(21, 148, 142);
+  background-color: rgba(3, 182, 137, 0.849);
 }
 
 .checkmark:after {
@@ -159,14 +198,22 @@ input {
   display: inline-block;
 }
 
+#result-user {
+  color: #5e6b79;
+  font-size: 18px;
+  height: 60px;
+  margin-left: 10px;
+  width: 30px;
+}
+
 #submit-input:hover {
   background-color: rgb(10, 107, 31);
-  box-shadow: 5px 5px 5px rgb(163, 156, 156);
+  box-shadow: 3px 3px 3px rgb(163, 156, 156);
 }
 
 #submit-input {
   background-color: #8694a3;
-  background-image: linear-gradient(rgba(25, 209, 65, 0.603),rgb(15, 145, 73));
+  background-image: linear-gradient(rgb(81, 207, 108),rgb(8, 156, 75));
   border: thin solid rgb(255, 255, 255);
   border-radius: 8px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
@@ -176,7 +223,7 @@ input {
   height: 60px;
   margin-left: 300px;
   margin-top: 20px;
-  max-width: 300px;
+  max-width: 150px;
   outline: 0;
   padding: 1em;
   resize: none;  
@@ -189,27 +236,29 @@ input {
 }
 
 #recording {
-  background-color: red;
-  border: none;
-  border-radius: 8px;
-  color: white;
+  background-image: url("../image/rec.png");
+  background-size: 47px;
+  border-color: white;
+  border-radius: 50%;
+  height: 50px;
   margin-left: 300px;
   position: relative;
+  width: 50px;
 }
 
 #recording:hover {
-  background-color: rgb(10, 107, 31);
-  box-shadow: 5px 5px 5px rgb(163, 156, 156);
+  border-color: red;
+  box-shadow: 2px 2px 2px rgb(212, 185, 185);
 }
 
 #recording-message {
   color: rgb(77, 106, 133);
-  margin-left: 300px;
-  position: relative;
+  margin-left: 20px;
+  display: content;
 }
 
 .rec {
-  display: inline-block
+  display: inline-block;
 }
 
 body {
@@ -260,4 +309,28 @@ body {
     margin-left: 2em;
     transition: font-size 0.3s ease-in-out;
   }
+}
+
+.loader {
+  animation: spin 2s linear infinite;
+  border-bottom: 10px solid rgb(228, 228, 127);
+  border-left: 10px solid rgb(89, 133, 89);
+  border-radius: 50%;
+  border-right: 10px solid rgb(255, 108, 108);
+  border-top: 10px solid rgb(92, 92, 146);
+  height: 50px;
+  margin-left: 520px;
+  margin-top: 20px;
+  -webkit-animation: spin 2s linear infinite;
+  width: 50px;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

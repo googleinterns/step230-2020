@@ -1,5 +1,6 @@
 package com.google.sps.image;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -45,11 +46,12 @@ public final class ImageScorer {
   }
 
   private float logoScore(String imageUrl) {
-    List<String> logoElements = logo.analyse(imageUrl);
+    List<String> logoElements = label.analyse(imageUrl);
+    Set<String> logoAppearance = new HashSet<>(logoElements);
 
     if (!logoElements.isEmpty()) {
       for (String keyword : keywords) {
-        if (logoElements.contains(keyword)) {
+        if (logoAppearance.contains(keyword)) {
           return LOGO_SCORE;
         }
       }
@@ -69,10 +71,11 @@ public final class ImageScorer {
   private float labelScore(String imageUrl) {
     float score = 0;
     List<String> labelElements = label.analyse(imageUrl);
+    Set<String> labelAppearance = new HashSet<>(labelElements);
 
     if (!labelElements.isEmpty()) {
       for (String keyword : keywords) {
-        if (labelElements.contains(keyword)) {
+        if (labelAppearance.contains(keyword)) {
           score += LABEL_SCORE;
         }
       }
